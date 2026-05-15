@@ -1,0 +1,1 @@
+# OA-SQL-Otimiza-o-2026
