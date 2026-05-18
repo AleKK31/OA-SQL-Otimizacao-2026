@@ -56,7 +56,7 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
  
 ## Estrutura
  
-É organizado em 4 módulos com duração total de aproximadamente 4 horas, seguindo uma especificação aberta do IMA–CID (pode navegar pelos módulos na ordem que preferir).
+É organizado em 4 módulos com duração total de 2,5 a 3 horas, seguindo uma especificação aberta do IMA–CID (pode navegar pelos módulos na ordem que preferir).
  
 ### Módulo 1 — Entendendo o Problema ~30 min
 **Formato:** slides interativos + vídeo curto
