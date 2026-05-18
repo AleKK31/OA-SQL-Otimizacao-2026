@@ -37,22 +37,65 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
 - [ ] Diferenciar os tipos de índice do PostgreSQL (B-Tree, GIN, GiST, BRIN, Parcial, Composto, de Expressão)
 - [ ] Escolher o tipo de índice adequado para cada situação
 - [ ] Aplicar o conceito de índice cobridor (Index Only Scan)
-- [ ] Identificar e remover índices não utilizados
 
 ### Reescrita de Query
 - [ ] Reconhecer antipadrões SQL (SELECT *, OFFSET elevado, N+1, função em coluna do WHERE)
 - [ ] Reescrever queries utilizando CTEs, EXISTS e JOINs explícitos de forma eficiente
-- [ ] Diferenciar CTE Materializada de CTE Não Materializada
-- [ ] Aplicar Materialized Views para resultados pré-computados
 
 ### Estatísticas e VACUUM
 - [ ] Compreender o papel das estatísticas do planejador (cardinalidade, histograma, MCV)
 - [ ] Executar e interpretar `VACUUM` e `ANALYZE`
-- [ ] Configurar o `autovacuum` adequadamente
 
 ---
  
 ## Mapa Conceitual
  
 [link em breve](url)
+
+ ---
  
+## Estrutura
+ 
+É organizado em 4 módulos com duração total de aproximadamente 4 horas, seguindo uma especificação aberta do IMA–CID (pode navegar pelos módulos na ordem que preferir).
+ 
+### Módulo 1 — Entendendo o Problema ~30 min
+**Formato:** slides interativos + vídeo curto
+ 
+| Conteúdo | Tipo |
+|---|---|
+| O que é custo de query e por que isso importa | Conceito + Princípio |
+| Demo: uma query lenta no PostgreSQL real | Exemplo |
+| Quiz: "você saberia identificar esse problema?" | Avaliação Diagnóstica |
+ 
+---
+ 
+### Módulo 2 — Diagnóstico ~40 min
+**Formato:** slides + atividade
+ 
+| Conteúdo | Tipo |
+|---|---|
+| EXPLAIN e EXPLAIN ANALYZE na prática | Conceito + Procedimento |
+| Como ler um plano de execução | Conceito + Exemplo |
+| Atividade: diagnosticar uma query com EXPLAIN | Exercício Exploratório |
+ 
+---
+ 
+### Módulo 3 — As Soluções ~60 min
+**Formato:** slides + exercício prático
+ 
+| Conteúdo | Tipo |
+|---|---|
+| Índices: quando usar cada tipo (B-Tree, GIN, BRIN...) | Conceito + Princípio |
+| Reescrita de query: antipadrões e como corrigi-los | Procedimento + Exemplo |
+| Estatísticas e VACUUM: por que o planejador erra | Conceito + Princípio |
+| Atividade: otimizar uma query real e comparar antes/depois | Exercício Exploratório |
+ 
+---
+ 
+### Avaliação Final ~20 min
+**Formato:** quiz + desafio prático
+ 
+| Conteúdo | Tipo |
+|---|---|
+| 5 queries problemáticas para diagnosticar e corrigir | Avaliação Somativa |
+| Feedback automático com explicação de cada resposta | Elemento Explanatório |
