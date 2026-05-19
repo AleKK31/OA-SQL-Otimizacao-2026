@@ -2,6 +2,10 @@
 
 > Objeto de Aprendizagem desenvolvido segundo a abordagem **IMA–CID** para a matéria OPT016 - Objetos De Aprendizagem da UTFPR-CM
 
+Aluno: Alexandre Borges Baccarini Júnior
+RA: 2515520
+Grupo: J
+
 ---
 
 ## Público-alvo
@@ -50,9 +54,11 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
  
 ## Mapa Conceitual
  
-[link em breve](url)
+[link para o cmap](https://cmapscloud.ihmc.us:443/rid=22NNTYP6G-2D051KY-MF48YZ)
 
- ---
+![Imagem do mapa conceitual](./imgs/otimizacao_postgresql.svg)
+
+---
  
 ## Estrutura
  
