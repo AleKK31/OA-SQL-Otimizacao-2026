@@ -1,694 +1,920 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2021px" height="782px" style="background-color:#ffffff;">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1965px" height="885px" style="background-color:#ffffff;">
 
 <!-- Connection Lines -->
     <g>
-        <path d="M1417 295L1418 312" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1540 280L1685 566" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1417 265L1417 282" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1689 580L1695 707" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M789 428L764 507" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1533 280L1534 565" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M950 279L1121 491" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1169 254L913 366" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1127 504L1134 681" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1526 579L1476 622" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M943 279L1001 526" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M877 370L213.55310291565377 261.7183006188312" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M203 260L214.42862081083035 256.34122611217174L213.55310291565377 261.7183006188312L212.67758502047718 267.09537512549076Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M828 280L634 371" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1752 316L1736 354" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1003 539L1005 597" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1665 724L1146 789" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M599 373L277.3153303082847 284.81327190225943" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <path d="M267 282L278.74876393883346 279.5573485902472L277.3153303082847 284.81327190225943L275.8818966777359 290.06919521427164Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+        <path d="M1111 785L210.3000369389215 274.27540056296743" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M201 269L212.9879877820306 269.5367950613487L210.3000369389215 274.27540056296743L207.6120860958124 279.01400606458617Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1076 276L1119 337" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1893 427L1889 352" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M981 703L891 708" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1871 339L1808.1872857579594 319.2464976591299" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1798 316L1809.8414589370102 314.0558163041775L1808.1872857579594 319.2464976591299L1806.5331125789087 324.43717901408235Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M858 702L249.83736626975008 288.0184296605794" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <path d="M241 282L252.90390934780737 283.51556663963805L249.83736626975008 288.0184296605794L246.77082319169278 292.5212926815207Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+        <path d="M58 211L58 242" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1331 409L1226 283" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M148 154L173 193" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1203 275L1137.6535655013058 269.90668642564304" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <path d="M1127 269L1138.115545309882 264.47842367487186L1137.6535655013058 269.90668642564304L1137.1915856927294 275.3349491764142Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+        <path d="M178 207L178 243" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M59 214L59 257" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M647 139L704 183" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M152 153L206 206" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M713 197L714 226" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M214 219L221 257" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M662 134L834 179" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M492 152L563 187" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M849 189L858 226" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M587 199L692 257" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1756 242L1757 290" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M478 152L528 206" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M600 139L496 184" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M538 219L564 256" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M483 197L482 227" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1042 223L1060 251" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M620 139L586 182" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M452 152L394 200" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1191 257L1187 315" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M839 282L737 398" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1178 327L1031 408" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M384 213L379 256" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1725 368L1684 402" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M723 411L648 467" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1773 316L1837 369" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M468 152L471 213" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1850 383L1884 427" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M848 282L821 412" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M714 252L714 272" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M820 425L818 471" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M728 275L802.6846696917154 254.81327190225946" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M813 252L804.1181033222641 260.0691952142717L802.6846696917154 254.81327190225946L801.2512360611665 249.55734859024722Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M851 282L860 409" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M580 196L580 227" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M861 422L861 470" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M838 252L312 551" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1128 350L1167 409" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M537 53L158 94" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M856 282L928 418" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M288 565L179 626" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1090 276L1186 330" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M140 103L140 128" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M933 431L937 467" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M850 252L611 545" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1209 343L1320 409" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M631 56L631 80" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M842 282L762 410" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M599 559L543 626" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1414 170L1414 199" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M631 94L630 113" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1414 212L1416 240" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1428 149L1312 183" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M698 282L654 312" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M725 49L1437 94" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M634 312L598.7440502614413 287.1532205543476" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <path d="M590 281L601.8792727302337 282.6979044144848L598.7440502614413 287.1532205543476L595.608827792649 291.6085366942104Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+        <path d="M1286 194L1214 232" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M472 226L475 258" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1455 102L1454 128" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M559 281L345 464" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1467 154L1514 199" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M586 55L191 76" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1522 213L1530 254" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M332 477L269 547" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1480 149L1743 231" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M170 83L147 128" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M123 154L67 197" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M570 281L506 507" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M178 269L180 333" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M621 62L488 89" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M174 345L119 389" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M504 520L503 546" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M177 347L159 389" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M470 99L468 127" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M182 347L195 389" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M870 161L855 212" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M186 345L241 389" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M726 62L840 92" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M294 565L241 627" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M853 225L851 257" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M302 565L319 626" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M861 103L870 136" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M311 565L410 626" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M883 161L919 207" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M605 559L606 627" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M754 423L719 470" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M611 559L666 626" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M774 58L1198 92" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1534 579L1535 624" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M927 220L936 254" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1542 579L1596 625" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M854 282L895 416" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1178 325L919 420" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M1235 100L1386 149" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1196 325L1400 404" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M899 160L1025 212" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1196 329L1294 402" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M897 429L900 508" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1188 329L1194 404" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M125 153L67 201" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1734 368L1739 401" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
     <g>
-        <path d="M845 282L794 415" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1741 368L1781 401" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1696 580L1849 741" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1693 580L1768 720" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1740 736L1146 790" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1817 756L1146 791" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M449 227L350 186" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M311 175L190.49228343885719 151.05731047820728" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M180 149L191.54053548501534 145.71122504280063L190.49228343885719 151.05731047820728L189.44403139269903 156.40339591361393Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M886 252L931 275" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M979 277L1158.4290004180027 249.60452672226745" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <path d="M1169 248L1159.2465476173918 254.99072003589006L1158.4290004180027 249.60452672226745L1157.6114532186136 244.21833340864484Z" stroke="none" fill="#000000" stroke-width="1.5" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M898 441L898 454" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M898 468L898 489" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1434 430L1434 459" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1434 473L1435 521" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1015 430L1015 454" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1015 468L1015 489" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1311 428L1311 450" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1311 464L1312 487" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1195 430L1195 451" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1195 465L1195 489" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1181 329L1116 406" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1105 432L1105 457" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+    </g>
+    <g>
+        <path d="M1105 471L1107 521" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
     </g>
 
 <!-- Linking Phrases -->
     <g>
         <g>
-            <text x="1405px" y="292px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>inclui</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="812px" y="422px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1179px" y="326px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>tipo</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="522px" y="216px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="835px" y="186px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="155px" y="80px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="123px" y="100px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>parte-de</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="853px" y="419px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="373px" y="210px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="471px" y="194px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="452px" y="96px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="614px" y="91px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>parte-de</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="841px" y="222px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1287px" y="191px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="924px" y="428px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="1102px" y="501px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1664px" y="577px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>antipadr&#245;es</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="459px" y="223px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="568px" y="193px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="841px" y="100px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1438px" y="99px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>parte-de</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="913px" y="217px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1509px" y="210px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="750px" y="420px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="975px" y="536px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1506px" y="576px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>boas</tspan><tspan fill="none">t</tspan><tspan>pr&#225;ticas</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="1199px" y="97px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>parte-de</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="1026px" y="220px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1744px" y="239px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="889px" y="426px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="1096px" y="347px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1705px" y="365px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>componentes</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="783px" y="425px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="1402px" y="209px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>inclui</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <g>
-            <text x="1177px" y="340px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1823px" y="380px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>comandos</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="630px" y="312px" width="28px" height="13px" stroke="none" fill="#fef08a" stroke-width="0" />
+        <rect x="700px" y="272px" width="28px" height="14px" stroke="none" fill="#fef08a" stroke-width="0" />
         <g>
-            <text x="631px" y="322px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="701px" y="283px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>revela</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="599px" y="371px" width="39px" height="13px" stroke="none" fill="#fef08a" stroke-width="0" />
+        <rect x="877px" y="366px" width="39px" height="14px" stroke="none" fill="#fef08a" stroke-width="0" />
         <g>
-            <text x="600px" y="381px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="878px" y="377px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>reduzem</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="844px" y="702px" width="47px" height="13px" stroke="none" fill="#fef08a" stroke-width="0" />
+        <rect x="1100px" y="785px" width="46px" height="14px" stroke="none" fill="#fef08a" stroke-width="0" />
         <g>
-            <text x="845px" y="712px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1101px" y="796px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>aumentam</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="313px" y="474px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="276px" y="562px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>tipos</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>n&#243;</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="1203px" y="270px" width="35px" height="13px" stroke="none" fill="#fef08a" stroke-width="0" />
+        <rect x="1871px" y="338px" width="35px" height="14px" stroke="none" fill="#fef08a" stroke-width="0" />
         <g>
-            <text x="1204px" y="280px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1872px" y="349px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>atualiza</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="465px" y="517px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="566px" y="556px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>estrat&#233;gias</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>join</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="47px" y="211px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="46px" y="208px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="201px" y="216px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="166px" y="204px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="723px" y="408px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>tipo</tspan>
+            <text x="701px" y="194px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>inclui</tspan>
             </text>
         </g>
     </g>
     <g>
         <g>
-            <text x="564px" y="196px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>inclui</tspan>
+            <text x="175px" y="344px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>de</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="311px" y="172px" width="43px" height="14px" stroke="none" fill="#ffff96" stroke-width="0" />
+        <g>
+            <text x="312px" y="183px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>identifica</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="910px" y="275px" width="69px" height="14px" stroke="none" fill="#ffff96" stroke-width="0" />
+        <g>
+            <text x="911px" y="286px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>guia</tspan><tspan fill="none">t</tspan><tspan>escolha</tspan><tspan fill="none">t</tspan><tspan>do</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="868px" y="454px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="869px" y="465px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1404px" y="459px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="1405px" y="470px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="985px" y="454px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="986px" y="465px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1281px" y="450px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="1282px" y="461px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1165px" y="451px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="1166px" y="462px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1075px" y="457px" width="60px" height="14px" stroke="none" fill="#ffffff" stroke-width="0" />
+        <g>
+            <text x="1076px" y="468px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>indicado</tspan><tspan fill="none">t</tspan><tspan>para</tspan>
             </text>
         </g>
     </g>
 
 <!-- Concepts -->
     <g>
-        <rect x="586px" y="37px" rx="8" ry="8" width="188px" height="25px" stroke="none" fill="#969696" stroke-width="0" />
-        <rect x="586px" y="37px" rx="8" ry="8" width="188px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="537px" y="30px" rx="8" ry="8" width="188px" height="26px" stroke="none" fill="#00ffff" stroke-width="0" />
+        <rect x="537px" y="30px" rx="8" ry="8" width="188px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="593px" y="53px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="544px" y="47px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Otimiza&#231;&#227;o</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Queries</tspan><tspan fill="none">t</tspan><tspan>com</tspan><tspan fill="none">t</tspan><tspan>PostgreSQL</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="828px" y="257px" rx="8" ry="8" width="44px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="828px" y="257px" rx="8" ry="8" width="44px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1169px" y="231px" rx="8" ry="8" width="45px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="1169px" y="231px" rx="8" ry="8" width="45px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="835px" y="273px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1176px" y="248px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>&#205;ndices</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="99px" y="128px" rx="8" ry="8" width="82px" height="25px" stroke="none" fill="#008080" stroke-width="0" />
-        <rect x="99px" y="128px" rx="8" ry="8" width="82px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="99px" y="128px" rx="8" ry="8" width="81px" height="26px" stroke="none" fill="#96c8ff" stroke-width="0" />
+        <rect x="99px" y="128px" rx="8" ry="8" width="81px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="106px" y="144px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="106px" y="145px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Custo</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Query</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="892px" y="254px" rx="8" ry="8" width="96px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="892px" y="254px" rx="8" ry="8" width="96px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1485px" y="254px" rx="8" ry="8" width="96px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="1485px" y="254px" rx="8" ry="8" width="96px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="899px" y="270px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1492px" y="271px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Reescrita</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Query</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="434px" y="127px" rx="8" ry="8" width="65px" height="25px" stroke="none" fill="#0d7377" stroke-width="0" />
-        <rect x="434px" y="127px" rx="8" ry="8" width="65px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="597px" y="113px" rx="8" ry="8" width="65px" height="26px" stroke="none" fill="#96c8ff" stroke-width="0" />
+        <rect x="597px" y="113px" rx="8" ry="8" width="65px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="441px" y="143px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="604px" y="130px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Diagn&#243;stico</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="1008px" y="251px" rx="8" ry="8" width="119px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="1008px" y="251px" rx="8" ry="8" width="119px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1697px" y="290px" rx="8" ry="8" width="119px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="1697px" y="290px" rx="8" ry="8" width="119px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="1015px" y="267px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1704px" y="307px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Estat&#237;sticas</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>VACUUM</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="847px" y="136px" rx="8" ry="8" width="52px" height="25px" stroke="none" fill="#0d7377" stroke-width="0" />
-        <rect x="847px" y="136px" rx="8" ry="8" width="52px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1428px" y="128px" rx="8" ry="8" width="52px" height="26px" stroke="none" fill="#96c8ff" stroke-width="0" />
+        <rect x="1428px" y="128px" rx="8" ry="8" width="52px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="854px" y="152px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1435px" y="145px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Solu&#231;&#245;es</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="115px" y="547px" rx="8" ry="8" width="283px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="115px" y="547px" rx="8" ry="8" width="283px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="129px" y="626px" rx="8" ry="8" width="53px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="129px" y="626px" rx="8" ry="8" width="53px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="122px" y="563px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>Seq</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Index</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Index</tspan><tspan fill="none">t</tspan><tspan>Only</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Bitmap</tspan><tspan fill="none">t</tspan><tspan>Heap</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan>
+            <text x="136px" y="643px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Seq</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="1386px" y="145px" rx="8" ry="8" width="56px" height="25px" stroke="none" fill="#0d7377" stroke-width="0" />
-        <rect x="1386px" y="145px" rx="8" ry="8" width="56px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="497px" y="626px" rx="8" ry="8" width="69px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="497px" y="626px" rx="8" ry="8" width="69px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="1393px" y="161px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>Avalia&#231;&#227;o</tspan>
+            <text x="504px" y="643px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Nested</tspan><tspan fill="none">t</tspan><tspan>Loop</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="412px" y="546px" rx="8" ry="8" width="179px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="412px" y="546px" rx="8" ry="8" width="179px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="876px" y="415px" rx="8" ry="8" width="43px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="876px" y="415px" rx="8" ry="8" width="43px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="419px" y="562px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>Nested</tspan><tspan fill="none">t</tspan><tspan>Loop</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Hash</tspan><tspan fill="none">t</tspan><tspan>Join</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Merge</tspan><tspan fill="none">t</tspan><tspan>Join</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <rect x="1327px" y="240px" rx="8" ry="8" width="179px" height="25px" stroke="none" fill="#96c800" stroke-width="0" />
-        <rect x="1327px" y="240px" rx="8" ry="8" width="179px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <g>
-            <text x="1334px" y="256px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>5</tspan><tspan fill="none">t</tspan><tspan>Queries</tspan><tspan fill="none">t</tspan><tspan>para</tspan><tspan fill="none">t</tspan><tspan>Diagnosticar</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>Corrigir</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <rect x="1354px" y="312px" rx="8" ry="8" width="130px" height="25px" stroke="none" fill="#96c800" stroke-width="0" />
-        <rect x="1354px" y="312px" rx="8" ry="8" width="130px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <g>
-            <text x="1361px" y="328px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>Feedback</tspan><tspan fill="none">t</tspan><tspan>com</tspan><tspan fill="none">t</tspan><tspan>Explica&#231;&#245;es</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <rect x="609px" y="467px" rx="8" ry="8" width="44px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="609px" y="467px" rx="8" ry="8" width="44px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <g>
-            <text x="616px" y="483px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="883px" y="432px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>B-Tree</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="800px" y="471px" rx="8" ry="8" width="33px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="800px" y="471px" rx="8" ry="8" width="33px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="998px" y="404px" rx="8" ry="8" width="33px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="998px" y="404px" rx="8" ry="8" width="33px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="807px" y="487px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1005px" y="421px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>GIN</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="842px" y="470px" rx="8" ry="8" width="37px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="842px" y="470px" rx="8" ry="8" width="37px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1175px" y="404px" rx="8" ry="8" width="39px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1175px" y="404px" rx="8" ry="8" width="39px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="849px" y="486px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>GiST</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <rect x="919px" y="467px" rx="8" ry="8" width="39px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="919px" y="467px" rx="8" ry="8" width="39px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <g>
-            <text x="926px" y="483px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1182px" y="421px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>BRIN</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="673px" y="470px" rx="8" ry="8" width="73px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="673px" y="470px" rx="8" ry="8" width="73px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1397px" y="404px" rx="8" ry="8" width="73px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1397px" y="404px" rx="8" ry="8" width="73px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="680px" y="486px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1404px" y="421px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>&#205;ndice</tspan><tspan fill="none">t</tspan><tspan>Parcial</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="0px" y="257px" rx="8" ry="8" width="118px" height="25px" stroke="none" fill="#0000ff" stroke-width="0" />
-        <rect x="0px" y="257px" rx="8" ry="8" width="118px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="34px" y="242px" rx="8" ry="8" width="47px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="34px" y="242px" rx="8" ry="8" width="47px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="7px" y="273px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>O</tspan><tspan fill="none">t</tspan><tspan>que</tspan><tspan fill="none">t</tspan><tspan>&#233;</tspan><tspan fill="none">t</tspan><tspan>Custo</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Query</tspan>
+            <text x="41px" y="259px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>O</tspan><tspan fill="none">t</tspan><tspan>que</tspan><tspan fill="none">t</tspan><tspan>&#233;</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="857px" y="508px" rx="8" ry="8" width="87px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="857px" y="508px" rx="8" ry="8" width="87px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1267px" y="402px" rx="8" ry="8" width="87px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1267px" y="402px" rx="8" ry="8" width="87px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="864px" y="524px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1274px" y="419px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>&#205;ndice</tspan><tspan fill="none">t</tspan><tspan>Composto</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="128px" y="257px" rx="8" ry="8" width="189px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="128px" y="257px" rx="8" ry="8" width="189px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="152px" y="243px" rx="8" ry="8" width="51px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="152px" y="243px" rx="8" ry="8" width="51px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="135px" y="273px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>M&#233;tricas:</tspan><tspan fill="none">t</tspan><tspan>Tempo</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>I/O</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>CPU</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Mem&#243;ria</tspan>
+            <text x="159px" y="260px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>M&#233;tricas</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="710px" y="507px" rx="8" ry="8" width="100px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="710px" y="507px" rx="8" ry="8" width="100px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1665px" y="707px" rx="8" ry="8" width="61px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1665px" y="707px" rx="8" ry="8" width="61px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="717px" y="523px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>&#205;ndice</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Express&#227;o</tspan>
+            <text x="1672px" y="724px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>SELECT</tspan><tspan fill="none">t</tspan><tspan>*</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="981px" y="681px" rx="8" ry="8" width="307px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="981px" y="681px" rx="8" ry="8" width="307px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1424px" y="622px" rx="8" ry="8" width="72px" height="27px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1424px" y="622px" rx="8" ry="8" width="72px" height="27px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="988px" y="697px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>SELECT</tspan><tspan fill="none">t</tspan><tspan>*</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>OFFSET</tspan><tspan fill="none">t</tspan><tspan>elevado</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>N+1</tspan><tspan fill="none">t</tspan><tspan>Queries</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Fun&#231;&#227;o</tspan><tspan fill="none">t</tspan><tspan>em</tspan><tspan fill="none">t</tspan><tspan>WHERE</tspan>
+            <text x="1431px" y="639px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>CTE</tspan><tspan fill="none">t</tspan><tspan>(WITH)</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="910px" y="597px" rx="8" ry="8" width="190px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="910px" y="597px" rx="8" ry="8" width="190px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="630px" y="226px" rx="8" ry="8" width="168px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="630px" y="226px" rx="8" ry="8" width="168px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="917px" y="613px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>CTE</tspan><tspan fill="none">t</tspan><tspan>(WITH)</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>EXISTS</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>JOIN</tspan><tspan fill="none">t</tspan><tspan>expl&#237;cito</tspan>
-            </text>
-        </g>
-    </g>
-    <g>
-        <rect x="631px" y="257px" rx="8" ry="8" width="168px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="631px" y="257px" rx="8" ry="8" width="168px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
-        <g>
-            <text x="638px" y="273px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="637px" y="243px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>EXPLAIN</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>EXPLAIN</tspan><tspan fill="none">t</tspan><tspan>ANALYZE</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="525px" y="256px" rx="8" ry="8" width="95px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="525px" y="256px" rx="8" ry="8" width="95px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="813px" y="226px" rx="8" ry="8" width="95px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="813px" y="226px" rx="8" ry="8" width="95px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="532px" y="272px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="820px" y="243px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>Plano</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>Execu&#231;&#227;o</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="1092px" y="409px" rx="8" ry="8" width="167px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="1092px" y="409px" rx="8" ry="8" width="167px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1631px" y="402px" rx="8" ry="8" width="73px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1631px" y="402px" rx="8" ry="8" width="73px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="1099px" y="425px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
-                <tspan>Cardinalidade</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>Histograma</tspan><tspan fill="none">t</tspan><tspan>&#183;</tspan><tspan fill="none">t</tspan><tspan>MCV</tspan>
+            <text x="1638px" y="419px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Cardinalidade</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="329px" y="256px" rx="8" ry="8" width="95px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="329px" y="256px" rx="8" ry="8" width="95px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="433px" y="227px" rx="8" ry="8" width="95px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="433px" y="227px" rx="8" ry="8" width="95px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="336px" y="272px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="440px" y="244px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>pg_stat_statements</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="1282px" y="409px" rx="8" ry="8" width="119px" height="25px" stroke="none" fill="#edf4f6" stroke-width="0" />
-        <rect x="1282px" y="409px" rx="8" ry="8" width="119px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="1834px" y="427px" rx="8" ry="8" width="120px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1834px" y="427px" rx="8" ry="8" width="120px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="1289px" y="425px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="1841px" y="444px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>VACUUM</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>ANALYZE</tspan>
             </text>
         </g>
     </g>
     <g>
-        <rect x="435px" y="258px" rx="8" ry="8" width="82px" height="25px" stroke="none" fill="#2563eb" stroke-width="0" />
-        <rect x="435px" y="258px" rx="8" ry="8" width="82px" height="25px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <rect x="539px" y="227px" rx="8" ry="8" width="82px" height="26px" stroke="none" fill="#c8ffc8" stroke-width="0" />
+        <rect x="539px" y="227px" rx="8" ry="8" width="82px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
         <g>
-            <text x="442px" y="274px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+            <text x="546px" y="244px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
                 <tspan>pg_stat_activity</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="81px" y="389px" rx="8" ry="8" width="43px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="81px" y="389px" rx="8" ry="8" width="43px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="88px" y="406px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Tempo</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="182px" y="389px" rx="8" ry="8" width="34px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="182px" y="389px" rx="8" ry="8" width="34px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="189px" y="406px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>CPU</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="230px" y="389px" rx="8" ry="8" width="53px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="230px" y="389px" rx="8" ry="8" width="53px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="237px" y="406px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Mem&#243;ria</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="139px" y="389px" rx="8" ry="8" width="28px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="139px" y="389px" rx="8" ry="8" width="28px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="146px" y="406px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>I/O</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="199px" y="627px" rx="8" ry="8" width="62px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="199px" y="627px" rx="8" ry="8" width="62px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="206px" y="644px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Index</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="280px" y="626px" rx="8" ry="8" width="86px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="280px" y="626px" rx="8" ry="8" width="86px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="287px" y="643px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Index</tspan><tspan fill="none">t</tspan><tspan>Only</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="384px" y="626px" rx="8" ry="8" width="94px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="384px" y="626px" rx="8" ry="8" width="94px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="391px" y="643px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Bitmap</tspan><tspan fill="none">t</tspan><tspan>Heap</tspan><tspan fill="none">t</tspan><tspan>Scan</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="578px" y="627px" rx="8" ry="8" width="56px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="578px" y="627px" rx="8" ry="8" width="56px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="585px" y="644px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Hash</tspan><tspan fill="none">t</tspan><tspan>Join</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="646px" y="626px" rx="8" ry="8" width="62px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="646px" y="626px" rx="8" ry="8" width="62px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="653px" y="643px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Merge</tspan><tspan fill="none">t</tspan><tspan>Join</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1510px" y="624px" rx="8" ry="8" width="50px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1510px" y="624px" rx="8" ry="8" width="50px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1517px" y="641px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>EXISTS</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1572px" y="625px" rx="8" ry="8" width="77px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1572px" y="625px" rx="8" ry="8" width="77px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1579px" y="642px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>JOIN</tspan><tspan fill="none">t</tspan><tspan>expl&#237;cito</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1709px" y="401px" rx="8" ry="8" width="64px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1709px" y="401px" rx="8" ry="8" width="64px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1716px" y="418px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>Histograma</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1778px" y="401px" rx="8" ry="8" width="38px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1778px" y="401px" rx="8" ry="8" width="38px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1785px" y="418px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>MCV</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1817px" y="741px" rx="8" ry="8" width="88px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1817px" y="741px" rx="8" ry="8" width="88px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1824px" y="758px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>OFFSET</tspan><tspan fill="none">t</tspan><tspan>elevado</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1740px" y="720px" rx="8" ry="8" width="69px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1740px" y="720px" rx="8" ry="8" width="69px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1747px" y="737px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>N+1</tspan><tspan fill="none">t</tspan><tspan>Queries</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="846px" y="489px" rx="8" ry="8" width="104px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="846px" y="489px" rx="8" ry="8" width="104px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="853px" y="506px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>igualdade</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>intervalo</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1350px" y="521px" rx="8" ry="8" width="169px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1350px" y="521px" rx="8" ry="8" width="169px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1357px" y="538px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>subconjunto</tspan><tspan fill="none">t</tspan><tspan>de</tspan><tspan fill="none">t</tspan><tspan>linhas</tspan><tspan fill="none">t</tspan><tspan>com</tspan><tspan fill="none">t</tspan><tspan>WHERE</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="960px" y="489px" rx="8" ry="8" width="110px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="960px" y="489px" rx="8" ry="8" width="110px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="967px" y="506px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>arrays,</tspan><tspan fill="none">t</tspan><tspan>JSONB</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>texto</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1242px" y="487px" rx="8" ry="8" width="139px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1242px" y="487px" rx="8" ry="8" width="139px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1249px" y="504px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>filtros</tspan><tspan fill="none">t</tspan><tspan>com</tspan><tspan fill="none">t</tspan><tspan>m&#250;ltiplas</tspan><tspan fill="none">t</tspan><tspan>colunas</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1164px" y="489px" rx="8" ry="8" width="62px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1164px" y="489px" rx="8" ry="8" width="62px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1171px" y="506px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>timestamps</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1086px" y="406px" rx="8" ry="8" width="37px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1086px" y="406px" rx="8" ry="8" width="37px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1093px" y="423px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>GIST</tspan>
+            </text>
+        </g>
+    </g>
+    <g>
+        <rect x="1036px" y="521px" rx="8" ry="8" width="142px" height="26px" stroke="none" fill="#edf4f6" stroke-width="0" />
+        <rect x="1036px" y="521px" rx="8" ry="8" width="142px" height="26px" stroke="#000000" fill="none" stroke-width="1" stroke-dasharray="none" />
+        <g>
+            <text x="1043px" y="538px" stroke="none" fill="#000000" stroke-width="1" stroke-dasharray="none" alignment-baseline="auto" text-anchor="start" text-decoration="normal" font-weight="normal" font-style="normal" font-size="8pt" font-family="Verdana">
+                <tspan>espaciais</tspan><tspan fill="none">t</tspan><tspan>e</tspan><tspan fill="none">t</tspan><tspan>multidimensionais</tspan>
             </text>
         </g>
     </g>
