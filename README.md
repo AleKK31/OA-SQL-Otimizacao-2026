@@ -3,7 +3,9 @@
 > Objeto de Aprendizagem desenvolvido segundo a abordagem **IMA–CID** para a matéria OPT016 - Objetos De Aprendizagem da UTFPR-CM
 
 Aluno: Alexandre Borges Baccarini Júnior
+
 RA: 2515520
+
 Grupo: J
 
 ---
