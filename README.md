@@ -19,7 +19,7 @@ Grupo: J
 | **Formação** | Ciência da Computação, Sistemas de Informação, Engenharia de Software ou áreas relacionadas |
 | **Experiência prévia** | Conhecimento básico de SQL (SELECT, WHERE, JOIN, GROUP BY) |
 | **Contexto** | Estudantes, profissionais de TI e DBAs em início de carreira |
-| **Formato do curso** | Short-course (4 horas) |
+| **Formato** | duas aulas (~3 horas) |
  
 ---
  
