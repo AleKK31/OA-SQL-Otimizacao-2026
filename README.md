@@ -27,30 +27,33 @@ Grupo: J
 
 Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
 
-### Diagnóstico e Análise
+### Diagnósticar e Análisar performance
 - [ ] Interpretar a saída do comando `EXPLAIN` e `EXPLAIN ANALYZE`
 - [ ] Utilizar `pg_stat_statements` para identificar queries de alto custo
 - [ ] Monitorar queries em execução com `pg_stat_activity`
 - [ ] Compreender as métricas de custo: tempo, I/O, CPU e memória
 
-### Plano de Execução
-- [ ] Identificar os principais nós de um plano de execução (Seq Scan, Index Scan, Hash Join etc.)
-- [ ] Diferenciar as estratégias de join (Nested Loop, Hash Join, Merge Join) e suas condições de uso
+### Compreender o Plano de Execução
+- [ ] Identificar os principais nós de um plano de execução
+- [ ] Diferenciar as estratégias de join e suas condições de uso (quando cada uma é utilizada, vantagens e limitações)
 - [ ] Compreender como o PostgreSQL estima o custo de uma query
 - [ ] Entender o impacto do paralelismo no plano de execução
 
-### Índices
-- [ ] Diferenciar os tipos de índice do PostgreSQL (B-Tree, GIN, GiST, BRIN, Parcial, Composto, de Expressão)
+### Uso e Otimização de Índices
+- [ ] Diferenciar os principais tipos de índice do PostgreSQL
 - [ ] Escolher o tipo de índice adequado para cada situação
 - [ ] Aplicar o conceito de índice cobridor (Index Only Scan)
 
 ### Reescrita de Query
-- [ ] Reconhecer antipadrões SQL (SELECT *, OFFSET elevado, N+1, função em coluna do WHERE)
-- [ ] Reescrever queries utilizando CTEs, EXISTS e JOINs explícitos de forma eficiente
+- [ ] Reconhecer antipadrões SQL
+- [ ] Reescrever queries de forma eficiente
 
-### Estatísticas e VACUUM
-- [ ] Compreender o papel das estatísticas do planejador (cardinalidade, histograma, MCV)
+### Estatísticas e Manutenção do Banco
+- [ ] Compreender o papel das estatísticas do planejador
 - [ ] Executar e interpretar `VACUUM` e `ANALYZE`
+- [ ] Entender como estatísticas desatualizadas impactam o plano de execução
+
+> Resumo: O estudante deverá ser capaz de diagnosticar problemas de performance em consultas SQL no PostgreSQL, interpretar planos de execução, selecionar estratégias adequadas de indexação, otimizar queries por meio de reescrita e compreender o papel das estatísticas e mecanismos de manutenção do banco de dados na tomada de decisão do otimizador.
 
 ---
  
