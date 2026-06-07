@@ -57,14 +57,6 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
 
 ---
  
-## Mapa Conceitual
- 
-[link para o cmap](https://cmapscloud.ihmc.us:443/rid=22NNTYP6G-2D051KY-MF48YZ)
-
-![Imagem do mapa conceitual](./imgs/otimizacao_postgresql.svg)
-
----
- 
 ## Estrutura
  
 É organizado em 4 módulos com duração total de 2,5 a 3 horas, seguindo uma especificação aberta do IMA–CID (pode navegar pelos módulos na ordem que preferir).
@@ -110,3 +102,15 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
 |---|---|
 | 5 queries problemáticas para diagnosticar e corrigir | Avaliação Somativa |
 | Feedback automático com explicação de cada resposta | Elemento Explanatório |
+
+---
+ 
+## Mapa Conceitual
+ 
+[link para o cmap (mapa Conceitual)](https://cmapscloud.ihmc.us:443/rid=22NNTYP6G-2D051KY-MF48YZ)
+
+---
+
+## Modelo instrucional
+
+[link para o modelo instrucional]()
