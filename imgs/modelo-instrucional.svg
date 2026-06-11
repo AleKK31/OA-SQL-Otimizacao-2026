@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-95 -10 1470 1880" font-family="Segoe UI, Arial, sans-serif">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs>
+<rect x="-95" y="-10" width="1470" height="1880" fill="white"/>
+<text x="640" y="28" text-anchor="middle" font-size="19" font-weight="bold">Otimização de Consultas com PostgreSQL — Modelo Instrucional (IMA–CID / HMBS Instrucional)</text>
+<rect x="40" y="80" width="1200" height="190" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="640.0" y="104" text-anchor="middle" font-size="14" font-weight="bold">M1 — Entendendo o problema  [Bloom: Lembrar + Compreender]</text>
+<rect x="70" y="150" width="260" height="90" rx="8" fill="rgba(255, 192, 203, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="200.0" y="167" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">CustoQuery : conceito : slides</text>
+<text x="200.0" y="180" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: custo de query, ciclo da</text>
+<text x="200.0" y="193" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">consulta; métricas: Tempo, I/O, CPU,</text>
+<text x="200.0" y="206" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Memória</text>
+<rect x="360" y="150" width="260" height="90" rx="8" fill="rgba(255, 192, 203, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="490.0" y="167" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">QueryLenta : exemplo : video</text>
+<text x="490.0" y="180" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exemplo: demonstração de query lenta no</text>
+<text x="490.0" y="193" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">PostgreSQL real</text>
+<rect x="650" y="150" width="270" height="90" rx="8" fill="rgba(224, 62, 62, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="785.0" y="167" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">AD_M1 : avaliacao_diagnostica : quiz</text>
+<text x="785.0" y="180" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">Avaliação diagnóstica: quiz com 3</text>
+<text x="785.0" y="193" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">questões sobre conhecimento prévio</text>
+<rect x="950" y="150" width="270" height="90" rx="8" fill="rgba(214, 42, 214, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1085.0" y="167" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">Finalidade: Sensibilizar sobre o custo</text>
+<text x="1085.0" y="180" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">de queries e a importância da otimização</text>
+<rect x="40" y="320" width="580" height="620" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="330.0" y="344" text-anchor="middle" font-size="14" font-weight="bold">M2 — Diagnóstico  [Bloom: Compreender + Analisar]</text>
+<rect x="60" y="380" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">EXPLAIN : conceito : slides</text>
+<text x="190.0" y="410" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: EXPLAIN, EXPLAIN ANALYZE,</text>
+<text x="190.0" y="423" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">BUFFERS, FORMAT JSON</text>
+<rect x="340" y="380" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">EXPLAIN_ANALYZE : procedimento :</text>
+<text x="470.0" y="410" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">codigo_sql</text>
+<text x="470.0" y="423" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Procedimento: executar e interpretar a</text>
+<text x="470.0" y="436" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">saída do EXPLAIN ANALYZE</text>
+<rect x="340" y="490" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="507" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">PlanoExecucao : conceito : slides</text>
+<text x="470.0" y="520" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: plano de execução; Seq</text>
+<text x="470.0" y="533" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Scan, Index Scan, Index Only Scan,</text>
+<text x="470.0" y="546" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Bitmap Heap Scan</text>
+<rect x="60" y="490" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="507" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">EstrategiasJoin : conceito : slides</text>
+<text x="190.0" y="520" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: Nested Loop, Hash Join,</text>
+<text x="190.0" y="533" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Merge Join — condições de uso</text>
+<rect x="60" y="600" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="617" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">EstrategiasJoin : principio : slides</text>
+<text x="190.0" y="630" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Princípio: quando o planejador escolhe</text>
+<text x="190.0" y="643" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">cada estratégia de join</text>
+<rect x="340" y="600" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="617" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">pgStatStatements : conceito : slides</text>
+<text x="470.0" y="630" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: pg_stat_statements e</text>
+<text x="470.0" y="643" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">pg_stat_activity</text>
+<rect x="340" y="710" width="260" height="90" rx="8" fill="rgba(132, 222, 239, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="727" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">DiagnosticarQuery : exercicio :</text>
+<text x="470.0" y="740" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">hands_on</text>
+<text x="470.0" y="753" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exercício: diagnosticar query real com</text>
+<text x="470.0" y="766" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">EXPLAIN</text>
+<rect x="60" y="710" width="260" height="90" rx="8" fill="rgba(53, 102, 222, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="727" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">AF_M2 : avaliacao_formativa : quiz</text>
+<text x="190.0" y="740" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">Avaliação formativa sobre diagnóstico e</text>
+<text x="190.0" y="753" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">plano de execução</text>
+<rect x="60" y="820" width="540" height="90" rx="8" fill="rgba(53, 102, 222, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="330.0" y="837" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">Finalidade: Identificar gargalos de performance em queries</text>
+<rect x="660" y="320" width="580" height="620" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="950.0" y="344" text-anchor="middle" font-size="14" font-weight="bold">M3A — Índices  [Bloom: Analisar]</text>
+<rect x="680" y="380" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">BTree_GIN_GIST_BRIN : conceito : slides</text>
+<text x="810.0" y="410" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: B-Tree</text>
+<text x="810.0" y="423" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">(igualdade/intervalos), GIN</text>
+<text x="810.0" y="436" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">(arrays/JSONB), GiST (espacial), BRIN</text>
+<text x="810.0" y="449" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">(sequências longas)</text>
+<rect x="960" y="380" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">IndiceParcial_Composto : conceito :</text>
+<text x="1090.0" y="410" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">slides</text>
+<text x="1090.0" y="423" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: índice parcial (WHERE),</text>
+<text x="1090.0" y="436" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">índice composto (múltiplas colunas)</text>
+<rect x="960" y="490" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="507" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">IndexOnlyScan : principio : slides</text>
+<text x="1090.0" y="520" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Princípio: índice cobridor (Index Only</text>
+<text x="1090.0" y="533" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Scan) — quando e como aplicar</text>
+<rect x="680" y="490" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="507" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">IndiceParcial : principio : slides</text>
+<text x="810.0" y="520" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Princípio: regras de uso e trade-offs</text>
+<text x="810.0" y="533" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">de cada tipo de índice</text>
+<rect x="680" y="600" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="617" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">AplicarIndice : exercicio : hands_on</text>
+<text x="810.0" y="630" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exercício: aplicar índice correto e</text>
+<text x="810.0" y="643" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">comparar plano antes/depois</text>
+<rect x="960" y="600" width="260" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="617" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">AF_M3A : avaliacao_formativa : quiz</text>
+<text x="1090.0" y="630" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Avaliação formativa sobre tipos de</text>
+<text x="1090.0" y="643" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">índice e condições de uso</text>
+<rect x="680" y="820" width="540" height="90" rx="8" fill="rgba(134, 222, 134, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="950.0" y="837" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">Finalidade: Escolher o índice correto para cada situação</text>
+<rect x="40" y="990" width="580" height="510" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="330.0" y="1014" text-anchor="middle" font-size="14" font-weight="bold">M3B — Reescrita de consulta  [Bloom: Aplicar]</text>
+<rect x="60" y="1050" width="260" height="90" rx="8" fill="rgba(249, 240, 107, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="1067" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">BoasPraticas : conceito : slides</text>
+<text x="190.0" y="1080" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: EXISTS, CTE (WITH), JOIN</text>
+<text x="190.0" y="1093" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">explícito</text>
+<rect x="340" y="1050" width="260" height="90" rx="8" fill="rgba(249, 240, 107, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="1067" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">Antipadroes : conceito : slides</text>
+<text x="470.0" y="1080" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: SELECT *, função em</text>
+<text x="470.0" y="1093" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">coluna WHERE, OFFSET elevado, N+1</text>
+<text x="470.0" y="1106" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Queries, conversão implícita de tipo</text>
+<rect x="340" y="1160" width="260" height="90" rx="8" fill="rgba(249, 240, 107, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="470.0" y="1177" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">Antipadroes : exemplo : codigo_sql</text>
+<text x="470.0" y="1190" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exemplo: código SQL antes e depois de</text>
+<text x="470.0" y="1203" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">cada antipadrão</text>
+<rect x="60" y="1160" width="260" height="90" rx="8" fill="rgba(249, 240, 107, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="1177" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">ReescreverQuery : exercicio : hands_on</text>
+<text x="190.0" y="1190" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exercício: reescrever queries reais com</text>
+<text x="190.0" y="1203" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">antipadrões identificados</text>
+<rect x="60" y="1270" width="260" height="90" rx="8" fill="rgba(255, 163, 72, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="190.0" y="1287" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">AF_M3B : avaliacao_formativa : quiz</text>
+<text x="190.0" y="1300" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Avaliação formativa sobre antipadrões</text>
+<text x="190.0" y="1313" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">SQL</text>
+<rect x="60" y="1380" width="540" height="90" rx="8" fill="rgba(255, 163, 72, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="330.0" y="1397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">Finalidade: Eliminar antipadrões de SQL e reescrever queries eficientes</text>
+<rect x="660" y="990" width="580" height="510" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="950.0" y="1014" text-anchor="middle" font-size="14" font-weight="bold">M3C — Infraestrutura e manutenção  [Bloom: Compreender]</text>
+<rect x="680" y="1050" width="260" height="90" rx="8" fill="rgba(211, 211, 211, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="1067" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">Estatisticas : conceito : slides</text>
+<text x="810.0" y="1080" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: cardinalidade,</text>
+<text x="810.0" y="1093" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">histograma, MCV (Most Common Values)</text>
+<rect x="960" y="1050" width="260" height="90" rx="8" fill="rgba(211, 211, 211, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="1067" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">VACUUM : conceito : slides</text>
+<text x="1090.0" y="1080" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Explanatório: VACUUM remove tuplas</text>
+<text x="1090.0" y="1093" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">mortas e fragmentação</text>
+<rect x="960" y="1160" width="260" height="90" rx="8" fill="rgba(211, 211, 211, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="1177" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">ANALYZE : procedimento : slides</text>
+<text x="1090.0" y="1190" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Procedimento: ANALYZE atualiza</text>
+<text x="1090.0" y="1203" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">estatísticas do planejador</text>
+<rect x="680" y="1160" width="260" height="90" rx="8" fill="rgba(211, 211, 211, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="1177" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">EstatisticasDesatualizadas : principio</text>
+<text x="810.0" y="1190" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">: slides</text>
+<text x="810.0" y="1203" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Princípio: impacto de estatísticas</text>
+<text x="810.0" y="1216" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">desatualizadas no plano</text>
+<rect x="680" y="1270" width="260" height="90" rx="8" fill="rgba(211, 211, 211, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="810.0" y="1287" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">ImpactoEstatisticas : exercicio :</text>
+<text x="810.0" y="1300" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">hands_on</text>
+<text x="810.0" y="1313" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Exercício: demonstrar impacto de</text>
+<text x="810.0" y="1326" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">estatísticas desatualizadas</text>
+<rect x="960" y="1270" width="260" height="90" rx="8" fill="rgba(53, 102, 222, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1090.0" y="1287" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">AF_M3C : avaliacao_formativa : quiz</text>
+<text x="1090.0" y="1300" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">Avaliação formativa sobre estatísticas</text>
+<text x="1090.0" y="1313" text-anchor="middle" font-size="10" fill="rgba(255, 255, 255, 1.0)">e VACUUM</text>
+<rect x="680" y="1380" width="540" height="90" rx="8" fill="rgba(53, 102, 222, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="950.0" y="1397" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">Finalidade: Manter o planejador com estatísticas precisas</text>
+<rect x="40" y="1550" width="1200" height="220" rx="12" fill="white" stroke="#333" stroke-width="1.8"/>
+<text x="640.0" y="1574" text-anchor="middle" font-size="14" font-weight="bold">Avaliação Final  [Bloom: Avaliar]</text>
+<rect x="70" y="1620" width="330" height="90" rx="8" fill="rgba(154, 153, 150, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="235.0" y="1637" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">QueriesProblematicas : avaliacao_somativa :</text>
+<text x="235.0" y="1650" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">hands_on</text>
+<text x="235.0" y="1663" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Avaliação somativa: 5 queries problemáticas —</text>
+<text x="235.0" y="1676" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">diagnosticar, corrigir e justificar</text>
+<rect x="440" y="1620" width="330" height="90" rx="8" fill="rgba(154, 153, 150, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="605.0" y="1637" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(0, 0, 0, 1.0)">FeedbackAutomatico : complementar : sistema</text>
+<text x="605.0" y="1650" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">Complementar: feedback automático com explicação</text>
+<text x="605.0" y="1663" text-anchor="middle" font-size="10" fill="rgba(0, 0, 0, 1.0)">de cada resposta</text>
+<rect x="900" y="1620" width="310" height="90" rx="8" fill="rgba(94, 92, 100, 1.0)" stroke="#333" stroke-width="1"/>
+<text x="1055.0" y="1637" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">Finalidade: Avaliar a aprendizagem de todo o</text>
+<text x="1055.0" y="1650" text-anchor="middle" font-size="10" font-weight="bold" fill="rgba(255, 255, 255, 1.0)">OA</text>
+<circle cx="100" cy="55" r="8" fill="#333"/>
+<polyline points="100,63 100,80" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<circle cx="825.0" cy="1665.0" r="12" fill="white" stroke="#333" stroke-width="1.5"/>
+<circle cx="825.0" cy="1665.0" r="6" fill="#333"/>
+<polyline points="330,195.0 360,195.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="620,195.0 650,195.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="320,425.0 340,425.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="470.0,470 470.0,490" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="340,535.0 320,535.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="190.0,580 190.0,600" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="320,645.0 340,645.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="470.0,690 470.0,710" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="340,755.0 320,755.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="940,425.0 960,425.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="1090.0,470 1090.0,490" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="960,535.0 940,535.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="810.0,580 810.0,600" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="940,645.0 960,645.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="320,1095.0 340,1095.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="470.0,1140 470.0,1160" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="340,1205.0 320,1205.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="190.0,1250 190.0,1270" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="940,1095.0 960,1095.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="1090.0,1140 1090.0,1160" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="960,1205.0 940,1205.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="810.0,1250 810.0,1270" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="940,1315.0 960,1315.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="400,1665.0 440,1665.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="770,1665.0 810,1665.0" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<polyline points="330,270 330,320" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="338" y="301" font-size="10" fill="#333">[DD]</text>
+<polyline points="950,270 950,320" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="958" y="301" font-size="10" fill="#333">[DD]</text>
+<polyline points="620,630 660,630" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="622" y="622" font-size="10" fill="#333">[DD]</text>
+<polyline points="330,940 330,990" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="338" y="971" font-size="10" fill="#333">[DD]</text>
+<polyline points="950,940 950,990" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="958" y="971" font-size="10" fill="#333">[DD]</text>
+<polyline points="620,1245 660,1245" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="622" y="1237" font-size="10" fill="#333">[DD]</text>
+<polyline points="40,175 -20,175 -20,1245 40,1245" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="-14" y="700" font-size="10" fill="#333">[DD]</text>
+<polyline points="1240,175 1300,175 1300,1245 1240,1245" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="1248" y="700" font-size="10" fill="#333">[DD]</text>
+<polyline points="500,940 500,962 840,962 840,990" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="655" y="957" font-size="10" fill="#333">[DD]</text>
+<polyline points="790,940 790,968 450,968 450,990" fill="none" stroke="#333" stroke-width="1.4" marker-start="url(#arr)" marker-end="url(#arr)"/>
+<text x="600" y="983" font-size="10" fill="#333">[DD]</text>
+<polyline points="200,1500 200,1550" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<text x="206" y="1528" font-size="9" fill="#333">[todos os módulos concluídos]</text>
+<polyline points="1080,1500 1080,1550" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<text x="1086" y="1528" font-size="9" fill="#333">[todos os módulos concluídos]</text>
+<polyline points="40,230 -65,230 -65,1620 40,1620" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<text transform="translate(-70,1000) rotate(-90)" font-size="9" fill="#333">[todos os módulos concluídos]</text>
+<polyline points="40,870 -35,870 -35,1640 40,1640" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<text transform="translate(-40,1330) rotate(-90)" font-size="9" fill="#333">[todos os módulos concluídos]</text>
+<polyline points="1240,870 1315,870 1315,1640 1240,1640" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#arr)"/>
+<text transform="translate(1325,1330) rotate(-90)" font-size="9" fill="#333">[todos os módulos concluídos]</text>
+<text x="640" y="1810" text-anchor="middle" font-size="11" fill="#333">[DD] = navegação livre (decisão do aprendiz — Especificação Aberta)  •  [guard] = pré-requisito para a Avaliação Final</text>
+<text x="640" y="1830" text-anchor="middle" font-size="11" fill="#333">Categorias CDT: Explanatório, Exemplo, Procedimento, Princípio, Exercício, Complementar  •  Avaliações: diagnóstica (M1), formativa (M2–M3C), somativa (Final)</text>
+</svg>

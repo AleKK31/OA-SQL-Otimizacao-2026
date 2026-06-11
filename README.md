@@ -107,10 +107,12 @@ Ao concluir este Objeto de Aprendizagem, o estudante será capaz de:
  
 ## Mapa Conceitual
  
-[link para o cmap (mapa Conceitual)](https://cmapscloud.ihmc.us:443/rid=22NNTYP6G-2D051KY-MF48YZ)
+[link para o Mapa Conceitual (cmap cloud))](https://cmapscloud.ihmc.us:443/rid=22NNTYP6G-2D051KY-MF48YZ)
+
+![Mapa Conceitual](imgs/mapa-conceitual.jpg)
 
 ---
 
 ## Modelo instrucional
 
-[link para o modelo instrucional]()
+![Modelo instrucional](imgs/modelo-instrucional.svg)
