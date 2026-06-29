@@ -141,11 +141,13 @@ O modelo instrucional adota três tipos de avaliação em momentos distintos do 
 
 ### Como usar
 
-O OA funciona diretamente no navegador, sem servidor:
+**Online:** acesse pelo [GitHub Pages](https://alekk31.github.io/OA-SQL-Otimizacao-2026/)
 
-1. Abra `oa-postgresql/index.html` no navegador
-2. Navegue pelos módulos na ordem que preferir — o progresso é salvo automaticamente no navegador
-3. A **Avaliação Final** é liberada após concluir todos os módulos
+**Local:** abra `oa-postgresql/index.html` no navegador
+
+Em ambos os casos:
+1. Navegue pelos módulos na ordem que preferir — o progresso é salvo automaticamente no navegador
+2. A **Avaliação Final** é liberada após concluir todos os módulos
 
 > **Exercícios com Docker:** M3C e a questão Q5 da Avaliação Final dependem do PostgreSQL completo.
 > ```bash
