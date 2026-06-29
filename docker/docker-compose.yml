@@ -1,0 +1,20 @@
+# PostgreSQL 16 pré-configurado para o OA de Otimização de Queries
+# Uso: docker compose up -d
+# Conectar: psql -h localhost -U oa_user -d oa_db
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: oa_db
+      POSTGRES_USER: oa_user
+      POSTGRES_PASSWORD: oa_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - pgdata:/var/lib/postgresql/data
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+volumes:
+  pgdata:

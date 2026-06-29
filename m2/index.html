@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M2 — Diagnóstico · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  <style>
+    :root { --module-color: #1A6348; }
+    .node-badge {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700;
+      padding: 0.25rem 0.625rem; border-radius: 4px;
+      background: #1e1e1e; color: #9CDCFE;
+    }
+    .node-row {
+      display: grid; grid-template-columns: 1fr 2fr 1fr;
+      gap: 0.75rem; align-items: start; padding: 0.75rem 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.875rem;
+    }
+    .node-row:last-child { border-bottom: none; }
+    .node-row .warn { color: var(--color-error); font-weight: 600; }
+    .node-row .ok   { color: var(--color-success); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div class="module-label">● M2 · Diagnóstico</div>
+      <h1>Diagnóstico de Performance com EXPLAIN</h1>
+      <div class="meta">
+        <span class="badge badge-gray">PGLite (navegador)</span>
+      </div>
+    </header>
+
+    <!-- ========== SEÇÃO 1: EXPLAIN (slides) ========== -->
+    <section class="section">
+      <div class="section-title">1 · EXPLAIN e Variantes</div>
+
+      <div id="slides-explain" class="slides-container">
+
+        <!-- Slide 1: O que é EXPLAIN -->
+        <div class="slide">
+          <h3>O que é o EXPLAIN?</h3>
+          <blockquote>
+            O <strong>EXPLAIN</strong> é o comando do PostgreSQL que mostra o
+            <strong>plano de execução</strong> que o planejador escolheu para uma query —
+            sem executá-la de fato. Com <strong>ANALYZE</strong>, ele executa e mostra os valores reais.
+          </blockquote>
+          <div class="banner banner-info mt-3">
+            <span class="banner-icon">💡</span>
+            <div class="banner-content">
+              O planejador gera dezenas de planos alternativos e escolhe o de menor custo estimado.
+              O EXPLAIN revela qual foi essa escolha — e por quê pode estar errada.
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Variantes -->
+        <div class="slide">
+          <h3>Variantes do EXPLAIN</h3>
+          <div class="table-wrapper">
+            <table class="styled">
+              <thead>
+                <tr><th>Comando</th><th>Executa?</th><th>O que mostra de extra</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>EXPLAIN</code></td><td>Não</td><td>Plano estimado, custo estimado</td></tr>
+                <tr><td><code>EXPLAIN ANALYZE</code></td><td>Sim</td><td>Tempo real, linhas reais, loops</td></tr>
+                <tr><td><code>EXPLAIN (ANALYZE, BUFFERS)</code></td><td>Sim</td><td>+ uso de cache (shared hit/read)</td></tr>
+                <tr><td><code>EXPLAIN (ANALYZE, FORMAT JSON)</code></td><td>Sim</td><td>Saída em JSON estruturado</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="banner banner-warning mt-2">
+            <span class="banner-icon">⚠️</span>
+            <div class="banner-content">
+              <code>EXPLAIN ANALYZE</code> <strong>executa a query de verdade</strong>.
+              Em tabelas de produção, use <code>BEGIN; EXPLAIN ANALYZE ...; ROLLBACK;</code>
+              para evitar efeitos colaterais em operações DML.
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Editor PGLite -->
+        <div class="slide">
+          <h3>Experimento — EXPLAIN no PGLite</h3>
+          <p class="text-muted text-sm mb-2">Descomente uma linha por vez e observe como a saída muda:</p>
+          <div id="editor-explain"></div>
+        </div>
+
+        <!-- Slide 4: Guia de leitura -->
+        <div class="slide">
+          <h3>Guia de Leitura da Saída</h3>
+          <div class="table-wrapper">
+            <table class="styled">
+              <thead><tr><th>Campo</th><th>O que significa</th></tr></thead>
+              <tbody>
+                <tr><td><code>cost=0.00..1234.56</code></td><td>Custo estimado de iniciar..custo total (unidade interna)</td></tr>
+                <tr><td><code>rows=47</code></td><td>Número de linhas <em>estimadas</em> que serão retornadas</td></tr>
+                <tr><td><code>width=52</code></td><td>Tamanho médio de cada linha em bytes</td></tr>
+                <tr><td><code>actual time=0.08..198.4</code></td><td>Tempo real de iniciar..terminar (ms) — só com ANALYZE</td></tr>
+                <tr><td><code>loops=1</code></td><td>Quantas vezes o nó foi executado (em joins aninhados, pode ser &gt;1)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept-card mt-3">
+            <h4>Sinal de alerta</h4>
+            <p>Se <code>rows</code> (estimativa) diverge muito de <code>actual rows</code> (real),
+            as <strong>estatísticas estão desatualizadas</strong> — o planejador está tomando decisões com informações erradas.
+            Solução: <code>ANALYZE tabela;</code></p>
+          </div>
+        </div>
+
+      </div><!-- /slides-explain -->
+    </section>
+
+    <!-- ========== SEÇÃO 2: PLANO DE EXECUÇÃO (slides) ========== -->
+    <section class="section">
+      <div class="section-title">2 · Plano de Execução e Nós</div>
+
+      <div id="slides-plano" class="slides-container">
+
+        <!-- Slide 1: O que é um nó -->
+        <div class="slide">
+          <h3>O que é um Nó de Execução?</h3>
+          <blockquote>
+            Cada operação no plano de execução é um <strong>nó</strong>.
+            Os nós formam uma árvore — o PostgreSQL executa de
+            <strong>baixo para cima</strong> (os nós folha primeiro, o nó raiz por último).
+          </blockquote>
+          <pre style="margin-top:1rem"><code>Aggregate  (custo total: 15234.12)
+  └── Hash Join  (custo: 12043.00)
+        ├── Seq Scan on pedidos    ← executa primeiro
+        └── Hash
+              └── Seq Scan on clientes  ← executa primeiro</code></pre>
+          <p class="text-sm text-muted mt-2">
+            O plano é lido de <strong>dentro para fora</strong> e de <strong>baixo para cima</strong>.
+            O nó raiz (Aggregate) só executa depois que todos os filhos terminam.
+          </p>
+        </div>
+
+        <!-- Slide 2: Tipos de nó -->
+        <div class="slide">
+          <h3>Tipos de Nó — O que cada um significa</h3>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div class="node-row" style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:0.75rem;font-weight:700;font-size:0.8rem;color:var(--color-text-muted);padding:0.5rem 0;border-bottom:2px solid var(--color-border)">
+              <span>NÓ</span><span>QUANDO OCORRE</span><span>SINAL</span>
+            </div>
+            <div class="node-row">
+              <span class="node-badge">Seq Scan</span>
+              <span>Sem índice na coluna filtrada, ou seletividade baixa</span>
+              <span class="warn">⚠️ Tabela grande = problema</span>
+            </div>
+            <div class="node-row">
+              <span class="node-badge" style="color:#6A9955">Index Scan</span>
+              <span>Índice disponível e seletividade alta</span>
+              <span class="ok">✅ Geralmente bom</span>
+            </div>
+            <div class="node-row">
+              <span class="node-badge" style="color:#4EC9B0">Index Only Scan</span>
+              <span>Todas as colunas do SELECT estão no índice</span>
+              <span class="ok">✅✅ Mais eficiente</span>
+            </div>
+            <div class="node-row">
+              <span class="node-badge" style="color:#CE9178">Bitmap Heap Scan</span>
+              <span>Múltiplas condições com índices separados</span>
+              <span>Normal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Paralelismo -->
+        <div class="slide">
+          <h3>Paralelismo no Plano</h3>
+          <div class="banner banner-info mb-3">
+            <span class="banner-icon">🔀</span>
+            <div class="banner-content">
+              <strong>Paralelismo:</strong> O PostgreSQL pode dividir uma query entre múltiplos workers.
+              Quando isso ocorre, o plano exibe nós com prefixo <code>Parallel</code>:
+              <code>Parallel Seq Scan</code>, <code>Parallel Hash Join</code>, <code>Gather</code>.
+              Controlado por <code>max_parallel_workers_per_gather</code> (padrão: 2).
+            </div>
+          </div>
+          <div class="banner banner-warning">
+            <span class="banner-icon">🧪</span>
+            <div class="banner-content">
+              <strong>No PGLite (modo single-user/WebAssembly):</strong> paralelismo não é ativado.
+              Para ver <code>Parallel Seq Scan</code> e <code>Gather</code>, use o Docker com a tabela
+              <code>pedidos</code> (500k linhas).
+            </div>
+          </div>
+          <p class="text-sm text-muted mt-2 mb-1">Simulação no PGLite (sem paralelismo, mas visível no Docker):</p>
+          <div id="editor-parallel"></div>
+        </div>
+
+      </div><!-- /slides-plano -->
+    </section>
+
+    <!-- ========== SEÇÃO 3: ESTRATÉGIAS DE JOIN (slides) ========== -->
+    <section class="section">
+      <div class="section-title">3 · Estratégias de Join</div>
+
+      <div id="slides-join" class="slides-container">
+
+        <!-- Slide 1: Tabela comparativa -->
+        <div class="slide">
+          <h3>Três Estratégias de Join</h3>
+          <div class="table-wrapper">
+            <table class="styled">
+              <thead>
+                <tr><th>Estratégia</th><th>Como funciona</th><th>Quando o planejador escolhe</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nested Loop Join</strong></td>
+                  <td>Para cada linha da tabela externa, varre a interna</td>
+                  <td>Tabela interna pequena <strong>ou</strong> com índice na coluna de join</td>
+                </tr>
+                <tr>
+                  <td><strong>Hash Join</strong></td>
+                  <td>Constrói uma hash table da menor tabela, varre a maior</td>
+                  <td>Tabelas grandes, sem ordenação, sem índice no join</td>
+                </tr>
+                <tr>
+                  <td><strong>Merge Join</strong></td>
+                  <td>Ordena ambas as tabelas e mescla linearmente</td>
+                  <td>Ambas já ordenadas (ex: por PRIMARY KEY)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Slide 2: Princípio -->
+        <div class="slide">
+          <h3>Princípio — Quando o Planejador Erra</h3>
+          <div class="concept-card" style="border-left-color:var(--color-error)">
+            <h4 style="color:var(--color-error)">⚠️ Estatísticas desatualizadas → estratégia de join errada</h4>
+            <p>
+              O planejador escolhe a estratégia automaticamente com base nas estatísticas.
+              Se as estatísticas estiverem desatualizadas, ele pode:
+            </p>
+            <ul style="padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem;font-size:0.9rem">
+              <li>Usar <strong>Nested Loop</strong> em tabelas grandes (achou que eram pequenas)</li>
+              <li>Usar <strong>Hash Join</strong> onde Nested Loop + índice seria melhor</li>
+            </ul>
+            <p class="mt-2 text-sm"><strong>Sintoma:</strong> diferença grande entre <code>rows</code> e <code>actual rows</code> no EXPLAIN ANALYZE.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Editor PGLite -->
+        <div class="slide">
+          <h3>Experimento — Hash Join na Prática</h3>
+          <p class="text-muted text-sm mb-2">Observe a estratégia de join que o PGLite escolhe sem índice na coluna de join:</p>
+          <div id="editor-join"></div>
+        </div>
+
+      </div><!-- /slides-join -->
+    </section>
+
+    <!-- ========== SEÇÃO 4: MONITORAMENTO (slides) ========== -->
+    <section class="section">
+      <div class="section-title">4 · Ferramentas de Monitoramento</div>
+
+      <div id="slides-monitor" class="slides-container">
+
+        <!-- Slide 1: Aviso Docker -->
+        <div class="slide">
+          <h3>pg_stat_statements e pg_stat_activity</h3>
+          <div class="banner banner-warning mb-3">
+            <span class="banner-icon">⚠️</span>
+            <div class="banner-content">
+              <strong>Atenção:</strong>
+              <code>pg_stat_statements</code> e <code>pg_stat_activity</code> requerem o
+              <strong>PostgreSQL completo via Docker</strong>. Não funcionam no PGLite.
+              <br>Execute: <code>psql -h localhost -U oa_user -d oa_db</code>
+            </div>
+          </div>
+          <p class="text-sm text-muted">
+            Essas views são suas ferramentas de diagnóstico de produção — revelam
+            quais queries são mais lentas e o que está rodando agora no banco.
+            Os próximos slides mostram como usá-las.
+          </p>
+        </div>
+
+        <!-- Slide 2: pg_stat_statements -->
+        <div class="slide">
+          <h3>pg_stat_statements — Top Queries Lentas</h3>
+          <p class="text-sm text-muted mb-2">Histórico de todas as queries executadas, com tempos acumulados:</p>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Top 10 queries mais lentas (por tempo total acumulado)
+SELECT
+  LEFT(query, 80) AS query_preview,
+  calls,
+  round(total_exec_time::numeric, 2) AS total_ms,
+  round(mean_exec_time::numeric,  2) AS media_ms
+FROM pg_stat_statements
+ORDER BY total_exec_time DESC
+LIMIT 10;</code></pre>
+          </div>
+          <p class="text-sm text-muted mt-2">
+            <code>calls</code> × <code>media_ms</code> = impacto real.
+            Uma query de 200ms chamada 10.000×/dia tem mais impacto que uma de 1s chamada 10×.
+          </p>
+        </div>
+
+        <!-- Slide 3: pg_stat_activity -->
+        <div class="slide">
+          <h3>pg_stat_activity — Queries em Execução Agora</h3>
+          <p class="text-sm text-muted mb-2">Para diagnóstico em tempo real:</p>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Queries ativas no momento
+SELECT pid, usename, state,
+  NOW() - query_start AS duracao,
+  LEFT(query, 100) AS query
+FROM pg_stat_activity
+WHERE state = 'active'
+  AND pid != pg_backend_pid()
+ORDER BY query_start;
+
+-- Forçar encerramento de uma query longa (se necessário):
+-- SELECT pg_cancel_backend(pid);</code></pre>
+          </div>
+        </div>
+
+      </div><!-- /slides-monitor -->
+    </section>
+
+    <!-- ========== SEÇÃO 5: EXERCÍCIO ========== -->
+    <section class="section">
+      <div class="section-title">5 · Exercício — Diagnosticar Query</div>
+      <div class="banner banner-info mb-3">
+        <span class="banner-icon">🔍</span>
+        <div class="banner-content">
+          <strong>Cenário:</strong> A tela de pedidos do cliente está demorando mais de 5 segundos.
+          A query abaixo é executada a cada requisição.
+          <strong>Identifique o problema e proponha uma solução.</strong>
+        </div>
+      </div>
+
+      <div id="editor-exercicio"></div>
+
+      <div class="card mt-3">
+        <h4>Perguntas para reflexão</h4>
+        <ol style="padding-left:1.25rem;margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <li>Qual é o tipo de nó usado para acessar a tabela <code>pedidos</code>?</li>
+          <li>As linhas estimadas (<code>rows</code>) batem com as reais (<code>actual rows</code>)?</li>
+          <li>O que você criaria para melhorar esta query?</li>
+        </ol>
+      </div>
+
+      <div class="accordion mt-3">
+        <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+          <span>✅ Ver solução</span><span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <pre><code class="language-sql">-- Problema: Seq Scan em pedidos (sem índice em status e total)
+
+-- Solução 1: índice composto
+CREATE INDEX idx_pedidos_status_total ON pedidos(status, total);
+
+-- Solução 2 (melhor): índice parcial para status 'ativo'
+CREATE INDEX idx_pedidos_ativo_total ON pedidos(total)
+WHERE status = 'ativo';
+
+-- Verificar melhora:
+EXPLAIN ANALYZE
+SELECT p.id, p.total, p.status, c.nome, c.email
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE p.status = 'ativo'
+  AND p.total > 500;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SEÇÃO 6: QUIZ ========== -->
+    <section class="section">
+      <div class="section-title">6 · Avaliação Formativa</div>
+      <div id="quiz-m2"></div>
+      <div class="finalidade-box mt-4">
+        <div class="icon">🎯</div>
+        <div class="content">
+          <strong>Finalidade deste módulo</strong>
+          <p>Identificar gargalos de performance em queries. Você agora sabe usar EXPLAIN ANALYZE,
+          interpretar planos de execução e entender quando o planejador pode estar errando.</p>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <a href="../m1/" class="btn-secondary">← M1</a>
+        <a href="../m3a/" class="btn-primary">Próximo → M3A Índices</a>
+      </div>
+    </section>
+
+  </div><!-- /page-wrapper -->
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { markModuleStarted } from '../assets/progress.js';
+    import { initPGLite } from '../assets/pglite-editor.js';
+    import { initQuiz } from '../assets/quiz.js';
+    import { initSlides } from '../assets/slides.js';
+
+    markModuleStarted('m2');
+    initNav('m2');
+    initSlides('slides-explain');
+    initSlides('slides-plano');
+    initSlides('slides-join');
+    initSlides('slides-monitor');
+
+    const SEED = `
+CREATE TABLE clientes (
+  id SERIAL PRIMARY KEY, nome VARCHAR(100), email VARCHAR(150), cidade VARCHAR(80)
+);
+CREATE TABLE pedidos (
+  id SERIAL PRIMARY KEY, cliente_id INTEGER, status VARCHAR(20),
+  total NUMERIC(10,2), criado_em TIMESTAMP DEFAULT NOW()
+);
+INSERT INTO clientes SELECT i, 'Cliente ' || i, 'cliente' || i || '@email.com',
+  CASE (i%5) WHEN 0 THEN 'São Paulo' WHEN 1 THEN 'Rio de Janeiro'
+    WHEN 2 THEN 'Curitiba' WHEN 3 THEN 'Belo Horizonte' ELSE 'Porto Alegre' END
+FROM generate_series(1,10000) i;
+INSERT INTO pedidos SELECT i, (random()*9999+1)::int,
+  CASE (i%3) WHEN 0 THEN 'pendente' WHEN 1 THEN 'ativo' ELSE 'cancelado' END,
+  (random()*1000)::numeric(10,2),
+  NOW() - (random()*365 || ' days')::interval
+FROM generate_series(1,50000) i;`;
+
+    initPGLite('editor-explain', SEED, `-- Experimento 1: EXPLAIN simples (não executa)
+EXPLAIN SELECT * FROM pedidos WHERE cliente_id = 42;
+
+-- Experimento 2: EXPLAIN ANALYZE (executa e mostra tempos reais)
+-- EXPLAIN ANALYZE SELECT * FROM pedidos WHERE cliente_id = 42;
+
+-- Experimento 3: Com BUFFERS (mostra uso de cache)
+-- EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM pedidos WHERE cliente_id = 42;`);
+
+    initPGLite('editor-parallel', SEED, `-- No Docker com 500k linhas: aparece Parallel Seq Scan + Gather
+-- No PGLite com 50k linhas: Seq Scan simples (volume menor)
+EXPLAIN SELECT COUNT(*), SUM(total) FROM pedidos;`);
+
+    initPGLite('editor-join', SEED, `-- Hash Join entre pedidos e clientes (sem índice no join)
+EXPLAIN
+SELECT p.id, c.nome, p.total
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE p.status = 'ativo';`);
+
+    initPGLite('editor-exercicio', SEED, `-- Query problemática — identifique o problema:
+EXPLAIN ANALYZE
+SELECT p.id, p.total, p.status, c.nome, c.email
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE p.status = 'ativo'
+  AND p.total > 500;`);
+
+    const questions = [
+      {
+        text: "Dado o plano abaixo, qual é o problema?\n\nSeq Scan on pedidos  (cost=0.00..15234.00 rows=500000 width=52)\n                     (actual rows=3 loops=1)",
+        options: [
+          "A query retornou muitas linhas",
+          "O planejador estimou 500.000 linhas mas retornou apenas 3 — estatísticas desatualizadas",
+          "O Seq Scan é sempre um problema independente do contexto",
+          "O custo está muito baixo"
+        ],
+        correct: 1,
+        feedback: "A diferença entre 'rows=500000' (estimativa) e 'actual rows=3' (real) indica estatísticas muito desatualizadas. A solução é rodar ANALYZE na tabela."
+      },
+      {
+        text: "Qual estratégia de join o PostgreSQL tende a usar quando ambas as tabelas são grandes e não há índice na coluna de join?",
+        options: ["Nested Loop Join","Merge Join","Hash Join","Index Join"],
+        correct: 2,
+        feedback: "Hash Join é a estratégia para tabelas grandes sem índice na coluna de join. O PostgreSQL constrói uma hash table da menor tabela na memória (work_mem) e varre a maior."
+      },
+      {
+        text: "O que o Index Only Scan faz de diferente do Index Scan comum?",
+        options: [
+          "Ele usa um índice diferente do B-Tree",
+          "Ele lê os dados direto do índice sem acessar a tabela (heap)",
+          "Ele só funciona com chaves primárias",
+          "Ele é mais lento mas mais preciso"
+        ],
+        correct: 1,
+        feedback: "No Index Only Scan, todas as colunas necessárias estão no índice — o PostgreSQL não precisa acessar a tabela principal (heap), reduzindo drasticamente o I/O."
+      }
+    ];
+    initQuiz('quiz-m2', questions, 'm2');
+
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
+    window.copyCode = (btn) => {
+      const code = btn.nextElementSibling.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => btn.textContent = 'Copiar', 2000);
+      });
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3A — Índices · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  <style>
+    :root { --module-color: #1B5D8A; }
+    .index-tag {
+      display: inline-block; font-family: var(--font-mono); font-weight: 700;
+      font-size: 1.125rem; color: var(--module-color); margin-bottom: 0.375rem;
+    }
+    .no-use {
+      font-size: 0.8125rem; color: #DC2626; background: #FEF2F2;
+      border-radius: 4px; padding: 0.25rem 0.625rem; margin-top: 0.625rem;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div class="module-label">● M3A · Índices</div>
+      <h1>Tipos de Índice e Estratégias</h1>
+      <div class="meta">
+        <span class="badge badge-gray">PGLite (navegador)</span>
+      </div>
+    </header>
+
+    <!-- ========== SEÇÃO 1: TIPOS DE ÍNDICE (slides — 1 tipo por slide) ========== -->
+    <section class="section">
+      <div class="section-title">1 · Tipos de Índice no PostgreSQL</div>
+
+      <div id="slides-tipos" class="slides-container">
+
+        <!-- Slide 1: B-Tree -->
+        <div class="slide">
+          <h3>B-Tree — Balanced Tree <span class="badge badge-blue" style="font-size:0.7rem">padrão</span></h3>
+          <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> igualdade, intervalo, ordenação, prefixo de string</p>
+          <pre><code class="language-sql">CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
+CREATE INDEX idx_pedidos_criado  ON pedidos(criado_em);
+
+-- ✅ Funciona para:
+SELECT * FROM pedidos WHERE cliente_id = 42;
+SELECT * FROM pedidos WHERE criado_em BETWEEN '2024-01-01' AND '2024-12-31';
+SELECT * FROM clientes WHERE nome LIKE 'João%';  -- prefixo</code></pre>
+          <span class="no-use">✗ NÃO funciona: <code>LIKE '%João%'</code> (busca no meio da string)</span>
+          <div class="concept-card mt-3">
+            <p class="text-sm"><strong>Por que é o padrão?</strong> Suporta os operadores mais comuns (<code>=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>BETWEEN</code>, <code>IN</code>) e pode ser usado em ordenações — um único B-Tree frequentemente elimina Sort + Seq Scan.</p>
+          </div>
+        </div>
+
+        <!-- Slide 2: GIN -->
+        <div class="slide">
+          <h3>GIN — Generalized Inverted Index</h3>
+          <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> JSONB, arrays, full-text search — dados compostos</p>
+          <pre><code class="language-sql">CREATE INDEX idx_metadata_gin ON produtos USING GIN(metadata);
+CREATE INDEX idx_tags_gin     ON artigos  USING GIN(tags);
+
+-- ✅ Funciona para:
+SELECT * FROM produtos WHERE metadata @> '{"cor": "azul"}';
+SELECT * FROM artigos  WHERE tags @> ARRAY['postgresql'];</code></pre>
+          <span class="no-use">✗ NÃO usar para colunas escalares simples (use B-Tree)</span>
+          <div class="concept-card mt-3">
+            <p class="text-sm"><strong>Como funciona?</strong> O GIN indexa cada elemento individualmente (cada chave do JSON, cada item do array). É maior e mais lento de construir que B-Tree, mas muito mais rápido para buscas em dados compostos.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: GiST -->
+        <div class="slide">
+          <h3>GiST — Generalized Search Tree</h3>
+          <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> dados geométricos, ranges, full-text search por proximidade</p>
+          <pre><code class="language-sql">CREATE INDEX idx_localizacao ON lojas  USING GIST(coordenadas);
+CREATE INDEX idx_periodo      ON eventos USING GIST(periodo); -- tsrange
+
+-- ✅ Funciona para:
+SELECT * FROM lojas   WHERE coordenadas <-> POINT(0,0) < 10;
+SELECT * FROM eventos WHERE periodo @> NOW();</code></pre>
+          <span class="no-use">✗ NÃO usar para igualdades simples (B-Tree é mais eficiente)</span>
+          <div class="concept-card mt-3">
+            <p class="text-sm"><strong>vs GIN:</strong> GiST suporta mais tipos de dados (geometria, ranges) mas é mais genérico. Para JSONB e arrays, GIN é mais rápido. Para geometria e sobreposição de ranges, GiST é a escolha certa.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4: BRIN -->
+        <div class="slide">
+          <h3>BRIN — Block Range INdex</h3>
+          <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> tabelas muito grandes com dados naturalmente ordenados por inserção</p>
+          <pre><code class="language-sql">CREATE INDEX idx_logs_data ON logs USING BRIN(criado_em);
+
+-- ✅ Ótimo para: logs, séries temporais inseridas em ordem
+-- BRIN armazena apenas min/max por bloco de páginas
+-- Muito pequeno — dezenas de KB mesmo para tabelas de TB</code></pre>
+          <span class="no-use">✗ NÃO usar se dados forem inseridos fora de ordem cronológica</span>
+          <div class="concept-card mt-3">
+            <p class="text-sm"><strong>Por que tão pequeno?</strong> BRIN não indexa cada linha, mas cada <em>bloco de páginas</em> — armazena apenas o valor mínimo e máximo do bloco. Se você busca por data e as linhas foram inseridas em ordem de data, o BRIN descarta blocos inteiros muito eficientemente.</p>
+          </div>
+        </div>
+
+      </div><!-- /slides-tipos -->
+    </section>
+
+    <!-- ========== SEÇÃO 2: PARCIAL / COMPOSTO / COBRIDOR (slides) ========== -->
+    <section class="section">
+      <div class="section-title">2 · Índice Parcial, Composto e Cobridor</div>
+
+      <div id="slides-estrategias" class="slides-container">
+
+        <!-- Slide 1: Índice Parcial -->
+        <div class="slide">
+          <h3>Índice Parcial</h3>
+          <p class="text-sm text-muted mb-2">Indexa apenas um <strong>subconjunto de linhas</strong> — muito menor e mais rápido que indexar toda a tabela.</p>
+          <pre><code class="language-sql">-- Indexa apenas as linhas onde status = 'ativo'
+CREATE INDEX idx_pedidos_ativo ON pedidos(cliente_id)
+WHERE status = 'ativo';
+
+-- Só será usado quando a query incluir: WHERE status = 'ativo'
+SELECT * FROM pedidos WHERE cliente_id = 42 AND status = 'ativo';
+-- ✅ usa idx_pedidos_ativo
+
+SELECT * FROM pedidos WHERE cliente_id = 42;
+-- ✗ não usa (falta a condição WHERE status = 'ativo')</code></pre>
+          <div class="banner banner-info mt-3">
+            <span class="banner-icon">💡</span>
+            <div class="banner-content">
+              Se apenas 5% das linhas têm <code>status = 'ativo'</code>, o índice parcial é
+              <strong>20× menor</strong> que um índice completo — menos I/O, menor footprint em RAM.
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Índice Composto + Leftmost Prefix -->
+        <div class="slide">
+          <h3>Índice Composto — Leftmost Prefix Rule</h3>
+          <p class="text-sm text-muted mb-2">O índice só é usado se a query filtrar pela <strong>primeira coluna</strong> (ou pelas primeiras, em ordem).</p>
+          <pre><code class="language-sql">CREATE INDEX idx_pedidos_comp
+ON pedidos(status, cliente_id, criado_em);
+
+-- ✅ FUNCIONA (usa o índice):
+WHERE status = 'ativo'
+WHERE status = 'ativo' AND cliente_id = 42
+WHERE status = 'ativo' AND cliente_id = 42 AND criado_em > '2024-01-01'
+
+-- ✗ NÃO usa o índice:
+WHERE cliente_id = 42           -- pula 'status' (1ª coluna)
+WHERE criado_em > '2024-01-01'  -- pula as duas primeiras</code></pre>
+          <div class="concept-card mt-3">
+            <h4>Regra prática</h4>
+            <p class="text-sm">Coloque as colunas de igualdade (<code>=</code>) primeiro, depois as de intervalo (<code>&gt;</code>, <code>&lt;</code>, <code>BETWEEN</code>). A coluna mais seletiva (menos repetida) deve vir antes quando há múltiplas igualdades.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Índice Cobridor -->
+        <div class="slide">
+          <h3>Índice Cobridor — Index Only Scan</h3>
+          <p class="text-sm text-muted mb-2">Quando o índice contém todas as colunas necessárias, o PostgreSQL <strong>não precisa acessar a tabela</strong>.</p>
+          <pre><code class="language-sql">-- A query precisa de: id, total, status
+-- Criar índice que cobre todas essas colunas:
+CREATE INDEX idx_pedidos_cobridor ON pedidos(cliente_id)
+INCLUDE (total, status);
+
+-- Agora esta query usa Index Only Scan (não acessa a tabela):
+SELECT id, total, status FROM pedidos WHERE cliente_id = 42;
+
+-- EXPLAIN mostrará:
+-- Index Only Scan using idx_pedidos_cobridor on pedidos
+--   (cost=0.29..0.51 rows=5 width=32)</code></pre>
+          <div class="banner banner-info mt-3">
+            <span class="banner-icon">💡</span>
+            <div class="banner-content">
+              <code>INCLUDE()</code> adiciona colunas ao índice sem indexá-las — elas ficam
+              armazenadas nas folhas do B-Tree para leitura, mas não criam entradas extras.
+              Isso evita o acesso à tabela (heap) sem inflar o tamanho do índice tanto quanto indexar.
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Trade-offs -->
+        <div class="slide">
+          <h3>Trade-offs dos Índices</h3>
+          <div class="banner banner-warning mb-3">
+            <span class="banner-icon">⚠️</span>
+            <div class="banner-content">
+              <strong>Índices têm custo de manutenção:</strong>
+              cada INSERT/UPDATE/DELETE precisa atualizar todos os índices da tabela.
+              Use com moderação.
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="styled">
+              <thead><tr><th>Situação</th><th>Recomendação</th></tr></thead>
+              <tbody>
+                <tr><td>Tabela com muitos INSERTs (ex: logs)</td><td>Poucos índices, considere BRIN</td></tr>
+                <tr><td>Coluna com alta cardinalidade e usada em WHERE</td><td>B-Tree simples</td></tr>
+                <tr><td>Query com filtro parcial (WHERE status = 'X')</td><td>Índice parcial</td></tr>
+                <tr><td>Query precisa de várias colunas do SELECT</td><td>Índice cobridor com INCLUDE</td></tr>
+                <tr><td>Índice nunca usado</td><td>Remover! Use <code>pg_stat_user_indexes</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block-wrapper mt-2">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Verificar índices não utilizados:
+SELECT schemaname, tablename, indexname, idx_scan
+FROM pg_stat_user_indexes
+WHERE idx_scan = 0
+ORDER BY pg_relation_size(indexrelid) DESC;</code></pre>
+          </div>
+        </div>
+
+      </div><!-- /slides-estrategias -->
+    </section>
+
+    <!-- ========== SEÇÃO 3: EXERCÍCIO ========== -->
+    <section class="section">
+      <div class="section-title">3 · Exercício — Aplicar Índice Correto</div>
+      <div class="banner banner-info mb-3">
+        <span class="banner-icon">💼</span>
+        <div class="banner-content">
+          <strong>Cenário:</strong> A query abaixo é executada milhares de vezes por dia e consome
+          40% da CPU do banco. Analise o plano, identifique o problema e aplique a solução.
+        </div>
+      </div>
+
+      <p class="text-sm text-muted mb-1"><strong>Passo 1:</strong> Analise o plano ANTES de qualquer otimização</p>
+      <div id="editor-ex1"></div>
+
+      <p class="text-sm text-muted mt-3 mb-1"><strong>Passo 2:</strong> Crie o índice mais adequado e verifique a melhora</p>
+      <div id="editor-ex2"></div>
+
+      <div class="accordion mt-3">
+        <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+          <span>✅ Gabarito — Solução ótima</span><span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <pre><code class="language-sql">-- Solução ótima: índice parcial + cobridor
+CREATE INDEX idx_pedidos_ativo_cliente ON pedidos(cliente_id, criado_em DESC)
+INCLUDE (total, status)
+WHERE status = 'ativo';
+
+-- Por que esse índice?
+-- 1. WHERE status = 'ativo' → índice parcial (menor, mais rápido)
+-- 2. cliente_id na posição 1 → atende o filtro principal
+-- 3. criado_em DESC na posição 2 → atende o ORDER BY sem Sort extra
+-- 4. INCLUDE (total, status) → Index Only Scan (não acessa a tabela)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SEÇÃO 4: QUIZ ========== -->
+    <section class="section">
+      <div class="section-title">4 · Avaliação Formativa</div>
+      <div id="quiz-m3a"></div>
+      <div class="finalidade-box mt-4">
+        <div class="icon">🎯</div>
+        <div class="content">
+          <strong>Finalidade deste módulo</strong>
+          <p>Escolher o tipo e a estratégia de índice adequados para cada cenário.
+          Você conhece B-Tree, GIN, GiST e BRIN, e sabe quando usar índices parciais, compostos e cobridores.</p>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <a href="../m2/" class="btn-secondary">← M2</a>
+        <a href="../m3b/" class="btn-primary">Próximo → M3B Reescrita</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { markModuleStarted } from '../assets/progress.js';
+    import { initPGLite } from '../assets/pglite-editor.js';
+    import { initQuiz } from '../assets/quiz.js';
+    import { initSlides } from '../assets/slides.js';
+
+    markModuleStarted('m3a');
+    initNav('m3a');
+    initSlides('slides-tipos');
+    initSlides('slides-estrategias');
+
+    const SEED = `
+CREATE TABLE clientes (id SERIAL PRIMARY KEY, nome VARCHAR(100), email VARCHAR(150), cidade VARCHAR(80));
+CREATE TABLE pedidos (id SERIAL PRIMARY KEY, cliente_id INTEGER, status VARCHAR(20), total NUMERIC(10,2), criado_em TIMESTAMP DEFAULT NOW());
+INSERT INTO clientes SELECT i, 'Cliente ' || i, 'cliente' || i || '@email.com',
+  CASE (i%5) WHEN 0 THEN 'São Paulo' WHEN 1 THEN 'Rio de Janeiro' WHEN 2 THEN 'Curitiba' WHEN 3 THEN 'Belo Horizonte' ELSE 'Porto Alegre' END
+FROM generate_series(1,10000) i;
+INSERT INTO pedidos SELECT i, (random()*9999+1)::int,
+  CASE (i%3) WHEN 0 THEN 'pendente' WHEN 1 THEN 'ativo' ELSE 'cancelado' END,
+  (random()*1000)::numeric(10,2), NOW() - (random()*365 || ' days')::interval
+FROM generate_series(1,50000) i;`;
+
+    initPGLite('editor-ex1', SEED, `-- Passo 1: Analise o plano ANTES de qualquer otimização
+EXPLAIN ANALYZE
+SELECT id, total, status, criado_em
+FROM pedidos
+WHERE cliente_id = 1234
+  AND status = 'ativo'
+ORDER BY criado_em DESC
+LIMIT 10;`);
+
+    initPGLite('editor-ex2', SEED, `-- Passo 2: Crie o índice mais adequado
+-- (dica: pense em índice parcial + cobridor)
+
+-- Sua solução aqui:
+
+
+-- Passo 3: Verifique a melhora
+EXPLAIN ANALYZE
+SELECT id, total, status, criado_em
+FROM pedidos
+WHERE cliente_id = 1234
+  AND status = 'ativo'
+ORDER BY criado_em DESC
+LIMIT 10;`);
+
+    const questions = [
+      {
+        text: "Para uma coluna que armazena dados JSONB, qual tipo de índice é mais adequado?",
+        options: ["B-Tree","GIN","BRIN","Hash"],
+        correct: 1,
+        feedback: "GIN (Generalized Inverted Index) é o tipo correto para JSONB. O B-Tree não suporta operadores como @>. O GIN indexa cada chave/valor do JSON separadamente, permitindo buscas eficientes dentro de documentos JSON."
+      },
+      {
+        text: "Dado o índice: CREATE INDEX ON pedidos(status, cliente_id, total)\nQual query NÃO usará este índice?",
+        options: [
+          "WHERE status = 'ativo' AND cliente_id = 42",
+          "WHERE status = 'ativo'",
+          "WHERE cliente_id = 42 AND total > 100",
+          "WHERE status = 'ativo' AND cliente_id = 42 AND total > 100"
+        ],
+        correct: 2,
+        feedback: "A regra do prefixo mais à esquerda diz que o índice só é usado se a query filtrar pela primeira coluna (status). 'WHERE cliente_id = 42 AND total > 100' pula 'status', então o PostgreSQL não pode usar este índice."
+      },
+      {
+        text: "Em que condição o Index Only Scan é ativado?",
+        options: [
+          "Quando a tabela tem menos de 1000 linhas",
+          "Quando todas as colunas necessárias para a query estão presentes no índice",
+          "Quando o índice é do tipo BRIN",
+          "Quando a query usa ORDER BY"
+        ],
+        correct: 1,
+        feedback: "Index Only Scan ocorre quando o índice contém todos os dados que a query precisa. O PostgreSQL lê diretamente do índice sem acessar a tabela (heap). Use INCLUDE() para adicionar colunas extras ao índice."
+      },
+      {
+        text: "Por que o planejador pode ignorar um índice existente?",
+        options: [
+          "Porque o índice está corrompido",
+          "Porque a seletividade é baixa — o índice retornaria muitas linhas e o Seq Scan seria mais eficiente",
+          "Porque o PostgreSQL só usa índices em tabelas com mais de 1 milhão de linhas",
+          "Porque o índice não foi criado com CONCURRENTLY"
+        ],
+        correct: 1,
+        feedback: "O planejador compara o custo de usar o índice vs Seq Scan. Para baixa seletividade (ex: WHERE status = 'ativo' onde 90% das linhas são ativas), acessar o índice + buscar cada linha na tabela pode ser mais custoso que varrer a tabela sequencialmente."
+      }
+    ];
+    initQuiz('quiz-m3a', questions, 'm3a');
+
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    window.copyCode = (btn) => {
+      const code = btn.nextElementSibling.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => btn.textContent = 'Copiar', 2000);
+      });
+    };
+  </script>
+</body>
+</html>

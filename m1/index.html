@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M1 — Entendendo o Problema · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    :root { --module-color: #2B52A0; }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: var(--transition);
+      margin-bottom: -2px;
+    }
+    .tab-btn.active { color: var(--module-color); border-bottom-color: var(--module-color); }
+    .tab-btn:hover:not(.active) { color: var(--color-text); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Diagrama inline */
+    .flow-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .flow-node {
+      width: 100%;
+      text-align: center;
+      padding: 0.625rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 2px solid;
+    }
+    .flow-node.default { background: #EDE9FE; border-color: #C4B5FD; color: #3730A3; }
+    .flow-node.actor   { background: #FEF3C7; border-color: #F59E0B; color: #78350F; }
+    .flow-node.warn    { background: #FEE2E2; border-color: #FCA5A5; color: #7F1D1D; }
+    .flow-node.ok      { background: #DCFCE7; border-color: #86EFAC; color: #14532D; }
+    .flow-row { display: flex; width: 100%; gap: 0.75rem; justify-content: center; }
+    .flow-row .flow-node { flex: 1; }
+    .arrow-box {
+      text-align: center;
+      color: var(--module-color);
+      font-size: 1rem;
+      padding: 0.125rem 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .arrow-label { font-size: 0.65rem; color: var(--color-text-muted); font-style: italic; }
+  </style>
+</head>
+<body>
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div class="module-label">● M1 · Entendendo o Problema</div>
+      <h1>Custo de Queries e a Importância da Otimização</h1>
+      <div class="meta">
+        <span class="badge badge-gray">Navegador</span>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="conceito">1 · Conceito</button>
+      <button class="tab-btn" data-tab="demo">2 · Demo</button>
+      <button class="tab-btn" data-tab="quiz">3 · Avaliação Diagnóstica</button>
+    </div>
+
+    <!-- ========== TAB 1: CONCEITO (slides) ========== -->
+    <div class="tab-panel active" id="tab-conceito">
+      <div class="section">
+        <div class="section-title">CustoQuery — Conceito</div>
+
+        <div id="slides-m1-conceito" class="slides-container">
+
+          <!-- Slide 1: Definição -->
+          <div class="slide">
+            <h3>O que é Custo de Query?</h3>
+            <blockquote>
+              <strong>Custo</strong> é a estimativa do PostgreSQL do quanto de recursos —
+              CPU, I/O, memória e tempo — será necessário para executar uma consulta.
+              Não é o tempo real: é uma <strong>medida interna do planejador</strong>
+              para comparar planos alternativos e escolher o mais eficiente.
+            </blockquote>
+            <div class="banner banner-info mt-3">
+              <span class="banner-icon">💡</span>
+              <div class="banner-content">
+                O custo não tem unidade física. Um custo de <code>1000.00</code> não significa
+                "1000 milissegundos" — é uma estimativa relativa usada internamente.
+                Dois planos com custo <code>500</code> e <code>5000</code> nos dizem que
+                o primeiro é estimado como 10× mais eficiente.
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Ciclo da Consulta -->
+          <div class="slide">
+            <h3>Ciclo da Consulta</h3>
+            <p class="text-muted text-sm mb-3">O Desenvolvedor/DBA é o ator central — escreve, interpreta e otimiza.</p>
+            <div class="flow-col">
+              <div class="flow-node actor">👩‍💻 Desenvolvedor / DBA</div>
+              <div class="arrow-box"><span>↓</span><span class="arrow-label">escreve</span></div>
+              <div class="flow-node default">Consulta SQL</div>
+              <div class="arrow-box"><span>↓</span><span class="arrow-label">processada por</span></div>
+              <div class="flow-node default">PostgreSQL (SGBD)</div>
+              <div class="arrow-box"><span>↓</span><span class="arrow-label">gera</span></div>
+              <div class="flow-node default">Plano de Execução</div>
+              <div class="arrow-box"><span>↓</span><span class="arrow-label">determina</span></div>
+              <div class="flow-node default">Custo de Query</div>
+              <div class="flow-row" style="margin-top:0.25rem">
+                <div>
+                  <div class="arrow-box"><span>↙</span><span class="arrow-label">alto → motiva</span></div>
+                  <div class="flow-node warn">Otimização</div>
+                  <div class="arrow-box"><span>↑</span><span class="arrow-label">melhora ↺</span></div>
+                </div>
+                <div>
+                  <div class="arrow-box"><span>↘</span><span class="arrow-label">avalia</span></div>
+                  <div class="flow-node ok">Qualidade da Consulta</div>
+                  <div class="arrow-box"><span>↑</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Papel do DBA -->
+          <div class="slide">
+            <h3>Papel do Desenvolvedor / DBA</h3>
+            <div style="background:#FFFBEB;border:2px solid #F59E0B;border-radius:var(--radius-md);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+              <span style="font-size:2.5rem;flex-shrink:0">👩‍💻</span>
+              <div>
+                <p style="margin-bottom:0.75rem;font-size:1rem;">
+                  O Desenvolvedor ou DBA é quem:
+                </p>
+                <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.5rem;font-size:0.9375rem;">
+                  <li><strong>Escreve</strong> a consulta SQL</li>
+                  <li><strong>Interpreta</strong> o plano de execução com EXPLAIN</li>
+                  <li><strong>Identifica</strong> gargalos de performance</li>
+                  <li><strong>Aplica</strong> as otimizações (índices, reescrita, manutenção)</li>
+                </ul>
+                <p class="mt-2" style="font-size:0.9rem;color:#78350F;">
+                  <em>Este OA te equipa para esse papel.</em>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4: 4 Métricas -->
+          <div class="slide">
+            <h3>As 4 Métricas de Custo</h3>
+            <div class="slide-grid-2" style="margin-top:1rem">
+              <div class="metric-card">
+                <div class="metric-icon">⏱</div>
+                <h4>Tempo de Execução</h4>
+                <p>Quanto tempo o banco leva para retornar o resultado.</p>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">💾</div>
+                <h4>Uso de I/O</h4>
+                <p>Quantas páginas de disco são lidas.<br><code>seq_page_cost</code> · <code>random_page_cost</code></p>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">⚙️</div>
+                <h4>Uso de CPU</h4>
+                <p>Custo de processar cada linha.<br><code>cpu_tuple_cost</code> · <code>cpu_operator_cost</code></p>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">🧠</div>
+                <h4>Uso de Memória</h4>
+                <p>RAM necessária para sorts e hashes.<br><code>work_mem</code></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 5: Por que importa -->
+          <div class="slide">
+            <h3>Por que isso importa?</h3>
+            <blockquote>
+              Uma query com custo alto significa que o PostgreSQL está trabalhando muito
+              para responder. Isso impacta diretamente a <strong>performance da aplicação</strong>,
+              a <strong>experiência do usuário</strong> e o <strong>custo de infraestrutura</strong>.
+            </blockquote>
+            <div class="card-grid-2 mt-3">
+              <div class="concept-card">
+                <h4>🐌 Query sem otimização</h4>
+                <p class="text-sm">Seq Scan em 500k linhas: <strong>~200ms por requisição</strong>. Com 1.000 req/min → 3,3 min de CPU/min despendidos só nessa query.</p>
+              </div>
+              <div class="concept-card">
+                <h4>⚡ Query otimizada</h4>
+                <p class="text-sm">Index Scan com índice adequado: <strong>~0,1ms por requisição</strong>. Redução de 2000× no tempo — mesma infraestrutura, muito mais capacidade.</p>
+              </div>
+            </div>
+            <div class="finalidade-box mt-3">
+              <div class="icon">🎯</div>
+              <div class="content">
+                <strong>Próximo passo</strong>
+                <p>Vá para o tab <strong>Demo</strong> para ver uma query lenta em ação, ou para <strong>Avaliação Diagnóstica</strong> para testar seu conhecimento atual.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /slides-m1-conceito -->
+      </div>
+    </div><!-- /tab-conceito -->
+
+    <!-- ========== TAB 2: DEMO ========== -->
+    <div class="tab-panel" id="tab-demo">
+      <div class="section">
+        <div class="section-title">QueryLenta — Exemplo em Vídeo</div>
+        <p class="text-muted text-sm mb-3">
+          O vídeo demonstra uma query sem índice em tabela com 500k linhas,
+          o diagnóstico com EXPLAIN ANALYZE e a criação do índice que resolve o problema.
+        </p>
+
+        <div id="video-container">
+          <video id="demo-video" class="video-container" controls preload="none"
+            src="../assets/video/query-lenta.mp4"></video>
+        </div>
+        <div id="video-fallback" style="display:none">
+          <div class="video-placeholder">
+            <p>📹 <strong>Vídeo em produção.</strong></p>
+            <p>Use o editor abaixo para reproduzir o mesmo cenário interativamente.</p>
+            <p class="text-sm" style="margin-top:0.75rem;color:#666">
+              Instruções de gravação: <code>assets/video/README.txt</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="accordion mt-3">
+          <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+            <span>📄 SQL mostrado no vídeo (referência)</span>
+            <span class="accordion-arrow">▼</span>
+          </button>
+          <div class="accordion-body">
+            <pre><code>-- Query lenta: busca sem índice em 500.000 linhas
+SELECT * FROM pedidos WHERE cliente_id = 42;
+
+-- Diagnóstico com EXPLAIN ANALYZE
+EXPLAIN ANALYZE SELECT * FROM pedidos WHERE cliente_id = 42;
+
+-- Saída esperada (Seq Scan):
+-- Seq Scan on pedidos  (cost=0.00..12543.00 rows=47 width=52)
+--                      (actual time=0.089..198.432 rows=47 loops=1)
+-- Planning Time: 0.8 ms  |  Execution Time: 198.5 ms
+
+-- Criar o índice:
+CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
+
+-- Após o índice — Index Scan:
+-- Index Scan  (cost=0.42..1.85 rows=10 width=52)
+--             (actual time=0.032..0.041 rows=10 loops=1)
+-- Execution Time: 0.12 ms</code></pre>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-demo -->
+
+    <!-- ========== TAB 3: QUIZ ========== -->
+    <div class="tab-panel" id="tab-quiz">
+      <div class="section">
+        <div class="section-title">Avaliação Diagnóstica</div>
+        <div class="banner banner-info mb-3">
+          <span class="banner-icon">ℹ</span>
+          <div class="banner-content">
+            <strong>O que você já sabe?</strong>
+            Responda estas 3 questões antes de continuar.
+            Elas avaliam seu conhecimento prévio — não se preocupe se errar.
+          </div>
+        </div>
+
+        <div id="quiz-m1"></div>
+
+        <div class="finalidade-box mt-4">
+          <div class="icon">🎯</div>
+          <div class="content">
+            <strong>Finalidade deste módulo</strong>
+            <p>
+              Sensibilizar sobre o custo de queries e a importância da otimização.
+              Ao terminar este módulo, você saberá o que é custo, quais métricas o compõem
+              e por que isso importa na prática.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 flex gap-2">
+          <a href="../index.html" class="btn-secondary">← Início</a>
+          <a href="../m2/" class="btn-primary">Próximo → M2 Diagnóstico</a>
+        </div>
+      </div>
+    </div><!-- /tab-quiz -->
+
+  </div>
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { markModuleStarted } from '../assets/progress.js';
+    import { initQuiz } from '../assets/quiz.js';
+    import { initSlides } from '../assets/slides.js';
+
+    markModuleStarted('m1');
+    initNav('m1');
+    initSlides('slides-m1-conceito');
+
+    // Fallback de vídeo
+    const video = document.getElementById('demo-video');
+    if (video) {
+      const showFallback = () => {
+        video.closest('#video-container').style.display = 'none';
+        document.getElementById('video-fallback').style.display = '';
+      };
+      video.addEventListener('error', showFallback);
+      fetch('../assets/video/query-lenta.mp4', { method: 'HEAD' }).catch(showFallback);
+    }
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Quiz
+    const questions = [
+      {
+        text: "O que é um Seq Scan no PostgreSQL?",
+        options: [
+          "Uma leitura sequencial de todas as linhas de uma tabela",
+          "Uma busca usando índice em uma coluna específica",
+          "Um tipo especial de JOIN entre duas tabelas",
+          "Um comando para verificar o espaço em disco"
+        ],
+        correct: 0,
+        feedback: "Seq Scan (Sequential Scan) é quando o PostgreSQL lê todas as linhas de uma tabela da primeira à última, sem usar índice. Eficiente para tabelas pequenas, muito custoso para tabelas grandes."
+      },
+      {
+        text: "O que significa o campo 'cost' na saída do EXPLAIN?",
+        options: [
+          "O tempo em segundos que a query vai demorar",
+          "O custo em créditos de cloud para executar a query",
+          "Uma estimativa interna do planejador para comparar planos alternativos",
+          "O número de linhas que serão retornadas"
+        ],
+        correct: 2,
+        feedback: "O 'cost' é uma unidade interna arbitrária usada pelo planejador do PostgreSQL para comparar diferentes planos de execução. Não é tempo real nem dinheiro — é um número relativo que ajuda o PostgreSQL a escolher o plano mais eficiente."
+      },
+      {
+        text: "Qual métrica de custo está relacionada à leitura de páginas do disco?",
+        options: [
+          "cpu_tuple_cost",
+          "work_mem",
+          "seq_page_cost e random_page_cost",
+          "max_connections"
+        ],
+        correct: 2,
+        feedback: "seq_page_cost é o custo estimado de ler uma página de disco sequencialmente (padrão: 1.0). random_page_cost é o custo de ler uma página de forma aleatória (padrão: 4.0). Essas configurações afetam quando o planejador decide usar ou não um índice."
+      }
+    ];
+    initQuiz('quiz-m1', questions, 'm1');
+  </script>
+</body>
+</html>

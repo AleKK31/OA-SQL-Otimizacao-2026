@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação Final · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  <style>
+    :root { --module-color: #1F4D13; }
+
+    #bloqueado {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    #bloqueado h2 { margin-bottom: 1rem; color: var(--color-text-muted); }
+
+    .pending-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      text-align: left;
+      display: inline-flex;
+    }
+
+    .pending-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9375rem;
+    }
+
+    .pending-list .done { color: var(--color-success); }
+    .pending-list .todo { color: var(--color-error); }
+
+    .query-block {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .query-header {
+      background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .query-num {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: var(--module-color);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9375rem;
+      flex-shrink: 0;
+    }
+
+    .query-title { font-weight: 700; font-size: 1rem; flex: 1; }
+
+    .query-solved-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: #DCFCE7;
+      color: #166534;
+      border-radius: 99px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .query-body { padding: 1.5rem; }
+
+    .etapa-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .etapa-label .etapa-num {
+      width: 1.375rem;
+      height: 1.375rem;
+      border-radius: 50%;
+      background: var(--color-border);
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .etapa-label.done .etapa-num {
+      background: var(--color-success);
+      color: #fff;
+    }
+
+    .quiz-inline .quiz-card {
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      margin: 0;
+    }
+
+    .score-final {
+      background: linear-gradient(135deg, #3B6D11, #2D5A0D);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .score-final .big-num {
+      font-size: 4.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-final .score-sub {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .review-table td, .review-table th {
+      padding: 0.625rem 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+
+    <header class="page-header">
+      <div class="module-label">● Avaliação Final</div>
+      <h1>Avaliação Somativa — Diagnóstico e Correção de Queries</h1>
+      <div class="meta">
+        <span class="badge badge-green">Avaliar</span>
+        <span class="badge badge-gray">~20 min</span>
+        <span class="badge badge-gray">PGLite + Docker (Q5)</span>
+      </div>
+    </header>
+
+    <!-- BLOQUEIO -->
+    <div id="bloqueado" class="hidden">
+      <div style="font-size:3rem; margin-bottom:1rem">🔒</div>
+      <h2>Avaliação Final Bloqueada</h2>
+      <p class="text-muted">Complete todos os módulos abaixo para desbloquear:</p>
+      <ul class="pending-list" id="pending-modules"></ul>
+      <a href="../index.html" class="btn-primary mt-3">← Voltar ao início</a>
+    </div>
+
+    <!-- CONTEÚDO DA AF -->
+    <div id="af-content">
+
+      <div class="banner banner-info mb-4">
+        <span class="banner-icon">📋</span>
+        <div class="banner-content">
+          <strong>Instruções gerais:</strong>
+          Para cada query abaixo: (1) execute com EXPLAIN ANALYZE e identifique o problema,
+          (2) escreva e execute a solução, (3) confirme a melhora respondendo a questão de verificação.
+          A query é marcada como "resolvida" quando você acerta as múltiplas escolhas das etapas 1 e 3.
+        </div>
+      </div>
+
+      <!-- ========================
+           QUERY 1
+           ======================== -->
+      <div class="query-block" id="qblock-1">
+        <div class="query-header">
+          <div class="query-num">1</div>
+          <div class="query-title">Seq Scan por índice ausente</div>
+          <div id="solved-pill-1" class="query-solved-pill hidden">✓ Resolvida</div>
+        </div>
+        <div class="query-body">
+          <p class="mb-3">
+            <strong>Cenário:</strong> O sistema de relatórios executa esta query a cada 10 minutos.
+            Ela demora 8 segundos. <strong>Diagnostique e corrija.</strong>
+          </p>
+
+          <div class="etapa-label" id="etapa-1-1"><span class="etapa-num">1</span> Etapa 1 — Diagnóstico</div>
+          <div id="editor-q1"></div>
+
+          <div class="mt-3" id="quiz-diag-1-wrapper">
+            <div class="etapa-label"><span class="etapa-num">?</span> Qual é o problema desta query?</div>
+            <div id="quiz-diag-1" class="quiz-inline"></div>
+          </div>
+
+          <div class="etapa-label mt-3" id="etapa-1-2"><span class="etapa-num">2</span> Etapa 2 — Solução</div>
+          <div id="editor-sol-1"></div>
+
+          <div class="mt-3" id="quiz-verify-1-wrapper" style="display:none">
+            <div class="etapa-label"><span class="etapa-num">?</span> Após aplicar sua solução, qual nó aparece no plano?</div>
+            <div id="quiz-verify-1" class="quiz-inline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================
+           QUERY 2
+           ======================== -->
+      <div class="query-block" id="qblock-2">
+        <div class="query-header">
+          <div class="query-num">2</div>
+          <div class="query-title">Função em coluna do WHERE</div>
+          <div id="solved-pill-2" class="query-solved-pill hidden">✓ Resolvida</div>
+        </div>
+        <div class="query-body">
+          <p class="mb-3">
+            <strong>Cenário:</strong> Esta query de relatório mensal consome 15 segundos.
+            O índice em <code>criado_em</code> existe mas não está sendo usado.
+            <strong>Por quê? Corrija.</strong>
+          </p>
+
+          <div class="etapa-label"><span class="etapa-num">1</span> Etapa 1 — Diagnóstico</div>
+          <div id="editor-q2"></div>
+
+          <div class="mt-3" id="quiz-diag-2-wrapper">
+            <div class="etapa-label"><span class="etapa-num">?</span> Qual é o problema desta query?</div>
+            <div id="quiz-diag-2" class="quiz-inline"></div>
+          </div>
+
+          <div class="etapa-label mt-3"><span class="etapa-num">2</span> Etapa 2 — Solução</div>
+          <div id="editor-sol-2"></div>
+
+          <div class="mt-3" id="quiz-verify-2-wrapper" style="display:none">
+            <div class="etapa-label"><span class="etapa-num">?</span> Após a correção, o índice será usado?</div>
+            <div id="quiz-verify-2" class="quiz-inline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================
+           QUERY 3
+           ======================== -->
+      <div class="query-block" id="qblock-3">
+        <div class="query-header">
+          <div class="query-num">3</div>
+          <div class="query-title">JOIN sem índice</div>
+          <div id="solved-pill-3" class="query-solved-pill hidden">✓ Resolvida</div>
+        </div>
+        <div class="query-body">
+          <p class="mb-3">
+            <strong>Cenário:</strong> Esta query demora 3 segundos mesmo com poucos resultados.
+            <strong>Identifique o problema no plano e resolva.</strong>
+          </p>
+
+          <div class="etapa-label"><span class="etapa-num">1</span> Etapa 1 — Diagnóstico</div>
+          <div id="editor-q3"></div>
+
+          <div class="mt-3" id="quiz-diag-3-wrapper">
+            <div class="etapa-label"><span class="etapa-num">?</span> Qual é o problema?</div>
+            <div id="quiz-diag-3" class="quiz-inline"></div>
+          </div>
+
+          <div class="etapa-label mt-3"><span class="etapa-num">2</span> Etapa 2 — Solução</div>
+          <div id="editor-sol-3"></div>
+
+          <div class="mt-3" id="quiz-verify-3-wrapper" style="display:none">
+            <div class="etapa-label"><span class="etapa-num">?</span> Após criar os índices, qual estratégia de join aparece?</div>
+            <div id="quiz-verify-3" class="quiz-inline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================
+           QUERY 4
+           ======================== -->
+      <div class="query-block" id="qblock-4">
+        <div class="query-header">
+          <div class="query-num">4</div>
+          <div class="query-title">OFFSET elevado</div>
+          <div id="solved-pill-4" class="query-solved-pill hidden">✓ Resolvida</div>
+        </div>
+        <div class="query-body">
+          <p class="mb-3">
+            <strong>Cenário:</strong> O endpoint de paginação fica mais lento a cada página.
+            Na página 500 (OFFSET 9980), demora 4 segundos.
+            <strong>Por que fica mais lento? Reescreva com keyset pagination.</strong>
+          </p>
+
+          <div class="etapa-label"><span class="etapa-num">1</span> Etapa 1 — Diagnóstico</div>
+          <div id="editor-q4"></div>
+
+          <div class="mt-3" id="quiz-diag-4-wrapper">
+            <div class="etapa-label"><span class="etapa-num">?</span> Por que o OFFSET fica mais lento a cada página?</div>
+            <div id="quiz-diag-4" class="quiz-inline"></div>
+          </div>
+
+          <div class="etapa-label mt-3"><span class="etapa-num">2</span> Etapa 2 — Solução (keyset pagination)</div>
+          <div id="editor-sol-4"></div>
+
+          <div class="mt-3" id="quiz-verify-4-wrapper" style="display:none">
+            <div class="etapa-label"><span class="etapa-num">?</span> Qual é a vantagem do keyset pagination?</div>
+            <div id="quiz-verify-4" class="quiz-inline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================
+           QUERY 5 (DOCKER)
+           ======================== -->
+      <div class="query-block" id="qblock-5">
+        <div class="query-header">
+          <div class="query-num">5</div>
+          <div class="query-title">Estatísticas desatualizadas</div>
+          <div id="solved-pill-5" class="query-solved-pill hidden">✓ Resolvida</div>
+        </div>
+        <div class="query-body">
+
+          <div class="banner banner-docker mb-3">
+            <span class="banner-icon">🐳</span>
+            <div class="banner-content">
+              <strong>Esta query requer o Docker.</strong>
+              Certifique-se de que o banco está rodando:
+              <code>docker compose up -d</code> (pasta <code>docker/</code>).
+            </div>
+          </div>
+
+          <p class="mb-3">
+            <strong>Cenário:</strong> O planejador está escolhendo um plano claramente errado para
+            a tabela <code>pedidos_arquivo</code>. O EXPLAIN mostra estimativas completamente erradas.
+            <strong>Identifique a causa e corrija sem mudar a query.</strong>
+          </p>
+
+          <div class="etapa-label"><span class="etapa-num">1</span> Etapa 1 — Diagnóstico (execute no Docker)</div>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Passo 1: Ver o plano atual
+EXPLAIN ANALYZE
+SELECT COUNT(*) FROM pedidos_arquivo WHERE status = 'ativo';
+
+-- Passo 2: Ver as estatísticas atuais
+SELECT last_analyze, n_live_tup, n_dead_tup
+FROM pg_stat_user_tables
+WHERE relname = 'pedidos_arquivo';</code></pre>
+          </div>
+
+          <div class="mt-3" id="quiz-diag-5-wrapper">
+            <div class="etapa-label"><span class="etapa-num">?</span> Qual é a causa das estimativas erradas?</div>
+            <div id="quiz-diag-5" class="quiz-inline"></div>
+          </div>
+
+          <div class="etapa-label mt-3"><span class="etapa-num">2</span> Etapa 2 — Solução (execute no Docker)</div>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Solução: atualizar estatísticas e remover tuplas mortas
+VACUUM ANALYZE pedidos_arquivo;
+
+-- Verificar melhora:
+EXPLAIN ANALYZE
+SELECT COUNT(*) FROM pedidos_arquivo WHERE status = 'ativo';
+-- Agora rows estimado ≈ actual rows</code></pre>
+          </div>
+
+          <div class="mt-3" id="quiz-verify-5-wrapper" style="display:none">
+            <div class="etapa-label"><span class="etapa-num">?</span> O que o VACUUM ANALYZE faz?</div>
+            <div id="quiz-verify-5" class="quiz-inline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PONTUAÇÃO FINAL -->
+      <div id="score-section" class="hidden">
+        <div class="score-final">
+          <div class="big-num" id="score-num">0/5</div>
+          <div class="score-sub" id="score-msg">Calculando...</div>
+        </div>
+
+        <div class="table-wrapper mt-3">
+          <table class="styled review-table">
+            <thead>
+              <tr>
+                <th>Query</th>
+                <th>Problema</th>
+                <th>Módulo para revisar</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="review-tbody"></tbody>
+          </table>
+        </div>
+
+        <div id="revisao-msg" class="banner banner-warning hidden mt-3">
+          <span class="banner-icon">📚</span>
+          <div class="banner-content">
+            <strong>Revise os módulos antes de finalizar.</strong>
+            Você precisa de pelo menos 3 queries resolvidas para concluir o OA.
+          </div>
+        </div>
+
+        <div id="concluir-wrapper" class="hidden mt-3 text-center">
+          <button class="btn-primary" id="btn-concluir" style="font-size:1rem; padding:0.875rem 2rem;">
+            🎓 Concluir OA
+          </button>
+        </div>
+
+        <div id="concluido-msg" class="banner banner-info hidden mt-3">
+          <span class="banner-icon">🎉</span>
+          <div class="banner-content">
+            <strong>Parabéns! OA concluído com sucesso.</strong>
+            <p>Seu progresso foi salvo. Você pode continuar revisando os módulos quando quiser.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /af-content -->
+
+  </div>
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { canAccessFinal, getModuleStatus, markModuleComplete } from '../assets/progress.js';
+    import { initPGLite } from '../assets/pglite-editor.js';
+
+    initNav('af');
+
+    // ── Guard check ──────────────────────────────────────────────
+    const REQUIRED = ['m1','m2','m3a','m3b','m3c'];
+    const MOD_LABELS = { m1:'1', m2:'2', m3a:'3.1', m3b:'3.2', m3c:'3.3' };
+
+    if (!canAccessFinal()) {
+      document.getElementById('bloqueado').classList.remove('hidden');
+      document.getElementById('af-content').classList.add('hidden');
+      const ul = document.getElementById('pending-modules');
+      ul.innerHTML = REQUIRED.map(m => {
+        const done = getModuleStatus(m) === 'complete';
+        return `<li class="${done ? 'done' : 'todo'}">${done ? '✓' : '✗'} ${MOD_LABELS[m]} — ${done ? 'Concluído' : 'Pendente'} &nbsp;<a href="../${m}/">Acessar →</a></li>`;
+      }).join('');
+    } else {
+      setupAF();
+    }
+
+    // ── Setup AF ──────────────────────────────────────────────────
+    function setupAF() {
+      const SEED = `
+CREATE TABLE clientes (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100),
+  email VARCHAR(150),
+  cidade VARCHAR(80)
+);
+CREATE TABLE pedidos (
+  id SERIAL PRIMARY KEY,
+  cliente_id INTEGER,
+  status VARCHAR(20),
+  total NUMERIC(10,2),
+  criado_em TIMESTAMP DEFAULT NOW()
+);
+INSERT INTO clientes SELECT
+  i, 'Cliente ' || i, 'cliente' || i || '@email.com',
+  CASE (i % 5) WHEN 0 THEN 'São Paulo' WHEN 1 THEN 'Rio de Janeiro'
+    WHEN 2 THEN 'Curitiba' WHEN 3 THEN 'Belo Horizonte' ELSE 'Porto Alegre' END
+FROM generate_series(1, 10000) i;
+INSERT INTO pedidos SELECT
+  i,
+  (random() * 9999 + 1)::int,
+  CASE (i % 3) WHEN 0 THEN 'pendente' WHEN 1 THEN 'ativo' ELSE 'cancelado' END,
+  (random() * 1000)::numeric(10,2),
+  NOW() - (random() * 365 || ' days')::interval
+FROM generate_series(1, 50000) i;
+`;
+
+      // Solves state
+      const solved = {
+        1: _loadSolved(1),
+        2: _loadSolved(2),
+        3: _loadSolved(3),
+        4: _loadSolved(4),
+        5: _loadSolved(5),
+      };
+
+      function _loadSolved(n) {
+        return localStorage.getItem(`af_query_${n}_solved`) === 'true';
+      }
+
+      function markSolved(n) {
+        localStorage.setItem(`af_query_${n}_solved`, 'true');
+        solved[n] = true;
+        document.getElementById(`solved-pill-${n}`).classList.remove('hidden');
+        _updateScore();
+      }
+
+      function _updateScore() {
+        const count = Object.values(solved).filter(Boolean).length;
+        const scoreSection = document.getElementById('score-section');
+        scoreSection.classList.remove('hidden');
+        document.getElementById('score-num').textContent = `${count}/5`;
+
+        const QUERY_INFO = [
+          { q: 1, problema: 'Seq Scan / índice ausente',          mod: '3.1 — Índices',         href: '../m3a/' },
+          { q: 2, problema: 'Função em coluna WHERE',             mod: '3.2 — Reescrita',        href: '../m3b/' },
+          { q: 3, problema: 'JOIN sem índice',                    mod: '3.1 + 2',                href: '../m3a/' },
+          { q: 4, problema: 'OFFSET elevado',                     mod: '3.2 — Reescrita',        href: '../m3b/' },
+          { q: 5, problema: 'Estatísticas desatualizadas',        mod: '3.3 — Infraestrutura',   href: '../m3c/' },
+        ];
+
+        document.getElementById('review-tbody').innerHTML = QUERY_INFO.map(({q, problema, mod, href}) => {
+          const ok = solved[q];
+          return `<tr>
+            <td>Query ${q}</td>
+            <td>${problema}</td>
+            <td><a href="${href}">${mod}</a></td>
+            <td>${ok ? '<span class="badge badge-green">✓ Resolvida</span>' : '<span class="badge badge-gray">— Pendente</span>'}</td>
+          </tr>`;
+        }).join('');
+
+        if (count >= 3) {
+          document.getElementById('score-msg').textContent = `${count >= 5 ? '🎉 Excelente!' : '✅ Bom resultado!'} ${count} de 5 queries resolvidas.`;
+          document.getElementById('concluir-wrapper').classList.remove('hidden');
+          document.getElementById('revisao-msg').classList.add('hidden');
+        } else {
+          document.getElementById('score-msg').textContent = `${count} de 5 queries resolvidas. Revise os módulos indicados.`;
+          document.getElementById('revisao-msg').classList.remove('hidden');
+          document.getElementById('concluir-wrapper').classList.add('hidden');
+        }
+
+        // Restore solved pills
+        Object.entries(solved).forEach(([n, ok]) => {
+          if (ok) document.getElementById(`solved-pill-${n}`).classList.remove('hidden');
+        });
+      }
+
+      // ── Inline quiz helper ────────────────────────────────────────
+      function inlineQuiz(containerId, options, correctIdx, feedback, onCorrect) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const letters = ['A','B','C','D'];
+        container.innerHTML = options.map((opt, i) => `
+          <div class="quiz-option mb-1" data-idx="${i}" role="button" tabindex="0"
+               style="padding:0.625rem 0.875rem; border:1.5px solid #E2E8F0; border-radius:8px; cursor:pointer; display:flex; gap:0.625rem; align-items:flex-start; font-size:0.9rem; background:#fafafa;">
+            <span class="option-letter" style="width:1.5rem;height:1.5rem;border-radius:50%;background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0;">${letters[i]}</span>
+            <span>${opt}</span>
+          </div>
+        `).join('');
+
+        let answered = false;
+        container.querySelectorAll('.quiz-option').forEach(el => {
+          el.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            const sel = parseInt(el.dataset.idx);
+            container.querySelectorAll('.quiz-option').forEach((opt, i) => {
+              opt.style.cursor = 'default';
+              if (i === correctIdx) {
+                opt.style.borderColor = '#16A34A';
+                opt.style.background = '#F0FDF4';
+                opt.querySelector('.option-letter').style.background = '#16A34A';
+                opt.querySelector('.option-letter').style.color = '#fff';
+              }
+              if (i === sel && i !== correctIdx) {
+                opt.style.borderColor = '#DC2626';
+                opt.style.background = '#FEF2F2';
+              }
+            });
+            const fb = document.createElement('div');
+            fb.className = 'quiz-feedback' + (sel !== correctIdx ? ' incorrect' : '');
+            fb.style.marginTop = '0.75rem';
+            fb.innerHTML = (sel === correctIdx ? '✓ Correto! ' : '✗ Incorreto. ') + feedback;
+            container.appendChild(fb);
+            if (sel === correctIdx && onCorrect) onCorrect();
+          });
+        });
+      }
+
+      // ── QUERY 1 ──────────────────────────────────────────────────
+      initPGLite('editor-q1', SEED, `EXPLAIN ANALYZE
+SELECT id, total, criado_em
+FROM pedidos
+WHERE cliente_id = 7777;`);
+
+      initPGLite('editor-sol-1', SEED, `-- Solução: criar índice em cliente_id
+CREATE INDEX idx_pedidos_cliente_id ON pedidos(cliente_id);
+
+-- Verificar melhora:
+EXPLAIN ANALYZE
+SELECT id, total, criado_em
+FROM pedidos
+WHERE cliente_id = 7777;`);
+
+      inlineQuiz('quiz-diag-1',
+        [
+          'A query retorna muitas linhas desnecessárias',
+          'Seq Scan em tabela grande por ausência de índice em cliente_id',
+          'O JOIN está incorreto',
+          'O custo está dentro do normal'
+        ],
+        1,
+        'Correto! O Seq Scan ocorre porque não existe índice em cliente_id. O PostgreSQL precisa ler todas as linhas da tabela para encontrar as que correspondem ao filtro.',
+        () => {
+          document.getElementById('quiz-verify-1-wrapper').style.display = '';
+          inlineQuiz('quiz-verify-1',
+            ['Seq Scan (não mudou nada)', 'Index Scan ou Index Only Scan', 'Bitmap Heap Scan', 'Nested Loop'],
+            1,
+            'Perfeito! Após criar o índice, o planejador usa Index Scan — lê apenas as linhas necessárias em vez de varrer a tabela inteira.',
+            () => markSolved(1)
+          );
+        }
+      );
+
+      // ── QUERY 2 ──────────────────────────────────────────────────
+      initPGLite('editor-q2', SEED, `-- Criar índice (existe na tabela real, mas função impede uso)
+CREATE INDEX idx_pedidos_criado ON pedidos(criado_em);
+
+EXPLAIN ANALYZE
+SELECT COUNT(*), SUM(total)
+FROM pedidos
+WHERE DATE_TRUNC('month', criado_em) = '2024-06-01';`);
+
+      initPGLite('editor-sol-2', SEED, `-- Solução: reescrever sem função na coluna
+CREATE INDEX idx_pedidos_criado ON pedidos(criado_em);
+
+EXPLAIN ANALYZE
+SELECT COUNT(*), SUM(total)
+FROM pedidos
+WHERE criado_em >= '2024-06-01'
+  AND criado_em < '2024-07-01';`);
+
+      inlineQuiz('quiz-diag-2',
+        [
+          'O índice não está sendo usado porque está corrompido',
+          'DATE_TRUNC() aplicado à coluna impede o uso do índice existente em criado_em',
+          'A query precisa de um índice GIN para datas',
+          'O problema é o uso de SUM() e COUNT() juntos'
+        ],
+        1,
+        'Correto! Ao aplicar DATE_TRUNC() à coluna criado_em, o PostgreSQL não pode usar o índice B-Tree — ele teria que avaliar a função para cada linha. A solução é reescrever com BETWEEN ou >= / <.',
+        () => {
+          document.getElementById('quiz-verify-2-wrapper').style.display = '';
+          inlineQuiz('quiz-verify-2',
+            ['Não, o índice continuará sendo ignorado', 'Sim, o índice será usado pois a coluna não tem mais função aplicada', 'Depende do número de linhas', 'Somente se houver VACUUM antes'],
+            1,
+            'Correto! Sem a função na coluna, o PostgreSQL pode usar o índice em criado_em normalmente para filtrar o intervalo de datas.',
+            () => markSolved(2)
+          );
+        }
+      );
+
+      // ── QUERY 3 ──────────────────────────────────────────────────
+      initPGLite('editor-q3', SEED, `EXPLAIN ANALYZE
+SELECT p.id, p.total, p.status, c.nome, c.cidade
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE c.cidade = 'Curitiba'
+  AND p.status = 'ativo'
+LIMIT 50;`);
+
+      initPGLite('editor-sol-3', SEED, `-- Solução: criar índices nas colunas de join e filtro
+CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
+CREATE INDEX idx_clientes_cidade ON clientes(cidade);
+
+-- Verificar melhora:
+EXPLAIN ANALYZE
+SELECT p.id, p.total, p.status, c.nome, c.cidade
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE c.cidade = 'Curitiba'
+  AND p.status = 'ativo'
+LIMIT 50;`);
+
+      inlineQuiz('quiz-diag-3',
+        [
+          'O LIMIT 50 está causando lentidão',
+          'Hash Join forçado por ausência de índice em pedidos.cliente_id e clientes.cidade',
+          'O filtro AND é incompatível com JOIN',
+          'O problema é o status = ativo (alta cardinalidade)'
+        ],
+        1,
+        'Correto! Sem índices em cliente_id e cidade, o PostgreSQL usa Hash Join varrendo as tabelas inteiras antes de aplicar os filtros.',
+        () => {
+          document.getElementById('quiz-verify-3-wrapper').style.display = '';
+          inlineQuiz('quiz-verify-3',
+            ['Hash Join (sem mudança)', 'Nested Loop com Index Scan — usa os índices criados', 'Merge Join', 'Seq Scan em ambas as tabelas'],
+            1,
+            'Correto! Com os índices criados, o planejador pode usar Nested Loop + Index Scan, que é muito mais eficiente para este caso com LIMIT.',
+            () => markSolved(3)
+          );
+        }
+      );
+
+      // ── QUERY 4 ──────────────────────────────────────────────────
+      initPGLite('editor-q4', SEED, `-- Query atual (lenta na página 500)
+EXPLAIN ANALYZE
+SELECT id, total, status, criado_em
+FROM pedidos
+ORDER BY id
+OFFSET 9980 LIMIT 20;`);
+
+      initPGLite('editor-sol-4', SEED, `-- Solução: keyset pagination
+-- (o frontend guarda o id da última linha retornada)
+EXPLAIN ANALYZE
+SELECT id, total, status, criado_em
+FROM pedidos
+WHERE id > 9980  -- último id da página anterior
+ORDER BY id
+LIMIT 20;`);
+
+      inlineQuiz('quiz-diag-4',
+        [
+          'O ORDER BY sem índice é o problema',
+          'OFFSET lê e descarta todas as linhas anteriores — O(n) no número da página, fica mais lento a cada página',
+          'LIMIT 20 é muito restritivo para paginação',
+          'O problema é a falta de índice em status'
+        ],
+        1,
+        'Correto! OFFSET 9980 faz o PostgreSQL ler 9980 linhas e jogá-las fora antes de retornar as 20 úteis. Na página 5000 (OFFSET 99.980), leria e descartaria 99.980 linhas — O(n).',
+        () => {
+          document.getElementById('quiz-verify-4-wrapper').style.display = '';
+          inlineQuiz('quiz-verify-4',
+            ['Nenhuma — keyset é apenas uma mudança cosmética', 'O banco vai direto ao ponto usando o índice da PK — O(1) independente da página', 'Keyset só funciona com tabelas pequenas', 'Keyset não é suportado pelo PostgreSQL'],
+            1,
+            'Correto! Com keyset pagination (WHERE id > :ultimo_id), o PostgreSQL usa o índice da PRIMARY KEY para ir diretamente à posição correta — O(1) independente da página.',
+            () => markSolved(4)
+          );
+        }
+      );
+
+      // ── QUERY 5 ──────────────────────────────────────────────────
+      inlineQuiz('quiz-diag-5',
+        [
+          'A tabela está corrompida e precisa ser recriada',
+          'Estatísticas desatualizadas + tuplas mortas acumuladas; autovacuum estava desabilitado nesta tabela',
+          'Falta um índice em status',
+          'O COUNT(*) não funciona corretamente sem índice'
+        ],
+        1,
+        'Correto! A tabela pedidos_arquivo tem autovacuum_enabled=false (configurado no seed). Com 80% das linhas deletadas e sem ANALYZE, as estatísticas estão completamente erradas.',
+        () => {
+          document.getElementById('quiz-verify-5-wrapper').style.display = '';
+          inlineQuiz('quiz-verify-5',
+            ['Remove índices inutilizados', 'Remove tuplas mortas (VACUUM) e atualiza estatísticas do planejador (ANALYZE) — corrigindo ambos os problemas', 'Recria a tabela do zero', 'Apenas atualiza o contador de linhas'],
+            1,
+            'Correto! VACUUM ANALYZE combina os dois: remove as tuplas mortas acumuladas e atualiza as estatísticas para que o planejador use informações corretas na próxima execução.',
+            () => markSolved(5)
+          );
+        }
+      );
+
+      // Init score display
+      _updateScore();
+
+      // Restore already-solved state
+      Object.entries(solved).forEach(([n, ok]) => {
+        if (ok) document.getElementById(`solved-pill-${n}`).classList.remove('hidden');
+      });
+
+      // Concluir button
+      document.getElementById('btn-concluir').addEventListener('click', () => {
+        markModuleComplete('af');
+        document.getElementById('btn-concluir').disabled = true;
+        document.getElementById('concluido-msg').classList.remove('hidden');
+      });
+    }
+
+    // Highlight.js
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+
+    window.copyCode = function(btn) {
+      const code = btn.nextElementSibling.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => btn.textContent = 'Copiar', 2000);
+      });
+    };
+  </script>
+</body>
+</html>
