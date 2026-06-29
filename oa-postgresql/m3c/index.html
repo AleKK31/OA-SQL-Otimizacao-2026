@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3C — Infraestrutura e Manutenção · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  <style>
+    :root { --module-color: #6B2563; }
+    .step-list { display:flex; flex-direction:column; gap:1.25rem; margin:1rem 0; }
+    .step-item { display:flex; gap:1rem; align-items:flex-start; }
+    .step-num {
+      width:2rem; height:2rem; border-radius:50%; background:var(--module-color);
+      color:#fff; display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:0.875rem; flex-shrink:0; margin-top:0.125rem;
+    }
+    .step-content { flex:1; }
+    .step-content h5 { font-size:0.9375rem; font-weight:600; margin-bottom:0.5rem; }
+    .principle-card {
+      background:#FEF2F2; border:2px solid #FECACA; border-left:5px solid #DC2626;
+      border-radius:var(--radius-md); padding:1.25rem 1.5rem; margin:1.5rem 0;
+    }
+    .principle-card h4 { color:#7F1D1D; margin-bottom:0.75rem; }
+    .principle-card p, .principle-card li { color:#7F1D1D; font-size:0.9rem; }
+    .principle-card ul { padding-left:1.25rem; margin:0.5rem 0; }
+    .principle-card li { margin-bottom:0.375rem; }
+    .principle-card code { background:#FEE2E2; color:#991B1B; border:1px solid #FECACA; }
+  </style>
+</head>
+<body>
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div class="module-label">● M3C · Infraestrutura e Manutenção</div>
+      <h1>Estatísticas, VACUUM e ANALYZE</h1>
+      <div class="meta">
+        <span class="badge badge-blue">Docker necessário no exercício</span>
+      </div>
+    </header>
+
+    <!-- ========== SEÇÃO 1: ESTATÍSTICAS (slides) ========== -->
+    <section class="section">
+      <div class="section-title">1 · Estatísticas do Planejador</div>
+
+      <div id="slides-stats" class="slides-container">
+
+        <!-- Slide 1: O que são estatísticas -->
+        <div class="slide">
+          <h3>O que são as Estatísticas do Planejador?</h3>
+          <blockquote>
+            O PostgreSQL mantém <strong>estatísticas sobre os dados</strong> de cada tabela para
+            estimar quantas linhas uma query vai retornar. Essas estatísticas ficam em
+            <code>pg_statistic</code> e são consultadas pelo planejador para escolher o melhor plano.
+          </blockquote>
+          <div class="concept-card mt-3">
+            <h4>Os 3 componentes das estatísticas</h4>
+            <ul style="padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem;font-size:0.9rem">
+              <li><strong>Cardinalidade</strong> — quantos valores distintos existem (<code>n_distinct</code>)</li>
+              <li><strong>Histograma</strong> — distribuição dos valores em "baldes" (<code>histogram_bounds</code>)</li>
+              <li><strong>MCV</strong> — Most Common Values e suas frequências relativas</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 2: Cardinalidade -->
+        <div class="slide">
+          <h3>Cardinalidade — n_distinct e correlation</h3>
+          <p class="text-sm text-muted mb-2">Ver as estatísticas de uma coluna no Docker:</p>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">SELECT attname, n_distinct, correlation
+FROM pg_stats
+WHERE tablename = 'pedidos'
+  AND attname = 'status';
+
+-- n_distinct: número de valores distintos
+--   positivo = valor absoluto (ex: 3 para status)
+--   negativo = fração das linhas (ex: -0.5 = 50% distintos)
+-- correlation: quão ordenados os dados estão fisicamente
+--   1.0 = ordem perfeita (ótimo para BRIN)
+--  -1.0 = ordem invertida
+--   0.0 = aleatório</code></pre>
+          </div>
+        </div>
+
+        <!-- Slide 3: Histograma e MCV -->
+        <div class="slide">
+          <h3>Histograma e MCV</h3>
+          <div class="code-block-wrapper mb-3">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Histograma: distribuição dos valores numéricos
+SELECT histogram_bounds
+FROM pg_stats
+WHERE tablename = 'pedidos' AND attname = 'total';
+-- Ex: {10.5, 215.2, 412.8, 601.1, 800.4, 998.9}
+
+-- MCV: valores mais frequentes e suas frequências
+SELECT most_common_vals, most_common_freqs
+FROM pg_stats
+WHERE tablename = 'pedidos' AND attname = 'status';
+-- Ex: most_common_vals  = {ativo, pendente, cancelado}
+--     most_common_freqs = {0.65, 0.25, 0.10}</code></pre>
+          </div>
+          <div class="concept-card">
+            <p class="text-sm">O planejador usa o MCV para estimar quantas linhas retornam com
+            <code>WHERE status = 'ativo'</code>: 65% × total_linhas.
+            Se essa frequência estiver errada (estatísticas antigas), a estimativa erra e o plano pode ser ruim.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4: O que acontece com estatísticas desatualizadas -->
+        <div class="slide">
+          <h3>Quando as Estatísticas Envelhecem</h3>
+          <blockquote>
+            Se você inserir 100.000 linhas e não rodar ANALYZE, o planejador ainda usa as
+            estatísticas antigas. Ele pode estimar "3 linhas" quando na verdade existem 100.000 —
+            e escolher Nested Loop onde deveria usar Hash Join.
+          </blockquote>
+
+          <!-- Princípio (card vermelho obrigatório pela spec) -->
+          <div class="principle-card">
+            <h4>🔴 Princípio: Estatísticas desatualizadas = planos errados</h4>
+            <p>O planejador só é tão bom quanto as estatísticas que tem. Se a tabela mudou muito desde o último ANALYZE:</p>
+            <ul>
+              <li>Pode escolher <strong>Nested Loop</strong> onde deveria usar <strong>Hash Join</strong></li>
+              <li>Pode escolher <strong>Seq Scan</strong> onde um <strong>Index Scan</strong> seria mais rápido</li>
+              <li>Pode escolher <strong>Hash Join</strong> onde <strong>Nested Loop + índice</strong> seria melhor</li>
+            </ul>
+            <p style="margin-top:0.75rem">
+              <strong>Sintoma no EXPLAIN:</strong> diferença grande entre <code>rows</code> e <code>actual rows</code>.<br>
+              <strong>Solução:</strong> <code>ANALYZE tabela;</code> ou <code>VACUUM ANALYZE tabela;</code>
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /slides-stats -->
+    </section>
+
+    <!-- ========== SEÇÃO 2: VACUUM E ANALYZE (slides) ========== -->
+    <section class="section">
+      <div class="section-title">2 · VACUUM e ANALYZE</div>
+
+      <div id="slides-vacuum" class="slides-container">
+
+        <!-- Slide 1: MVCC e tuplas mortas -->
+        <div class="slide">
+          <h3>Por que existem Tuplas Mortas?</h3>
+          <blockquote>
+            O PostgreSQL usa <strong>MVCC</strong> (Multi-Version Concurrency Control):
+            quando você deleta ou atualiza uma linha, a versão antiga não é removida
+            imediatamente — ela é marcada como "morta" e fica ocupando espaço até o
+            VACUUM limpá-la.
+          </blockquote>
+          <div class="card-grid-2 mt-3">
+            <div class="concept-card">
+              <h4>Por que o MVCC faz isso?</h4>
+              <p class="text-sm">Para garantir que transações antigas ainda possam ler a versão antiga da linha — sem bloqueio. Cada transação vê um "snapshot" consistente do banco, mesmo que outras transações estejam modificando dados ao mesmo tempo.</p>
+            </div>
+            <div class="concept-card">
+              <h4>Quando isso é um problema?</h4>
+              <p class="text-sm">Tabelas com muitas deleções ou atualizações acumulam muitas tuplas mortas. Isso aumenta o tamanho físico da tabela, desacelera as varreduras e polui o cache — mesmo que o número de linhas ativas seja pequeno.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: VACUUM -->
+        <div class="slide">
+          <h3>VACUUM — Remover Tuplas Mortas</h3>
+          <div class="code-block-wrapper mb-3">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Remove tuplas mortas e libera espaço para reuso
+-- (não devolve ao SO — o arquivo cresce mas depois é reutilizado)
+VACUUM pedidos;
+
+-- VACUUM FULL: compacta e devolve espaço ao SO
+-- ⚠️ BLOQUEIA a tabela durante a execução!
+VACUUM FULL pedidos;
+
+-- Verificar tuplas mortas antes do VACUUM:
+SELECT relname, n_live_tup, n_dead_tup,
+  round(n_dead_tup::numeric /
+    NULLIF(n_live_tup + n_dead_tup, 0) * 100, 2) AS pct_mortas,
+  last_vacuum, last_autovacuum
+FROM pg_stat_user_tables
+WHERE relname = 'pedidos';</code></pre>
+          </div>
+          <div class="banner banner-warning">
+            <span class="banner-icon">⚠️</span>
+            <div class="banner-content">
+              Prefira <code>VACUUM</code> (sem FULL) em produção — não bloqueia leituras nem escritas.
+              Reserve <code>VACUUM FULL</code> para janelas de manutenção quando o espaço em disco
+              for crítico.
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: ANALYZE -->
+        <div class="slide">
+          <h3>ANALYZE — Atualizar Estatísticas</h3>
+          <div class="code-block-wrapper mb-3">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><code class="language-sql">-- Atualiza as estatísticas do planejador
+ANALYZE pedidos;
+
+-- Combinar os dois (mais comum):
+VACUUM ANALYZE pedidos;
+
+-- Ver quando foi o último ANALYZE:
+SELECT relname, last_analyze, last_autoanalyze,
+  n_tup_ins, n_tup_upd, n_tup_del
+FROM pg_stat_user_tables
+WHERE relname = 'pedidos';</code></pre>
+          </div>
+          <div class="concept-card">
+            <h4>Custo do ANALYZE</h4>
+            <p class="text-sm">O ANALYZE faz uma amostragem (por padrão 300 páginas por coluna, controlado por <code>default_statistics_target</code>). É rápido e não bloqueia — pode ser rodado em produção a qualquer momento.</p>
+          </div>
+        </div>
+
+        <!-- Slide 4: Autovacuum -->
+        <div class="slide">
+          <h3>Autovacuum — Manutenção Automática</h3>
+          <div class="banner banner-info mb-3">
+            <span class="banner-icon">🤖</span>
+            <div class="banner-content">
+              <strong>Autovacuum:</strong> daemon do PostgreSQL que roda VACUUM e ANALYZE automaticamente
+              quando uma tabela acumula muitas tuplas mortas ou modificações. Ativo por padrão.
+              Monitorado por <code>pg_stat_user_tables.last_autovacuum</code>.
+            </div>
+          </div>
+          <div class="concept-card">
+            <h4>Quando o autovacuum não é suficiente</h4>
+            <ul style="padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem;font-size:0.9rem">
+              <li>Tabelas com <em>carga muito alta</em> de deleções/atualizações</li>
+              <li>Quando <code>autovacuum_enabled = false</code> foi configurado manualmente (como em <code>pedidos_arquivo</code>)</li>
+              <li>Durante migrações de dados de grande volume</li>
+            </ul>
+            <p class="mt-2 text-sm">Nesses casos, rode <code>VACUUM ANALYZE tabela;</code> manualmente após a operação.</p>
+          </div>
+        </div>
+
+      </div><!-- /slides-vacuum -->
+    </section>
+
+    <!-- ========== SEÇÃO 3: EXERCÍCIO (Docker) ========== -->
+    <section class="section">
+      <div class="section-title">3 · Exercício — Impacto das Estatísticas</div>
+
+      <div class="banner banner-docker mb-3">
+        <span class="banner-icon">🐳</span>
+        <div class="banner-content">
+          <strong>Este exercício requer o Docker.</strong>
+          <code>cd docker/ &amp;&amp; docker compose up -d</code>
+          — aguarde ~2 min para o seed completar.
+        </div>
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h5>Verificar o estado inicial da tabela <code>pedidos_arquivo</code></h5>
+            <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+              <pre><code class="language-sql">SELECT relname, n_live_tup, n_dead_tup, last_analyze
+FROM pg_stat_user_tables
+WHERE relname = 'pedidos_arquivo';</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h5>EXPLAIN ANALYZE <strong>ANTES</strong> — observe rows estimado vs actual rows</h5>
+            <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+              <pre><code class="language-sql">EXPLAIN ANALYZE
+SELECT COUNT(*) FROM pedidos_arquivo WHERE status = 'ativo';</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h5>Rodar ANALYZE para atualizar estatísticas</h5>
+            <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+              <pre><code class="language-sql">ANALYZE pedidos_arquivo;</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h5>EXPLAIN ANALYZE <strong>DEPOIS</strong> — compare as estimativas</h5>
+            <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+              <pre><code class="language-sql">EXPLAIN ANALYZE
+SELECT COUNT(*) FROM pedidos_arquivo WHERE status = 'ativo';</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h5>Verificar tuplas mortas e rodar VACUUM</h5>
+            <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+              <pre><code class="language-sql">SELECT n_dead_tup FROM pg_stat_user_tables WHERE relname = 'pedidos_arquivo';
+VACUUM pedidos_arquivo;
+SELECT n_dead_tup FROM pg_stat_user_tables WHERE relname = 'pedidos_arquivo';
+-- n_dead_tup deve ser 0 ou próximo de 0</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <h4>Perguntas de reflexão</h4>
+        <ol style="padding-left:1.25rem;margin-top:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <li>Qual foi a diferença entre as estimativas antes e depois do ANALYZE?</li>
+          <li>Quantas tuplas mortas existiam antes do VACUUM?</li>
+          <li>Por que o autovacuum estava desabilitado nesta tabela?</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== SEÇÃO 4: QUIZ ========== -->
+    <section class="section">
+      <div class="section-title">4 · Avaliação Formativa</div>
+      <div id="quiz-m3c"></div>
+      <div class="finalidade-box mt-4">
+        <div class="icon">🎯</div>
+        <div class="content">
+          <strong>Finalidade deste módulo</strong>
+          <p>Compreender como as estatísticas do planejador e o VACUUM afetam a performance.
+          Você sabe diagnosticar estatísticas desatualizadas, rodar VACUUM ANALYZE e entender o autovacuum.</p>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <a href="../m3b/" class="btn-secondary">← M3B</a>
+        <a href="../af/" class="btn-primary">Próximo → Avaliação Final</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { markModuleStarted } from '../assets/progress.js';
+    import { initQuiz } from '../assets/quiz.js';
+    import { initSlides } from '../assets/slides.js';
+
+    markModuleStarted('m3c');
+    initNav('m3c');
+    initSlides('slides-stats');
+    initSlides('slides-vacuum');
+
+    const questions = [
+      {
+        text: "O que são tuplas mortas (dead tuples) no PostgreSQL?",
+        options: [
+          "Linhas com valores NULL em todas as colunas",
+          "Versões antigas de linhas deletadas ou atualizadas que ainda ocupam espaço em disco devido ao MVCC",
+          "Índices que não estão sendo utilizados por nenhuma query",
+          "Conexões ao banco que foram encerradas sem commit"
+        ],
+        correct: 1,
+        feedback: "Por causa do MVCC, o PostgreSQL não remove fisicamente as linhas quando você as deleta ou atualiza. As versões antigas ficam marcadas como mortas e ocupam espaço até o VACUUM removê-las."
+      },
+      {
+        text: "Qual a diferença entre VACUUM e ANALYZE?",
+        options: [
+          "VACUUM atualiza estatísticas; ANALYZE remove tuplas mortas",
+          "VACUUM remove tuplas mortas e libera espaço; ANALYZE atualiza as estatísticas do planejador",
+          "São sinônimos que fazem a mesma coisa",
+          "VACUUM é para índices; ANALYZE é para tabelas"
+        ],
+        correct: 1,
+        feedback: "VACUUM remove as tuplas mortas e marca o espaço como disponível para reuso. ANALYZE coleta estatísticas sobre a distribuição dos dados para que o planejador tome decisões melhores. Combine os dois com 'VACUUM ANALYZE tabela'."
+      },
+      {
+        text: "Como saber se as estatísticas de uma tabela estão desatualizadas?",
+        options: [
+          "Rodando EXPLAIN e vendo se o custo está alto",
+          "Verificando 'last_analyze' em pg_stat_user_tables e comparando com a data da última modificação significativa",
+          "Contando o número de índices da tabela",
+          "Verificando o tamanho da tabela com pg_relation_size()"
+        ],
+        correct: 1,
+        feedback: "pg_stat_user_tables tem last_analyze e last_autoanalyze. Se houver muitas inserções/deleções desde então, as estatísticas podem estar defasadas. Um sinal claro no EXPLAIN é quando 'rows' (estimativa) diverge muito de 'actual rows' (real)."
+      }
+    ];
+    initQuiz('quiz-m3c', questions, 'm3c');
+
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+    window.copyCode = (btn) => {
+      const code = btn.nextElementSibling.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => btn.textContent = 'Copiar', 2000);
+      });
+    };
+  </script>
+</body>
+</html>

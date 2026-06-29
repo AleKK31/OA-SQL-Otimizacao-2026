@@ -134,3 +134,31 @@ O modelo instrucional adota três tipos de avaliação em momentos distintos do 
 | **AD** | Diagnóstica | Antes do conteúdo (M1) | Verificar o que o aluno já sabe antes de começar |
 | **AF** | Formativa | Ao final de cada módulo (M2, M3A, M3B, M3C) | Verificar se o aluno aprendeu o conteúdo daquele módulo |
 | **AS** | Somativa | Ao final do OA (Avaliação Final) | Avaliar a aprendizagem total do OA |
+
+---
+
+## Modelo Didático
+
+### Como usar
+
+O OA funciona diretamente no navegador, sem servidor:
+
+1. Abra `oa-postgresql/index.html` no navegador
+2. Navegue pelos módulos na ordem que preferir — o progresso é salvo automaticamente no navegador
+3. A **Avaliação Final** é liberada após concluir todos os módulos
+
+> **Exercícios com Docker:** M3C e a questão Q5 da Avaliação Final dependem do PostgreSQL completo.
+> ```bash
+> cd oa-postgresql/docker
+> docker compose up -d
+> psql -h localhost -U oa_user -d oa_db
+> ```
+
+### Tecnologias
+
+- HTML
+- CSS
+- JavaScript
+- PGLite
+- PostgreSQL
+- Docker

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Otimização de Consultas com PostgreSQL</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    /* ── Header institucional ── */
+    .site-header {
+      background: #1C2B4A;
+      color: #fff;
+      padding: 2.25rem 0 2rem;
+    }
+
+    .site-header .eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.625rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .site-header .eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 2px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .site-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.375rem;
+      color: #fff;
+    }
+
+    .site-header .subtitle {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.75rem;
+      font-weight: 400;
+    }
+
+    .header-progress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 420px;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-progress-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .header-progress .progress-bar-container {
+      flex: 1;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .header-progress .progress-bar {
+      background: #5D8CCC;
+    }
+
+    /* ── Seção de módulos ── */
+    .modules-section {
+      padding: 2.5rem 0 0;
+    }
+
+    .modules-section-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.875rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .modules-section-label::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 14px;
+      background: #2B52A0;
+      border-radius: 1px;
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.875rem;
+    }
+
+    @media (max-width: 600px) {
+      .modules-grid { grid-template-columns: 1fr; }
+      .site-header h1 { font-size: 1.5rem; }
+    }
+
+    .module-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .module-link:hover { color: inherit; }
+
+    /* ── Nota de especificação aberta ── */
+    .open-spec-note {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      line-height: 1.55;
+    }
+
+    .open-spec-note a {
+      color: var(--color-primary);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--color-border);
+      padding: 1.5rem 0;
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-top: 2rem;
+    }
+
+    .reset-link {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: underline;
+      font-family: inherit;
+    }
+
+    .reset-link:hover { color: var(--color-error); }
+
+    /* Ícones nos meta sem emoji */
+    .module-meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1875rem;
+    }
+
+    .module-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+    }
+
+    .module-meta-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--color-border);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER INSTITUCIONAL -->
+  <header class="site-header">
+    <div class="container">
+      <h1>Otimização de Consultas<br>com PostgreSQL</h1>
+      <div class="header-progress">
+        <span class="header-progress-label" id="progress-text">0 / 6 módulos</span>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MÓDULOS -->
+  <div class="container modules-section">
+    <div class="modules-section-label">Módulos do curso</div>
+
+    <div class="modules-grid" id="modules-grid">
+      <!-- renderizado pelo JS -->
+    </div>
+
+    <div class="open-spec-note">
+      <span style="font-size:1rem;flex-shrink:0;line-height:1.55">📖</span>
+      <div>
+        <strong>Especificação Aberta (DD):</strong> Navegue pelos módulos na ordem que preferir.
+        A <strong>Avaliação Final</strong> é liberada automaticamente após completar todos os módulos.
+        &nbsp;·&nbsp;
+        <a href="./docker/README.md" target="_blank">Instruções do Docker</a>
+        &nbsp;·&nbsp;
+        <button class="reset-link" id="reset-btn">Resetar progresso</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+    </div>
+  </footer>
+
+  <script type="module">
+    import { getModuleStatus, getProgress, resetProgress, canAccessFinal } from './assets/progress.js';
+
+    const MODULES = [
+      { id: 'm1',  label: '1',  title: 'Entendendo o Problema',       bloom: 'Lembrar · Compreender', duration: '~30 min', href: './m1/',  color: '#2B52A0' },
+      { id: 'm2',  label: '2',  title: 'Diagnóstico com EXPLAIN',      bloom: 'Compreender · Analisar', duration: '~40 min', href: './m2/',  color: '#1A6348' },
+      { id: 'm3a', label: '3.1', title: 'Tipos de Índice',              bloom: 'Analisar',               duration: '~25 min', href: './m3a/', color: '#1B5D8A' },
+      { id: 'm3b', label: '3.2', title: 'Reescrita de Consulta',        bloom: 'Aplicar',                duration: '~25 min', href: './m3b/', color: '#7B2D1A' },
+      { id: 'm3c', label: '3.3', title: 'Infraestrutura e Manutenção', bloom: 'Compreender',            duration: '~20 min', href: './m3c/', color: '#6B2563' },
+      { id: 'af',  label: '4',  title: 'Avaliação Final',              bloom: 'Avaliar',                duration: '~20 min', href: './af/',  color: '#1F4D13' },
+    ];
+
+    const STATUS_LABEL = {
+      'not-started': { text: 'Não iniciado', cls: 'not-started', icon: '○' },
+      'in-progress': { text: 'Em progresso', cls: 'in-progress', icon: '◑' },
+      'complete':    { text: 'Concluído',    cls: 'complete',    icon: '✓' },
+    };
+
+    function render() {
+      const grid = document.getElementById('modules-grid');
+      grid.innerHTML = MODULES.map(m => {
+        const status = getModuleStatus(m.id);
+        const s = STATUS_LABEL[status];
+        const isAF = m.id === 'af';
+        const locked = isAF && !canAccessFinal();
+
+        return `
+          <a class="module-link" href="${m.href}" ${locked ? 'onclick="return handleAFClick(event)"' : ''}>
+            <div class="module-card" style="--module-color:${m.color}">
+              <div class="module-number">${m.label}</div>
+              <h3>${m.title}</h3>
+              <div class="flex items-center gap-1" style="justify-content:space-between">
+                <span class="status-badge ${s.cls}">${s.icon} ${s.text}</span>
+                ${locked ? '<span style="font-size:0.875rem;color:var(--color-text-muted)">🔒</span>' : ''}
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      const n = getProgress();
+      document.getElementById('progress-text').textContent = `${n} / 6 módulos concluídos`;
+      document.getElementById('progress-bar').style.width = `${(n / 6) * 100}%`;
+    }
+
+    window.handleAFClick = function(e) {
+      if (!canAccessFinal()) {
+        e.preventDefault();
+        alert('Complete todos os módulos antes de acessar a Avaliação Final.');
+        return false;
+      }
+    };
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      if (confirm('Resetar todo o progresso? Esta ação não pode ser desfeita.')) {
+        resetProgress();
+        render();
+      }
+    });
+
+    window.addEventListener('oa-progress-change', render);
+    render();
+  </script>
+</body>
+</html>

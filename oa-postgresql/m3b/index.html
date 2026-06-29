@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M3B — Reescrita de Consulta · OA PostgreSQL</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  <style>
+    :root { --module-color: #7B2D1A; }
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    @media (max-width: 600px) { .duo { grid-template-columns: 1fr; } }
+    .duo pre { margin: 0; border-radius: 0; font-size: 0.8rem; }
+    .duo-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 0.25rem 0.875rem; display: block; background: #2D2D2D; }
+    .duo-before .duo-label { color: #F48771; }
+    .duo-after  .duo-label { color: #6A9955; }
+    .anti-tag {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      background: #FEF2F2; color: #7F1D1D; border: 1px solid #FECACA;
+      border-radius: 4px; font-size: 0.8125rem; font-weight: 700;
+      padding: 0.2rem 0.625rem; margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <nav id="module-nav"></nav>
+
+  <div class="page-wrapper">
+    <header class="page-header">
+      <div class="module-label">● M3B · Reescrita de Consulta</div>
+      <h1>Boas Práticas e Antipadrões em SQL</h1>
+      <div class="meta">
+        <span class="badge badge-gray">PGLite (navegador)</span>
+      </div>
+    </header>
+
+    <!-- ========== SEÇÃO 1: BOAS PRÁTICAS (slides) ========== -->
+    <section class="section">
+      <div class="section-title">1 · Boas Práticas</div>
+
+      <div id="slides-boas-praticas" class="slides-container">
+
+        <!-- Slide 1: EXISTS vs IN -->
+        <div class="slide">
+          <h3>EXISTS vs IN</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm">Use <strong>EXISTS</strong> quando você só precisa saber <em>se existe</em> algum registro correspondente — o banco para na primeira ocorrência encontrada. IN com subquery pode precisar materializar toda a lista antes de comparar.</p>
+          </div>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antipadrão — IN com subquery</span>
+              <pre><code class="language-sql">SELECT * FROM clientes
+WHERE id IN (
+  SELECT cliente_id
+  FROM pedidos
+  WHERE status = 'ativo'
+);</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Boa prática — EXISTS</span>
+              <pre><code class="language-sql">SELECT * FROM clientes c
+WHERE EXISTS (
+  SELECT 1 FROM pedidos p
+  WHERE p.cliente_id = c.id
+    AND p.status = 'ativo'
+);</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: CTE Materializada vs Não -->
+        <div class="slide">
+          <h3>CTE — Materializada vs Não Materializada</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>MATERIALIZED</strong> (padrão até PG 11): força execução separada — útil para isolar um plano.<br>
+            <strong>NOT MATERIALIZED</strong> (PG 12+): planejador pode otimizar como subquery, aplicando push-down de filtros.</p>
+          </div>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">MATERIALIZED — execução separada</span>
+              <pre><code class="language-sql">WITH pedidos_ativos AS MATERIALIZED (
+  SELECT * FROM pedidos
+  WHERE status = 'ativo'
+)
+SELECT c.nome, COUNT(p.id)
+FROM clientes c
+JOIN pedidos_ativos p
+  ON p.cliente_id = c.id
+GROUP BY c.nome;</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">NOT MATERIALIZED — planejador otimiza</span>
+              <pre><code class="language-sql">WITH pedidos_ativos AS NOT MATERIALIZED (
+  SELECT * FROM pedidos
+  WHERE status = 'ativo'
+)
+SELECT c.nome, COUNT(p.id)
+FROM clientes c
+JOIN pedidos_ativos p
+  ON p.cliente_id = c.id
+GROUP BY c.nome;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: JOIN Explícito -->
+        <div class="slide">
+          <h3>JOIN Explícito</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm">Evite a sintaxe de JOIN implícito com vírgula na cláusula FROM. É fácil esquecer a condição e criar um produto cartesiano acidental — que multiplica o número de linhas e não aparece como erro de sintaxe.</p>
+          </div>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antipadrão — produto cartesiano implícito</span>
+              <pre><code class="language-sql">-- Se esquecer o WHERE, retorna
+-- pedidos × clientes linhas!
+SELECT * FROM pedidos p, clientes c
+WHERE p.cliente_id = c.id;</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Boa prática — JOIN explícito</span>
+              <pre><code class="language-sql">-- Condição declarada junto com
+-- a relação — mais legível e seguro
+SELECT * FROM pedidos p
+JOIN clientes c
+  ON p.cliente_id = c.id;</code></pre>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /slides-boas-praticas -->
+    </section>
+
+    <!-- ========== SEÇÃO 2: ANTIPADRÕES (slides — 1 antipadrão por slide) ========== -->
+    <section class="section">
+      <div class="section-title">2 · Antipadrões</div>
+
+      <div id="slides-antipadroes" class="slides-container">
+
+        <!-- Slide 1: SELECT * -->
+        <div class="slide">
+          <h3>Antipadrão 1 — SELECT *</h3>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antes — traz todas as colunas</span>
+              <pre><code class="language-sql">SELECT * FROM pedidos
+WHERE cliente_id = 42;
+-- Problema:
+-- • carrega colunas desnecessárias
+-- • impede Index Only Scan
+-- • transfere mais dados pela rede</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Depois — colunas específicas</span>
+              <pre><code class="language-sql">SELECT id, total,
+  status, criado_em
+FROM pedidos
+WHERE cliente_id = 42;
+-- Permite Index Only Scan com
+-- índice cobridor</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Função em coluna -->
+        <div class="slide">
+          <h3>Antipadrão 2 — Função em Coluna do WHERE</h3>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antes — função impede índice</span>
+              <pre><code class="language-sql">-- Aplica UPPER() em cada linha
+WHERE UPPER(email) = 'J@EMAIL.COM';
+
+-- Aplica DATE_TRUNC() em cada linha
+WHERE DATE_TRUNC('month', criado_em)
+  = '2024-01-01';</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Depois — função no valor</span>
+              <pre><code class="language-sql">-- Normaliza o valor de comparação
+WHERE email = LOWER('J@EMAIL.COM');
+
+-- Converte para intervalo
+WHERE criado_em >= '2024-01-01'
+  AND criado_em < '2024-02-01';
+-- Alternativa: índice de expressão
+-- CREATE INDEX ON clientes(UPPER(email))</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: OFFSET elevado -->
+        <div class="slide">
+          <h3>Antipadrão 3 — OFFSET Elevado</h3>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antes — O(n) por página</span>
+              <pre><code class="language-sql">-- Na página 5000:
+-- lê e descarta 100.000 linhas
+SELECT * FROM pedidos
+ORDER BY id
+OFFSET 100000
+LIMIT 20;
+-- Fica mais lento a cada página</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Depois — keyset: O(1)</span>
+              <pre><code class="language-sql">-- Frontend guarda o último id
+-- retornado e passa como parâmetro
+SELECT * FROM pedidos
+WHERE id > :ultimo_id
+ORDER BY id
+LIMIT 20;
+-- Usa índice da PK — sempre rápido</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: N+1 -->
+        <div class="slide">
+          <h3>Antipadrão 4 — N+1 Queries</h3>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antipadrão — 1 + N queries</span>
+              <pre><code class="language-sql">-- No código da aplicação:
+-- SELECT * FROM pedidos → N linhas
+-- for each pedido:
+--   SELECT * FROM clientes
+--   WHERE id = pedido.cliente_id
+-- = 1 + N round-trips ao banco
+-- Para 1000 pedidos: 1001 queries!</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Depois — 1 query com JOIN</span>
+              <pre><code class="language-sql">-- Traz tudo de uma vez:
+SELECT p.id, p.total,
+  c.nome, c.email
+FROM pedidos p
+JOIN clientes c
+  ON p.cliente_id = c.id;
+-- 1 query, 1 round-trip</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Conversão implícita de tipo -->
+        <div class="slide">
+          <h3>Antipadrão 5 — Conversão Implícita de Tipo</h3>
+          <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
+            <div class="duo-before">
+              <span class="duo-label">❌ Antes — tipo errado</span>
+              <pre><code class="language-sql">-- id é INTEGER, mas passamos STRING
+-- PostgreSQL faz cast implícito
+-- em cada linha da comparação
+SELECT * FROM pedidos
+WHERE id = '42';
+
+SELECT * FROM pedidos
+WHERE cliente_id = '100';</code></pre>
+            </div>
+            <div class="duo-after">
+              <span class="duo-label">✅ Depois — tipo correto</span>
+              <pre><code class="language-sql">-- Use o tipo nativo da coluna
+SELECT * FROM pedidos
+WHERE id = 42;
+
+SELECT * FROM pedidos
+WHERE cliente_id = 100;
+-- Sem cast = pode usar índice</code></pre>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /slides-antipadroes -->
+    </section>
+
+    <!-- ========== SEÇÃO 3: EXERCÍCIO ========== -->
+    <section class="section">
+      <div class="section-title">3 · Exercício — Reescrever Queries</div>
+      <div class="banner banner-info mb-3">
+        <span class="banner-icon">✏️</span>
+        <div class="banner-content">
+          <strong>Tarefa:</strong> Para cada query: (1) identifique o antipadrão,
+          (2) reescreva a query, (3) compare o plano antes e depois com EXPLAIN ANALYZE.
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <h4 class="mb-2">Query 1 — Função em coluna WHERE</h4>
+        <div id="editor-q1"></div>
+        <div class="accordion mt-2">
+          <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+            <span>✅ Gabarito Q1</span><span class="accordion-arrow">▼</span>
+          </button>
+          <div class="accordion-body">
+            <p class="text-sm mb-1"><strong>Antipadrão:</strong> DATE_TRUNC() na coluna impede uso do índice.</p>
+            <pre><code class="language-sql">-- Versão corrigida:
+EXPLAIN ANALYZE
+SELECT * FROM pedidos
+WHERE criado_em >= '2024-06-01'
+  AND criado_em < '2024-07-01';</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <h4 class="mb-2">Query 2 — OFFSET elevado</h4>
+        <div id="editor-q2"></div>
+        <div class="accordion mt-2">
+          <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+            <span>✅ Gabarito Q2</span><span class="accordion-arrow">▼</span>
+          </button>
+          <div class="accordion-body">
+            <p class="text-sm mb-1"><strong>Antipadrão:</strong> OFFSET lê e descarta 5000 linhas.</p>
+            <pre><code class="language-sql">-- Keyset pagination:
+EXPLAIN ANALYZE
+SELECT * FROM pedidos
+WHERE id > 5000
+ORDER BY id LIMIT 10;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3">
+        <h4 class="mb-2">Query 3 — IN com subquery</h4>
+        <div id="editor-q3"></div>
+        <div class="accordion mt-2">
+          <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+            <span>✅ Gabarito Q3</span><span class="accordion-arrow">▼</span>
+          </button>
+          <div class="accordion-body">
+            <p class="text-sm mb-1"><strong>Antipadrão:</strong> IN com DISTINCT desnecessário.</p>
+            <pre><code class="language-sql">-- Versão com EXISTS:
+EXPLAIN ANALYZE
+SELECT * FROM clientes c
+WHERE EXISTS (
+  SELECT 1 FROM pedidos p
+  WHERE p.cliente_id = c.id
+    AND p.status = 'ativo'
+);</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SEÇÃO 4: QUIZ ========== -->
+    <section class="section">
+      <div class="section-title">4 · Avaliação Formativa</div>
+      <div id="quiz-m3b"></div>
+      <div class="finalidade-box mt-4">
+        <div class="icon">🎯</div>
+        <div class="content">
+          <strong>Finalidade deste módulo</strong>
+          <p>Identificar e corrigir antipadrões em SQL. Você agora sabe reescrever queries para
+          evitar funções em colunas, OFFSET elevado, SELECT *, N+1 e conversões implícitas.</p>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <a href="../m3a/" class="btn-secondary">← M3A</a>
+        <a href="../m3c/" class="btn-primary">Próximo → M3C Infraestrutura</a>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module">
+    import { initNav } from '../assets/nav.js';
+    import { markModuleStarted } from '../assets/progress.js';
+    import { initPGLite } from '../assets/pglite-editor.js';
+    import { initQuiz } from '../assets/quiz.js';
+    import { initSlides } from '../assets/slides.js';
+
+    markModuleStarted('m3b');
+    initNav('m3b');
+    initSlides('slides-boas-praticas');
+    initSlides('slides-antipadroes');
+
+    const SEED = `
+CREATE TABLE clientes (id SERIAL PRIMARY KEY, nome VARCHAR(100), email VARCHAR(150), cidade VARCHAR(80));
+CREATE TABLE pedidos (id SERIAL PRIMARY KEY, cliente_id INTEGER, status VARCHAR(20), total NUMERIC(10,2), criado_em TIMESTAMP DEFAULT NOW());
+INSERT INTO clientes SELECT i, 'Cliente ' || i, 'cliente' || i || '@email.com',
+  CASE (i%5) WHEN 0 THEN 'São Paulo' WHEN 1 THEN 'Rio de Janeiro' WHEN 2 THEN 'Curitiba' WHEN 3 THEN 'Belo Horizonte' ELSE 'Porto Alegre' END
+FROM generate_series(1,10000) i;
+INSERT INTO pedidos SELECT i, (random()*9999+1)::int,
+  CASE (i%3) WHEN 0 THEN 'pendente' WHEN 1 THEN 'ativo' ELSE 'cancelado' END,
+  (random()*1000)::numeric(10,2), NOW() - (random()*365 || ' days')::interval
+FROM generate_series(1,50000) i;`;
+
+    initPGLite('editor-q1', SEED, `-- Query 1: Identifique e corrija o antipadrão
+EXPLAIN ANALYZE
+SELECT * FROM pedidos
+WHERE DATE_TRUNC('day', criado_em) = '2024-06-01';
+
+-- Sua versão corrigida:
+`);
+    initPGLite('editor-q2', SEED, `-- Query 2: Identifique e corrija o antipadrão
+EXPLAIN ANALYZE
+SELECT * FROM pedidos ORDER BY id OFFSET 5000 LIMIT 10;
+
+-- Sua versão corrigida (keyset pagination com id > X):
+`);
+    initPGLite('editor-q3', SEED, `-- Query 3: Identifique e corrija o antipadrão
+EXPLAIN ANALYZE
+SELECT * FROM clientes
+WHERE id IN (
+  SELECT DISTINCT cliente_id FROM pedidos WHERE status = 'ativo'
+);
+
+-- Sua versão corrigida (use EXISTS):
+`);
+
+    const questions = [
+      {
+        text: "Por que 'WHERE LOWER(email) = lower(:param)' é um antipadrão?",
+        options: [
+          "Porque LOWER() não existe no PostgreSQL",
+          "Porque aplicar função na coluna impede o uso do índice existente em email",
+          "Porque o parâmetro deveria estar em maiúsculas",
+          "Porque é mais lento que usar ILIKE"
+        ],
+        correct: 1,
+        feedback: "Quando você aplica LOWER() à coluna, o PostgreSQL não pode usar um índice simples em 'email'. A solução é usar um índice de expressão (CREATE INDEX ON clientes(LOWER(email))) ou normalizar os dados na inserção."
+      },
+      {
+        text: "Qual é a diferença principal entre CTE Materializada e Não Materializada?",
+        options: [
+          "A Materializada é mais rápida sempre",
+          "A Materializada é executada separadamente e seu resultado é armazenado temporariamente; a Não Materializada permite que o planejador a otimize junto com a query principal",
+          "A Não Materializada não pode ser reutilizada na mesma query",
+          "Não há diferença prática entre elas"
+        ],
+        correct: 1,
+        feedback: "CTE MATERIALIZED força execução separada — o planejador não pode 'ver dentro' dela. CTE NOT MATERIALIZED (padrão no PG 12+) permite push-down de filtros e outras otimizações."
+      },
+      {
+        text: "Como reescrever 'SELECT * FROM pedidos ORDER BY id OFFSET 50000 LIMIT 20' com keyset pagination?",
+        options: [
+          "SELECT * FROM pedidos ORDER BY id LIMIT 50020 OFFSET 0",
+          "SELECT * FROM pedidos WHERE id > :ultimo_id ORDER BY id LIMIT 20",
+          "SELECT * FROM pedidos FETCH NEXT 20 ROWS ONLY",
+          "SELECT * FROM pedidos TABLESAMPLE SYSTEM(0.1) LIMIT 20"
+        ],
+        correct: 1,
+        feedback: "Keyset pagination usa o ID da última linha como âncora. 'WHERE id > :ultimo_id ORDER BY id LIMIT 20' vai direto ao ponto usando o índice da PK — O(1) independente da página."
+      }
+    ];
+    initQuiz('quiz-m3b', questions, 'm3b');
+
+    document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+  </script>
+</body>
+</html>
