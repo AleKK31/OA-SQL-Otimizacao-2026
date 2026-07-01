@@ -72,8 +72,8 @@ WHERE EXISTS (
         <div class="slide">
           <h3>CTE — Materializada vs Não Materializada</h3>
           <div class="concept-card mb-2">
-            <p class="text-sm"><strong>MATERIALIZED</strong> (padrão até PG 11): força execução separada — útil para isolar um plano.<br>
-            <strong>NOT MATERIALIZED</strong> (PG 12+): planejador pode otimizar como subquery, aplicando push-down de filtros.</p>
+            <p class="text-sm"><strong>MATERIALIZED</strong> (padrão até PG 11): "materializar" significa que o PostgreSQL executa a CTE isoladamente e armazena o resultado inteiro em memória antes de continuar a query. É como salvar o resultado em uma tabela temporária. Útil quando você quer garantir que a CTE rode uma única vez com um plano fixo.<br>
+            <strong>NOT MATERIALIZED</strong> (PG 12+): o planejador trata a CTE como uma subquery comum e pode otimizá-la junto com o restante da query, empurrando filtros para dentro (<em>push-down</em>) e evitando processar linhas desnecessárias.</p>
           </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">

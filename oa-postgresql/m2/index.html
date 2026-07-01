@@ -80,7 +80,7 @@
             <div class="banner-content">
               <code>EXPLAIN ANALYZE</code> <strong>executa a query de verdade</strong>.
               Em tabelas de produção, use <code>BEGIN; EXPLAIN ANALYZE ...; ROLLBACK;</code>
-              para evitar efeitos colaterais em operações DML.
+              para evitar efeitos colaterais em operações DML (INSERT, UPDATE, DELETE).
             </div>
           </div>
         </div>
@@ -93,7 +93,13 @@
 
         <div class="slide">
           <h3>Guia de Leitura da Saída</h3>
-          <p class="text-sm text-muted mb-2">Cada nó na saída do EXPLAIN exibe estes campos — aprenda a ler cada um:</p>
+          <p class="text-sm text-muted mb-2">Quando você roda <code>EXPLAIN ANALYZE SELECT * FROM pedidos WHERE cliente_id = 42;</code>, o PostgreSQL imprime algo assim:</p>
+          <pre style="font-size:0.8rem;margin-bottom:1rem"><code>Index Scan using idx_pedidos_cliente on pedidos
+  (cost=0.43..8.45 rows=5 width=68)
+  (actual time=0.031..0.038 rows=5 loops=1)
+Planning Time: 0.12 ms
+Execution Time: 0.065 ms</code></pre>
+          <p class="text-sm text-muted mb-2">Cada nó na saída exibe estes campos — aprenda a ler cada um:</p>
           <div class="table-wrapper">
             <table class="styled">
               <thead><tr><th>Campo</th><th>O que significa</th></tr></thead>
@@ -142,18 +148,19 @@
 
         <div class="slide">
           <h3>Tipos de Nó — O que cada um significa</h3>
+          <p class="text-sm text-muted mb-2"><strong>Seletividade</strong> = a fração de linhas da tabela que passa pelo filtro. Alta seletividade = poucas linhas passam (ex: <code>WHERE id = 42</code> retorna 1 em 1.000.000). Baixa seletividade = muitas linhas passam (ex: <code>WHERE ativo = true</code> retorna 900.000 em 1.000.000). O planejador usa índice quando a seletividade é alta porque é mais rápido navegar pelo índice do que ler a tabela inteira.</p>
           <div style="display:flex;flex-direction:column;gap:0">
             <div class="node-row" style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:0.75rem;font-weight:700;font-size:0.8rem;color:var(--color-text-muted);padding:0.5rem 0;border-bottom:2px solid var(--color-border)">
               <span>NÓ</span><span>QUANDO OCORRE</span><span>SINAL</span>
             </div>
             <div class="node-row">
               <span class="node-badge">Seq Scan</span>
-              <span>Sem índice na coluna filtrada, ou seletividade baixa</span>
+              <span>Sem índice na coluna filtrada, ou seletividade baixa (muitas linhas passam pelo filtro)</span>
               <span class="warn">⚠️ Tabela grande = problema</span>
             </div>
             <div class="node-row">
               <span class="node-badge" style="color:#6A9955">Index Scan</span>
-              <span>Índice disponível e seletividade alta</span>
+              <span>Índice disponível e seletividade alta (poucas linhas passam pelo filtro)</span>
               <span class="ok">✅ Geralmente bom</span>
             </div>
             <div class="node-row">

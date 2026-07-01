@@ -563,7 +563,9 @@ FROM generate_series(1, 50000) i;
             const fb = document.createElement('div');
             fb.className = 'quiz-feedback' + (sel !== correctIdx ? ' incorrect' : '');
             fb.style.marginTop = '0.75rem';
-            fb.innerHTML = (sel === correctIdx ? '✓ Correto! ' : '✗ Incorreto. ') + feedback;
+            fb.innerHTML = sel === correctIdx
+              ? `✓ Correto! ${feedback}`
+              : `✗ Incorreto. A resposta correta é <strong>${letters[correctIdx]}</strong>. ${feedback}`;
             container.appendChild(fb);
             if (sel === correctIdx && onCorrect) onCorrect();
           });
@@ -593,13 +595,13 @@ WHERE cliente_id = 7777;`);
           'O custo está dentro do normal'
         ],
         1,
-        'Correto! O Seq Scan ocorre porque não existe índice em cliente_id. O PostgreSQL precisa ler todas as linhas da tabela para encontrar as que correspondem ao filtro.',
+        'O Seq Scan ocorre porque não existe índice em cliente_id. O PostgreSQL precisa ler todas as linhas da tabela para encontrar as que correspondem ao filtro.',
         () => {
           document.getElementById('quiz-verify-1-wrapper').style.display = '';
           inlineQuiz('quiz-verify-1',
             ['Seq Scan (não mudou nada)', 'Index Scan ou Index Only Scan', 'Bitmap Heap Scan', 'Nested Loop'],
             1,
-            'Perfeito! Após criar o índice, o planejador usa Index Scan — lê apenas as linhas necessárias em vez de varrer a tabela inteira.',
+            'Após criar o índice, o planejador usa Index Scan: lê apenas as linhas necessárias em vez de varrer a tabela inteira.',
             () => markSolved(1)
           );
         }
@@ -631,13 +633,13 @@ WHERE criado_em >= '2024-06-01'
           'O problema é o uso de SUM() e COUNT() juntos'
         ],
         1,
-        'Correto! Ao aplicar DATE_TRUNC() à coluna criado_em, o PostgreSQL não pode usar o índice B-Tree — ele teria que avaliar a função para cada linha. A solução é reescrever com BETWEEN ou >= / <.',
+        'Ao aplicar DATE_TRUNC() à coluna criado_em, o PostgreSQL não pode usar o índice B-Tree: teria que avaliar a função para cada linha da tabela. A solução é reescrever usando intervalo: criado_em >= data_inicio AND criado_em < data_fim.',
         () => {
           document.getElementById('quiz-verify-2-wrapper').style.display = '';
           inlineQuiz('quiz-verify-2',
             ['Não, o índice continuará sendo ignorado', 'Sim, o índice será usado pois a coluna não tem mais função aplicada', 'Depende do número de linhas', 'Somente se houver VACUUM antes'],
             1,
-            'Correto! Sem a função na coluna, o PostgreSQL pode usar o índice em criado_em normalmente para filtrar o intervalo de datas.',
+            'Sem a função na coluna, o PostgreSQL pode usar o índice em criado_em normalmente para filtrar o intervalo de datas.',
             () => markSolved(2)
           );
         }
@@ -673,13 +675,13 @@ LIMIT 50;`);
           'O problema é o status = ativo (alta cardinalidade)'
         ],
         1,
-        'Correto! Sem índices em cliente_id e cidade, o PostgreSQL usa Hash Join varrendo as tabelas inteiras antes de aplicar os filtros.',
+        'Sem índices em cliente_id e cidade, o PostgreSQL usa Hash Join varrendo as tabelas inteiras antes de aplicar os filtros.',
         () => {
           document.getElementById('quiz-verify-3-wrapper').style.display = '';
           inlineQuiz('quiz-verify-3',
             ['Hash Join (sem mudança)', 'Nested Loop com Index Scan — usa os índices criados', 'Merge Join', 'Seq Scan em ambas as tabelas'],
             1,
-            'Correto! Com os índices criados, o planejador pode usar Nested Loop + Index Scan, que é muito mais eficiente para este caso com LIMIT.',
+            'Com os índices criados, o planejador pode usar Nested Loop + Index Scan, que é muito mais eficiente para este caso com LIMIT.',
             () => markSolved(3)
           );
         }
@@ -710,13 +712,13 @@ LIMIT 20;`);
           'O problema é a falta de índice em status'
         ],
         1,
-        'Correto! OFFSET 9980 faz o PostgreSQL ler 9980 linhas e jogá-las fora antes de retornar as 20 úteis. Na página 5000 (OFFSET 99.980), leria e descartaria 99.980 linhas — O(n).',
+        'OFFSET 9980 faz o PostgreSQL ler 9980 linhas e descartá-las antes de retornar as 20 úteis. Na página 5000 (OFFSET 99.980), leria e descartaria 99.980 linhas, custo O(n): cresce com o número da página.',
         () => {
           document.getElementById('quiz-verify-4-wrapper').style.display = '';
           inlineQuiz('quiz-verify-4',
             ['Nenhuma — keyset é apenas uma mudança cosmética', 'O banco vai direto ao ponto usando o índice da PK — O(1) independente da página', 'Keyset só funciona com tabelas pequenas', 'Keyset não é suportado pelo PostgreSQL'],
             1,
-            'Correto! Com keyset pagination (WHERE id > :ultimo_id), o PostgreSQL usa o índice da PRIMARY KEY para ir diretamente à posição correta — O(1) independente da página.',
+            'Com keyset pagination (WHERE id > :ultimo_id), o PostgreSQL usa o índice da PRIMARY KEY para ir diretamente à posição correta, O(1) independente da página.',
             () => markSolved(4)
           );
         }
@@ -731,13 +733,13 @@ LIMIT 20;`);
           'O COUNT(*) não funciona corretamente sem índice'
         ],
         1,
-        'Correto! A tabela pedidos_arquivo tem autovacuum_enabled=false (configurado no seed). Com 80% das linhas deletadas e sem ANALYZE, as estatísticas estão completamente erradas.',
+        'A tabela pedidos_arquivo tem autovacuum_enabled=false (configurado no seed do Docker). Sem ANALYZE após as deleções, as estatísticas estão completamente desatualizadas e o planejador estima quantidades erradas de linhas.',
         () => {
           document.getElementById('quiz-verify-5-wrapper').style.display = '';
           inlineQuiz('quiz-verify-5',
             ['Remove índices inutilizados', 'Remove tuplas mortas (VACUUM) e atualiza estatísticas do planejador (ANALYZE) — corrigindo ambos os problemas', 'Recria a tabela do zero', 'Apenas atualiza o contador de linhas'],
             1,
-            'Correto! VACUUM ANALYZE combina os dois: remove as tuplas mortas acumuladas e atualiza as estatísticas para que o planejador use informações corretas na próxima execução.',
+            'VACUUM ANALYZE combina os dois: remove as tuplas mortas acumuladas (liberando espaço) e atualiza as estatísticas para que o planejador use informações corretas na próxima execução.',
             () => markSolved(5)
           );
         }

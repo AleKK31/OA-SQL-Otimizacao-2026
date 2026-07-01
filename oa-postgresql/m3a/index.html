@@ -36,6 +36,10 @@
     <section class="section">
       <div class="section-title">1 · Tipos de Índice no PostgreSQL</div>
 
+      <div class="concept-card mb-3">
+        <p class="text-sm">No módulo 2 você viu que o EXPLAIN pode mostrar <code>Seq Scan</code> (leitura completa da tabela, linha por linha) ou <code>Index Scan</code> (navegação pelo índice, muito mais rápida). A diferença pode ser enorme — de segundos para milissegundos em tabelas com milhões de linhas. O que determina qual estratégia o PostgreSQL usa é a existência e o <strong>tipo</strong> de índice na coluna filtrada. O PostgreSQL suporta 4 tipos principais de índice, cada um otimizado para um cenário diferente. Escolher o tipo errado pode fazer com que o índice nunca seja usado.</p>
+      </div>
+
       <div id="slides-tipos" class="slides-container">
 
         <div class="slide">
