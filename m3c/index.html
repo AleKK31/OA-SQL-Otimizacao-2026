@@ -42,13 +42,11 @@
       </div>
     </header>
 
-    <!-- ========== SEÇÃO 1: ESTATÍSTICAS (slides) ========== -->
     <section class="section">
       <div class="section-title">1 · Estatísticas do Planejador</div>
 
       <div id="slides-stats" class="slides-container">
 
-        <!-- Slide 1: O que são estatísticas -->
         <div class="slide">
           <h3>O que são as Estatísticas do Planejador?</h3>
           <blockquote>
@@ -66,7 +64,6 @@
           </div>
         </div>
 
-        <!-- Slide 2: Cardinalidade -->
         <div class="slide">
           <h3>Cardinalidade — n_distinct e correlation</h3>
           <p class="text-sm text-muted mb-2">Ver as estatísticas de uma coluna no Docker:</p>
@@ -85,9 +82,11 @@ WHERE tablename = 'pedidos'
 --  -1.0 = ordem invertida
 --   0.0 = aleatório</code></pre>
           </div>
+          <div class="concept-card mt-3">
+            <p class="text-sm"><strong>Por que correlation importa?</strong> Quando <code>correlation</code> é próximo de 1.0 (dados inseridos na ordem da coluna, como logs por data), um Index Scan vai ler páginas de disco sequencialmente — muito eficiente. Quando é próximo de 0.0 (dados aleatórios), cada linha encontrada no índice pode estar em uma página diferente — o custo de I/O aleatório dispara. O planejador usa a correlação para decidir se prefere Index Scan (bom correlacionamento) ou Seq Scan (correlacionamento ruim — pode ser mais barato ler tudo em ordem).</p>
+          </div>
         </div>
 
-        <!-- Slide 3: Histograma e MCV -->
         <div class="slide">
           <h3>Histograma e MCV</h3>
           <div class="code-block-wrapper mb-3">
@@ -112,7 +111,6 @@ WHERE tablename = 'pedidos' AND attname = 'status';
           </div>
         </div>
 
-        <!-- Slide 4: O que acontece com estatísticas desatualizadas -->
         <div class="slide">
           <h3>Quando as Estatísticas Envelhecem</h3>
           <blockquote>
@@ -121,7 +119,6 @@ WHERE tablename = 'pedidos' AND attname = 'status';
             e escolher Nested Loop onde deveria usar Hash Join.
           </blockquote>
 
-          <!-- Princípio (card vermelho obrigatório pela spec) -->
           <div class="principle-card">
             <h4>🔴 Princípio: Estatísticas desatualizadas = planos errados</h4>
             <p>O planejador só é tão bom quanto as estatísticas que tem. Se a tabela mudou muito desde o último ANALYZE:</p>
@@ -140,13 +137,11 @@ WHERE tablename = 'pedidos' AND attname = 'status';
       </div><!-- /slides-stats -->
     </section>
 
-    <!-- ========== SEÇÃO 2: VACUUM E ANALYZE (slides) ========== -->
     <section class="section">
       <div class="section-title">2 · VACUUM e ANALYZE</div>
 
       <div id="slides-vacuum" class="slides-container">
 
-        <!-- Slide 1: MVCC e tuplas mortas -->
         <div class="slide">
           <h3>Por que existem Tuplas Mortas?</h3>
           <blockquote>
@@ -155,6 +150,9 @@ WHERE tablename = 'pedidos' AND attname = 'status';
             imediatamente — ela é marcada como "morta" e fica ocupando espaço até o
             VACUUM limpá-la.
           </blockquote>
+          <p class="text-sm text-muted mt-2 mb-3">
+            Na prática: quando você faz <code>UPDATE pedidos SET status='cancelado' WHERE id=1</code>, o PostgreSQL não sobrescreve a linha. Ele cria uma <em>nova versão</em> com <code>status='cancelado'</code> e marca a versão antiga como morta. Transações que começaram antes do UPDATE ainda enxergam a versão antiga — é isso que garante consistência sem bloqueio. Somente quando todas essas transações terminam é que o VACUUM pode remover a versão morta com segurança.
+          </p>
           <div class="card-grid-2 mt-3">
             <div class="concept-card">
               <h4>Por que o MVCC faz isso?</h4>
@@ -167,7 +165,6 @@ WHERE tablename = 'pedidos' AND attname = 'status';
           </div>
         </div>
 
-        <!-- Slide 2: VACUUM -->
         <div class="slide">
           <h3>VACUUM — Remover Tuplas Mortas</h3>
           <div class="code-block-wrapper mb-3">
@@ -198,7 +195,6 @@ WHERE relname = 'pedidos';</code></pre>
           </div>
         </div>
 
-        <!-- Slide 3: ANALYZE -->
         <div class="slide">
           <h3>ANALYZE — Atualizar Estatísticas</h3>
           <div class="code-block-wrapper mb-3">
@@ -216,23 +212,28 @@ FROM pg_stat_user_tables
 WHERE relname = 'pedidos';</code></pre>
           </div>
           <div class="concept-card">
-            <h4>Custo do ANALYZE</h4>
-            <p class="text-sm">O ANALYZE faz uma amostragem (por padrão 300 páginas por coluna, controlado por <code>default_statistics_target</code>). É rápido e não bloqueia — pode ser rodado em produção a qualquer momento.</p>
+            <h4>Custo do ANALYZE e quando ajustar as estatísticas</h4>
+            <p class="text-sm">O ANALYZE faz uma amostragem — por padrão 300 páginas por coluna (<code>default_statistics_target = 100</code>). É rápido e não bloqueia — pode ser rodado em produção a qualquer momento. Se o planejador continua errando as estimativas mesmo após o ANALYZE (ex: coluna com distribuição muito desigual, como <code>status</code> onde 95% são 'ativo'), aumente o target da coluna específica: <code>ALTER TABLE pedidos ALTER COLUMN status SET STATISTICS 500;</code> — isso força o ANALYZE a coletar uma amostra maior e mais precisa para aquela coluna.</p>
           </div>
         </div>
 
-        <!-- Slide 4: Autovacuum -->
         <div class="slide">
           <h3>Autovacuum — Manutenção Automática</h3>
           <div class="banner banner-info mb-3">
             <span class="banner-icon">🤖</span>
             <div class="banner-content">
-              <strong>Autovacuum:</strong> daemon do PostgreSQL que roda VACUUM e ANALYZE automaticamente
+              <strong>Autovacuum:</strong> processo em segundo plano (daemon) do PostgreSQL que roda VACUUM e ANALYZE automaticamente
               quando uma tabela acumula muitas tuplas mortas ou modificações. Ativo por padrão.
               Monitorado por <code>pg_stat_user_tables.last_autovacuum</code>.
             </div>
           </div>
           <div class="concept-card">
+            <h4>Como o autovacuum decide quando agir</h4>
+            <p class="text-sm">O autovacuum dispara em uma tabela quando o número de tuplas mortas ultrapassa o seguinte limiar:</p>
+            <p class="text-sm mt-2" style="font-family:monospace;background:var(--color-surface);padding:0.5rem 0.75rem;border-radius:4px;border:1px solid var(--color-border)">limiar = autovacuum_vacuum_threshold (50) + autovacuum_vacuum_scale_factor (0,2) × total de linhas</p>
+            <p class="text-sm mt-2">Exemplo: uma tabela com 100.000 linhas dispara quando acumular <strong>50 + 0,2 × 100.000 = 20.050 tuplas mortas</strong>. Para tabelas muito grandes (milhões de linhas), esse 20% pode demorar muito para ser atingido, causando inchaço. Nesses casos, ajuste por tabela: <code>ALTER TABLE pedidos SET (autovacuum_vacuum_scale_factor = 0.01);</code> — isso faz o autovacuum agir com apenas 1% de tuplas mortas.</p>
+          </div>
+          <div class="concept-card mt-3">
             <h4>Quando o autovacuum não é suficiente</h4>
             <ul style="padding-left:1.25rem;margin-top:0.5rem;display:flex;flex-direction:column;gap:0.375rem;font-size:0.9rem">
               <li>Tabelas com <em>carga muito alta</em> de deleções/atualizações</li>
@@ -246,7 +247,6 @@ WHERE relname = 'pedidos';</code></pre>
       </div><!-- /slides-vacuum -->
     </section>
 
-    <!-- ========== SEÇÃO 3: EXERCÍCIO (Docker) ========== -->
     <section class="section">
       <div class="section-title">3 · Exercício — Impacto das Estatísticas</div>
 
@@ -329,7 +329,6 @@ SELECT n_dead_tup FROM pg_stat_user_tables WHERE relname = 'pedidos_arquivo';
       </div>
     </section>
 
-    <!-- ========== SEÇÃO 4: QUIZ ========== -->
     <section class="section">
       <div class="section-title">4 · Avaliação Formativa</div>
       <div id="quiz-m3c"></div>

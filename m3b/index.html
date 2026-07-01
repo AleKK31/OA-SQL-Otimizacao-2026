@@ -37,13 +37,11 @@
       </div>
     </header>
 
-    <!-- ========== SEÇÃO 1: BOAS PRÁTICAS (slides) ========== -->
     <section class="section">
       <div class="section-title">1 · Boas Práticas</div>
 
       <div id="slides-boas-praticas" class="slides-container">
 
-        <!-- Slide 1: EXISTS vs IN -->
         <div class="slide">
           <h3>EXISTS vs IN</h3>
           <div class="concept-card mb-2">
@@ -71,12 +69,11 @@ WHERE EXISTS (
           </div>
         </div>
 
-        <!-- Slide 2: CTE Materializada vs Não -->
         <div class="slide">
           <h3>CTE — Materializada vs Não Materializada</h3>
           <div class="concept-card mb-2">
-            <p class="text-sm"><strong>MATERIALIZED</strong> (padrão até PG 11): força execução separada — útil para isolar um plano.<br>
-            <strong>NOT MATERIALIZED</strong> (PG 12+): planejador pode otimizar como subquery, aplicando push-down de filtros.</p>
+            <p class="text-sm"><strong>MATERIALIZED</strong> (padrão até PG 11): "materializar" significa que o PostgreSQL executa a CTE isoladamente e armazena o resultado inteiro em memória antes de continuar a query. É como salvar o resultado em uma tabela temporária. Útil quando você quer garantir que a CTE rode uma única vez com um plano fixo.<br>
+            <strong>NOT MATERIALIZED</strong> (PG 12+): o planejador trata a CTE como uma subquery comum e pode otimizá-la junto com o restante da query, empurrando filtros para dentro (<em>push-down</em>) e evitando processar linhas desnecessárias.</p>
           </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
@@ -106,7 +103,6 @@ GROUP BY c.nome;</code></pre>
           </div>
         </div>
 
-        <!-- Slide 3: JOIN Explícito -->
         <div class="slide">
           <h3>JOIN Explícito</h3>
           <div class="concept-card mb-2">
@@ -134,15 +130,16 @@ JOIN clientes c
       </div><!-- /slides-boas-praticas -->
     </section>
 
-    <!-- ========== SEÇÃO 2: ANTIPADRÕES (slides — 1 antipadrão por slide) ========== -->
     <section class="section">
       <div class="section-title">2 · Antipadrões</div>
 
       <div id="slides-antipadroes" class="slides-container">
 
-        <!-- Slide 1: SELECT * -->
         <div class="slide">
           <h3>Antipadrão 1 — SELECT *</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>Por que é um problema?</strong> Quando você usa <code>SELECT *</code>, o PostgreSQL precisa buscar <em>todas</em> as colunas da tabela no disco — incluindo colunas que você não vai usar. Isso tem três consequências: (1) impede o <strong>Index Only Scan</strong>, pois o índice raramente contém todas as colunas; (2) aumenta a quantidade de dados transferidos entre banco e aplicação; (3) torna o código frágil — se alguém adicionar uma coluna BLOB à tabela, sua query passa a trafegar megabytes sem motivo.</p>
+          </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
               <span class="duo-label">❌ Antes — traz todas as colunas</span>
@@ -165,9 +162,11 @@ WHERE cliente_id = 42;
           </div>
         </div>
 
-        <!-- Slide 2: Função em coluna -->
         <div class="slide">
           <h3>Antipadrão 2 — Função em Coluna do WHERE</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>Por que impede o índice?</strong> Um índice B-Tree armazena os valores <em>originais</em> da coluna. Quando você aplica uma função na coluna (<code>UPPER(email)</code>, <code>DATE_TRUNC('month', criado_em)</code>), o valor comparado é diferente do valor armazenado no índice — o PostgreSQL não consegue navegar pela árvore e precisa aplicar a função em <em>cada linha da tabela</em>. A solução é mover a transformação para o lado do valor de comparação (que é constante), ou criar um índice de expressão que armazena o resultado da função.</p>
+          </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
               <span class="duo-label">❌ Antes — função impede índice</span>
@@ -192,9 +191,11 @@ WHERE criado_em >= '2024-01-01'
           </div>
         </div>
 
-        <!-- Slide 3: OFFSET elevado -->
         <div class="slide">
           <h3>Antipadrão 3 — OFFSET Elevado</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>Por que fica mais lento a cada página?</strong> <code>OFFSET N</code> não "pula" linhas — o PostgreSQL <em>lê e descarta</em> as primeiras N linhas antes de retornar o resultado. Na página 1 (<code>OFFSET 0</code>) você processa 20 linhas. Na página 5001 (<code>OFFSET 100.000</code>), você processa 100.020 linhas e descarta 100.000. O custo cresce linearmente com o número da página — inaceitável para paginação de listas longas.</p>
+          </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
               <span class="duo-label">❌ Antes — O(n) por página</span>
@@ -219,9 +220,11 @@ LIMIT 20;
           </div>
         </div>
 
-        <!-- Slide 4: N+1 -->
         <div class="slide">
           <h3>Antipadrão 4 — N+1 Queries</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>O que é N+1?</strong> Ocorre quando o código faz 1 query para buscar uma lista de N itens e depois executa 1 query adicional para cada item — totalizando N+1 queries. Para 1000 pedidos, isso são 1001 round-trips ao banco. Cada round-trip tem latência de rede e custo de processamento. Um único <code>JOIN</code> substitui todas essas queries por uma só, com custo de 1 round-trip.</p>
+          </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
               <span class="duo-label">❌ Antipadrão — 1 + N queries</span>
@@ -246,9 +249,11 @@ JOIN clientes c
           </div>
         </div>
 
-        <!-- Slide 5: Conversão implícita de tipo -->
         <div class="slide">
           <h3>Antipadrão 5 — Conversão Implícita de Tipo</h3>
+          <div class="concept-card mb-2">
+            <p class="text-sm"><strong>Por que o tipo errado importa?</strong> Quando você compara uma coluna <code>INTEGER</code> com uma string <code>'42'</code>, o PostgreSQL precisa converter um dos lados. Dependendo da direção do cast, ele pode precisar converter <em>cada valor da coluna</em> antes de comparar — o que impede o uso do índice, exatamente como no antipadrão de função em coluna. Além disso, casts implícitos podem produzir resultados inesperados em tipos mais complexos (ex: <code>TIMESTAMP</code> vs <code>TIMESTAMPTZ</code> em fusos horários diferentes).</p>
+          </div>
           <div class="duo" style="border:1px solid #3D3D3D;border-radius:var(--radius-md);overflow:hidden">
             <div class="duo-before">
               <span class="duo-label">❌ Antes — tipo errado</span>
@@ -277,7 +282,6 @@ WHERE cliente_id = 100;
       </div><!-- /slides-antipadroes -->
     </section>
 
-    <!-- ========== SEÇÃO 3: EXERCÍCIO ========== -->
     <section class="section">
       <div class="section-title">3 · Exercício — Reescrever Queries</div>
       <div class="banner banner-info mb-3">
@@ -346,7 +350,6 @@ WHERE EXISTS (
       </div>
     </section>
 
-    <!-- ========== SEÇÃO 4: QUIZ ========== -->
     <section class="section">
       <div class="section-title">4 · Avaliação Formativa</div>
       <div id="quiz-m3b"></div>

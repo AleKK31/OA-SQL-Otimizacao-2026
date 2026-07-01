@@ -86,19 +86,17 @@
       <button class="tab-btn" data-tab="quiz">3 · Avaliação Diagnóstica</button>
     </div>
 
-    <!-- ========== TAB 1: CONCEITO (slides) ========== -->
     <div class="tab-panel active" id="tab-conceito">
       <div class="section">
         <div class="section-title">CustoQuery — Conceito</div>
 
         <div id="slides-m1-conceito" class="slides-container">
 
-          <!-- Slide 1: Definição -->
           <div class="slide">
             <h3>O que é Custo de Query?</h3>
             <blockquote>
               <strong>Custo</strong> é a estimativa do PostgreSQL do quanto de recursos —
-              CPU, I/O, memória e tempo — será necessário para executar uma consulta.
+              CPU, I/O (leituras e escritas em disco), memória e tempo — será necessário para executar uma consulta.
               Não é o tempo real: é uma <strong>medida interna do planejador</strong>
               para comparar planos alternativos e escolher o mais eficiente.
             </blockquote>
@@ -113,10 +111,11 @@
             </div>
           </div>
 
-          <!-- Slide 2: Ciclo da Consulta -->
           <div class="slide">
             <h3>Ciclo da Consulta</h3>
-            <p class="text-muted text-sm mb-3">O Desenvolvedor/DBA é o ator central — escreve, interpreta e otimiza.</p>
+            <p class="text-muted text-sm mb-3">
+              Quando você envia uma query ao PostgreSQL, ela passa por várias etapas internas antes de retornar um resultado. Entender esse ciclo é fundamental para saber <em>onde</em> e <em>como</em> otimizar.
+            </p>
             <div class="flow-col">
               <div class="flow-node actor">👩‍💻 Desenvolvedor / DBA</div>
               <div class="arrow-box"><span>↓</span><span class="arrow-label">escreve</span></div>
@@ -140,9 +139,11 @@
                 </div>
               </div>
             </div>
+            <p class="text-sm text-muted mt-3">
+              O ciclo não termina na primeira execução. Quando o custo é alto, o Desenvolvedor/DBA interpreta o plano com EXPLAIN, identifica o gargalo (falta de índice, query mal escrita, estatísticas velhas) e aplica a correção, reiniciando o ciclo com um custo menor.
+            </p>
           </div>
 
-          <!-- Slide 3: Papel do DBA -->
           <div class="slide">
             <h3>Papel do Desenvolvedor / DBA</h3>
             <div style="background:#FFFBEB;border:2px solid #F59E0B;border-radius:var(--radius-md);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
@@ -161,34 +162,32 @@
             </div>
           </div>
 
-          <!-- Slide 4: 4 Métricas -->
           <div class="slide">
             <h3>As 4 Métricas de Custo</h3>
             <div class="slide-grid-2" style="margin-top:1rem">
               <div class="metric-card">
                 <div class="metric-icon">⏱</div>
                 <h4>Tempo de Execução</h4>
-                <p>Quanto tempo o banco leva para retornar o resultado.</p>
+                <p>Quanto tempo o banco leva para retornar o resultado. É a métrica mais visível para o usuário final, mas é consequência das outras três — reduzir I/O e CPU reduz o tempo.</p>
               </div>
               <div class="metric-card">
                 <div class="metric-icon">💾</div>
                 <h4>Uso de I/O</h4>
-                <p>Quantas páginas de disco são lidas.<br><code>seq_page_cost</code> · <code>random_page_cost</code></p>
+                <p>Quantas páginas de disco são lidas. Geralmente o gargalo dominante: disco é 100–1000× mais lento que RAM. O planejador atribui <code>seq_page_cost=1.0</code> para leitura sequencial e <code>random_page_cost=4.0</code> para leitura aleatória, pois saltar entre posições tem custo extra.</p>
               </div>
               <div class="metric-card">
                 <div class="metric-icon">⚙️</div>
                 <h4>Uso de CPU</h4>
-                <p>Custo de processar cada linha.<br><code>cpu_tuple_cost</code> · <code>cpu_operator_cost</code></p>
+                <p>Custo de processar cada linha retornada. <code>cpu_tuple_cost</code> é o custo por linha; <code>cpu_operator_cost</code> é o custo por operação (comparação, função). Normalmente menor que I/O, mas funções pesadas no WHERE podem torná-lo significativo.</p>
               </div>
               <div class="metric-card">
                 <div class="metric-icon">🧠</div>
                 <h4>Uso de Memória</h4>
-                <p>RAM necessária para sorts e hashes.<br><code>work_mem</code></p>
+                <p>RAM necessária para ordenações (<code>ORDER BY</code>), hashes (<code>Hash Join</code>) e agregações. Controlado por <code>work_mem</code>. Quando insuficiente, o PostgreSQL derrama os dados no disco (<em>spill to disk</em>), multiplicando o custo.</p>
               </div>
             </div>
           </div>
 
-          <!-- Slide 5: Por que importa -->
           <div class="slide">
             <h3>Por que isso importa?</h3>
             <blockquote>
@@ -196,6 +195,9 @@
               para responder. Isso impacta diretamente a <strong>performance da aplicação</strong>,
               a <strong>experiência do usuário</strong> e o <strong>custo de infraestrutura</strong>.
             </blockquote>
+            <p class="text-sm text-muted mt-2 mb-3">
+              A diferença de custo entre uma query otimizada e uma não otimizada raramente é linear. Um Seq Scan em 500k linhas lê <em>todas</em> as páginas do disco — mesmo que você precise de apenas 5 linhas. Um Index Scan vai direto ao endereço das linhas no disco, lendo apenas as páginas necessárias. É a diferença entre procurar uma palavra folheando um livro inteiro versus usar o índice remissivo.
+            </p>
             <div class="card-grid-2 mt-3">
               <div class="concept-card">
                 <h4>🐌 Query sem otimização</h4>
@@ -219,7 +221,6 @@
       </div>
     </div><!-- /tab-conceito -->
 
-    <!-- ========== TAB 2: DEMO ========== -->
     <div class="tab-panel" id="tab-demo">
       <div class="section">
         <div class="section-title">QueryLenta — Exemplo em Vídeo</div>
@@ -271,7 +272,6 @@ CREATE INDEX idx_pedidos_cliente ON pedidos(cliente_id);
       </div>
     </div><!-- /tab-demo -->
 
-    <!-- ========== TAB 3: QUIZ ========== -->
     <div class="tab-panel" id="tab-quiz">
       <div class="section">
         <div class="section-title">Avaliação Diagnóstica</div>

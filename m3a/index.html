@@ -33,13 +33,15 @@
       </div>
     </header>
 
-    <!-- ========== SEÇÃO 1: TIPOS DE ÍNDICE (slides — 1 tipo por slide) ========== -->
     <section class="section">
       <div class="section-title">1 · Tipos de Índice no PostgreSQL</div>
 
+      <div class="concept-card mb-3">
+        <p class="text-sm">No módulo 2 você viu que o EXPLAIN pode mostrar <code>Seq Scan</code> (leitura completa da tabela, linha por linha) ou <code>Index Scan</code> (navegação pelo índice, muito mais rápida). A diferença pode ser enorme — de segundos para milissegundos em tabelas com milhões de linhas. O que determina qual estratégia o PostgreSQL usa é a existência e o <strong>tipo</strong> de índice na coluna filtrada. O PostgreSQL suporta 4 tipos principais de índice, cada um otimizado para um cenário diferente. Escolher o tipo errado pode fazer com que o índice nunca seja usado.</p>
+      </div>
+
       <div id="slides-tipos" class="slides-container">
 
-        <!-- Slide 1: B-Tree -->
         <div class="slide">
           <h3>B-Tree — Balanced Tree <span class="badge badge-blue" style="font-size:0.7rem">padrão</span></h3>
           <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> igualdade, intervalo, ordenação, prefixo de string</p>
@@ -56,7 +58,6 @@ SELECT * FROM clientes WHERE nome LIKE 'João%';  -- prefixo</code></pre>
           </div>
         </div>
 
-        <!-- Slide 2: GIN -->
         <div class="slide">
           <h3>GIN — Generalized Inverted Index</h3>
           <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> JSONB, arrays, full-text search — dados compostos</p>
@@ -72,7 +73,6 @@ SELECT * FROM artigos  WHERE tags @> ARRAY['postgresql'];</code></pre>
           </div>
         </div>
 
-        <!-- Slide 3: GiST -->
         <div class="slide">
           <h3>GiST — Generalized Search Tree</h3>
           <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> dados geométricos, ranges, full-text search por proximidade</p>
@@ -84,11 +84,10 @@ SELECT * FROM lojas   WHERE coordenadas <-> POINT(0,0) < 10;
 SELECT * FROM eventos WHERE periodo @> NOW();</code></pre>
           <span class="no-use">✗ NÃO usar para igualdades simples (B-Tree é mais eficiente)</span>
           <div class="concept-card mt-3">
-            <p class="text-sm"><strong>vs GIN:</strong> GiST suporta mais tipos de dados (geometria, ranges) mas é mais genérico. Para JSONB e arrays, GIN é mais rápido. Para geometria e sobreposição de ranges, GiST é a escolha certa.</p>
+            <p class="text-sm"><strong>vs GIN:</strong> GiST suporta mais tipos de dados (geometria, ranges, full-text por proximidade/ranking) mas é mais genérico e menos eficiente que GIN para JSON e arrays. Para JSONB com operador <code>@&gt;</code>, prefira GIN — busca mais rápida. Para dados geoespaciais (<code>PostGIS</code>), ranges temporais (<code>tsrange</code>), ou busca por similaridade de texto (<code>pg_trgm</code>), GiST é a escolha certa. Em resumo: "compostos com elementos discretos" → GIN; "geometrias ou intervalos contínuos" → GiST.</p>
           </div>
         </div>
 
-        <!-- Slide 4: BRIN -->
         <div class="slide">
           <h3>BRIN — Block Range INdex</h3>
           <p class="text-sm text-muted mb-2"><strong>Caso de uso:</strong> tabelas muito grandes com dados naturalmente ordenados por inserção</p>
@@ -99,20 +98,18 @@ SELECT * FROM eventos WHERE periodo @> NOW();</code></pre>
 -- Muito pequeno — dezenas de KB mesmo para tabelas de TB</code></pre>
           <span class="no-use">✗ NÃO usar se dados forem inseridos fora de ordem cronológica</span>
           <div class="concept-card mt-3">
-            <p class="text-sm"><strong>Por que tão pequeno?</strong> BRIN não indexa cada linha, mas cada <em>bloco de páginas</em> — armazena apenas o valor mínimo e máximo do bloco. Se você busca por data e as linhas foram inseridas em ordem de data, o BRIN descarta blocos inteiros muito eficientemente.</p>
+            <p class="text-sm"><strong>Por que tão pequeno?</strong> BRIN não indexa cada linha, mas cada <em>bloco de páginas</em> — armazena apenas o valor mínimo e máximo do bloco. Se você busca por data e as linhas foram inseridas em ordem de data, o BRIN descarta blocos inteiros sem verificar cada linha. Se os dados <em>não</em> estão em ordem (ex: datas misturadas por importação de fontes diferentes), o min/max de cada bloco se sobrepõe com todos os outros — o BRIN não consegue descartar nenhum bloco e o banco acaba fazendo um Seq Scan de qualquer jeito, sem ganho algum.</p>
           </div>
         </div>
 
       </div><!-- /slides-tipos -->
     </section>
 
-    <!-- ========== SEÇÃO 2: PARCIAL / COMPOSTO / COBRIDOR (slides) ========== -->
     <section class="section">
       <div class="section-title">2 · Índice Parcial, Composto e Cobridor</div>
 
       <div id="slides-estrategias" class="slides-container">
 
-        <!-- Slide 1: Índice Parcial -->
         <div class="slide">
           <h3>Índice Parcial</h3>
           <p class="text-sm text-muted mb-2">Indexa apenas um <strong>subconjunto de linhas</strong> — muito menor e mais rápido que indexar toda a tabela.</p>
@@ -135,7 +132,6 @@ SELECT * FROM pedidos WHERE cliente_id = 42;
           </div>
         </div>
 
-        <!-- Slide 2: Índice Composto + Leftmost Prefix -->
         <div class="slide">
           <h3>Índice Composto — Leftmost Prefix Rule</h3>
           <p class="text-sm text-muted mb-2">O índice só é usado se a query filtrar pela <strong>primeira coluna</strong> (ou pelas primeiras, em ordem).</p>
@@ -150,13 +146,18 @@ WHERE status = 'ativo' AND cliente_id = 42 AND criado_em > '2024-01-01'
 -- ✗ NÃO usa o índice:
 WHERE cliente_id = 42           -- pula 'status' (1ª coluna)
 WHERE criado_em > '2024-01-01'  -- pula as duas primeiras</code></pre>
+          <div class="banner banner-info mt-3">
+            <span class="banner-icon">💡</span>
+            <div class="banner-content">
+              <strong>Por que a ordem importa?</strong> O B-Tree composto é ordenado lexicograficamente — primeiro pela 1ª coluna, depois pela 2ª dentro de cada valor da 1ª, e assim por diante. Para usar o índice, o PostgreSQL precisa navegar pela árvore a partir da raiz, que está organizada pela 1ª coluna. Se a query não filtra pela 1ª coluna, o banco não consegue identificar em qual subárvore procurar — é como tentar usar um índice de dicionário organizado por sobrenome quando você só sabe o primeiro nome.
+            </div>
+          </div>
           <div class="concept-card mt-3">
             <h4>Regra prática</h4>
             <p class="text-sm">Coloque as colunas de igualdade (<code>=</code>) primeiro, depois as de intervalo (<code>&gt;</code>, <code>&lt;</code>, <code>BETWEEN</code>). A coluna mais seletiva (menos repetida) deve vir antes quando há múltiplas igualdades.</p>
           </div>
         </div>
 
-        <!-- Slide 3: Índice Cobridor -->
         <div class="slide">
           <h3>Índice Cobridor — Index Only Scan</h3>
           <p class="text-sm text-muted mb-2">Quando o índice contém todas as colunas necessárias, o PostgreSQL <strong>não precisa acessar a tabela</strong>.</p>
@@ -181,7 +182,6 @@ SELECT id, total, status FROM pedidos WHERE cliente_id = 42;
           </div>
         </div>
 
-        <!-- Slide 4: Trade-offs -->
         <div class="slide">
           <h3>Trade-offs dos Índices</h3>
           <div class="banner banner-warning mb-3">
@@ -192,6 +192,9 @@ SELECT id, total, status FROM pedidos WHERE cliente_id = 42;
               Use com moderação.
             </div>
           </div>
+          <p class="text-sm text-muted mb-2">
+            Índices não são gratuitos. Cada índice que você cria precisa ser atualizado a cada <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code> na tabela. Em tabelas com alta taxa de escrita, índices desnecessários podem custar mais em manutenção do que ganham em leitura. Use a tabela abaixo como guia de decisão:
+          </p>
           <div class="table-wrapper">
             <table class="styled">
               <thead><tr><th>Situação</th><th>Recomendação</th></tr></thead>
@@ -217,7 +220,6 @@ ORDER BY pg_relation_size(indexrelid) DESC;</code></pre>
       </div><!-- /slides-estrategias -->
     </section>
 
-    <!-- ========== SEÇÃO 3: EXERCÍCIO ========== -->
     <section class="section">
       <div class="section-title">3 · Exercício — Aplicar Índice Correto</div>
       <div class="banner banner-info mb-3">
@@ -253,7 +255,6 @@ WHERE status = 'ativo';
       </div>
     </section>
 
-    <!-- ========== SEÇÃO 4: QUIZ ========== -->
     <section class="section">
       <div class="section-title">4 · Avaliação Formativa</div>
       <div id="quiz-m3a"></div>
