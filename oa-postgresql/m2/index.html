@@ -39,13 +39,11 @@
       </div>
     </header>
 
-    <!-- ========== SEÇÃO 1: EXPLAIN (slides) ========== -->
     <section class="section">
       <div class="section-title">1 · EXPLAIN e Variantes</div>
 
       <div id="slides-explain" class="slides-container">
 
-        <!-- Slide 1: O que é EXPLAIN -->
         <div class="slide">
           <h3>O que é o EXPLAIN?</h3>
           <blockquote>
@@ -62,7 +60,6 @@
           </div>
         </div>
 
-        <!-- Slide 2: Variantes -->
         <div class="slide">
           <h3>Variantes do EXPLAIN</h3>
           <div class="table-wrapper">
@@ -88,25 +85,24 @@
           </div>
         </div>
 
-        <!-- Slide 3: Editor PGLite -->
         <div class="slide">
           <h3>Experimento — EXPLAIN no PGLite</h3>
           <p class="text-muted text-sm mb-2">Descomente uma linha por vez e observe como a saída muda:</p>
           <div id="editor-explain"></div>
         </div>
 
-        <!-- Slide 4: Guia de leitura -->
         <div class="slide">
           <h3>Guia de Leitura da Saída</h3>
+          <p class="text-sm text-muted mb-2">Cada nó na saída do EXPLAIN exibe estes campos — aprenda a ler cada um:</p>
           <div class="table-wrapper">
             <table class="styled">
               <thead><tr><th>Campo</th><th>O que significa</th></tr></thead>
               <tbody>
-                <tr><td><code>cost=0.00..1234.56</code></td><td>Custo estimado de iniciar..custo total (unidade interna)</td></tr>
-                <tr><td><code>rows=47</code></td><td>Número de linhas <em>estimadas</em> que serão retornadas</td></tr>
-                <tr><td><code>width=52</code></td><td>Tamanho médio de cada linha em bytes</td></tr>
-                <tr><td><code>actual time=0.08..198.4</code></td><td>Tempo real de iniciar..terminar (ms) — só com ANALYZE</td></tr>
-                <tr><td><code>loops=1</code></td><td>Quantas vezes o nó foi executado (em joins aninhados, pode ser &gt;1)</td></tr>
+                <tr><td><code>cost=0.00..1234.56</code></td><td>Custo estimado de iniciar (startup) até terminar (total) — unidade interna arbitrária. O startup é relevante em nós que precisam processar tudo antes de emitir a primeira linha (ex: Sort, Hash).</td></tr>
+                <tr><td><code>rows=47</code></td><td>Número de linhas <em>estimadas</em> que serão retornadas. Se divergir muito de <code>actual rows</code>, as estatísticas estão desatualizadas — rode <code>ANALYZE</code>.</td></tr>
+                <tr><td><code>width=52</code></td><td>Tamanho médio de cada linha em bytes. Linhas largas (ex: colunas TEXT grandes) aumentam o uso de memória e o custo de transferência entre nós do plano.</td></tr>
+                <tr><td><code>actual time=0.08..198.4</code></td><td>Tempo real de iniciar..terminar em ms — só aparece com ANALYZE. Compare com o custo estimado para ver se o planejador acertou a proporção.</td></tr>
+                <tr><td><code>loops=1</code></td><td>Quantas vezes este nó foi executado. Em Nested Loop Join, o nó interno executa uma vez por linha do nó externo — se o externo retorna 1000 linhas, <code>loops=1000</code>. O custo real é <code>actual time × loops</code>.</td></tr>
               </tbody>
             </table>
           </div>
@@ -121,13 +117,11 @@
       </div><!-- /slides-explain -->
     </section>
 
-    <!-- ========== SEÇÃO 2: PLANO DE EXECUÇÃO (slides) ========== -->
     <section class="section">
       <div class="section-title">2 · Plano de Execução e Nós</div>
 
       <div id="slides-plano" class="slides-container">
 
-        <!-- Slide 1: O que é um nó -->
         <div class="slide">
           <h3>O que é um Nó de Execução?</h3>
           <blockquote>
@@ -146,7 +140,6 @@
           </p>
         </div>
 
-        <!-- Slide 2: Tipos de nó -->
         <div class="slide">
           <h3>Tipos de Nó — O que cada um significa</h3>
           <div style="display:flex;flex-direction:column;gap:0">
@@ -170,13 +163,16 @@
             </div>
             <div class="node-row">
               <span class="node-badge" style="color:#CE9178">Bitmap Heap Scan</span>
-              <span>Múltiplas condições com índices separados</span>
-              <span>Normal</span>
+              <span>Ocorre com múltiplas condições em índices separados (ex: <code>WHERE status='ativo' AND cidade='SP'</code> com índices independentes). O PostgreSQL monta um bitmap de posições de página e depois acessa a tabela em ordem, reduzindo I/O aleatório.</span>
+              <span>Normal — eficiente para múltiplos índices</span>
             </div>
+          </div>
+          <div class="concept-card mt-3">
+            <h4>Como usar essa tabela na prática</h4>
+            <p class="text-sm">Ao analisar um EXPLAIN: (1) identifique o tipo de scan em cada tabela; (2) verifique se Seq Scan em tabelas grandes tem <code>actual rows</code> muito menor que o total — se sim, falta índice; (3) se <code>rows</code> estimado diverge muito de <code>actual rows</code>, rode <code>ANALYZE</code> na tabela.</p>
           </div>
         </div>
 
-        <!-- Slide 3: Paralelismo -->
         <div class="slide">
           <h3>Paralelismo no Plano</h3>
           <div class="banner banner-info mb-3">
@@ -203,15 +199,16 @@
       </div><!-- /slides-plano -->
     </section>
 
-    <!-- ========== SEÇÃO 3: ESTRATÉGIAS DE JOIN (slides) ========== -->
     <section class="section">
       <div class="section-title">3 · Estratégias de Join</div>
 
       <div id="slides-join" class="slides-container">
 
-        <!-- Slide 1: Tabela comparativa -->
         <div class="slide">
           <h3>Três Estratégias de Join</h3>
+          <p class="text-sm text-muted mb-2">
+            O planejador escolhe automaticamente a estratégia com base no tamanho das tabelas e na disponibilidade de índices. Entender cada uma ajuda a interpretar o plano e criar os índices certos.
+          </p>
           <div class="table-wrapper">
             <table class="styled">
               <thead>
@@ -220,25 +217,24 @@
               <tbody>
                 <tr>
                   <td><strong>Nested Loop Join</strong></td>
-                  <td>Para cada linha da tabela externa, varre a interna</td>
+                  <td>Para cada linha da tabela externa (outer), varre a tabela interna (inner). Custo: O(n × m). Com índice na coluna de join da tabela interna, o acesso vira O(log m) — muito eficiente.</td>
                   <td>Tabela interna pequena <strong>ou</strong> com índice na coluna de join</td>
                 </tr>
                 <tr>
                   <td><strong>Hash Join</strong></td>
-                  <td>Constrói uma hash table da menor tabela, varre a maior</td>
+                  <td>Constrói uma hash table em memória com a tabela menor, depois varre a maior comparando cada linha contra o hash. Custo: O(n + m). Requer <code>work_mem</code> suficiente; se o hash não couber, derrama no disco.</td>
                   <td>Tabelas grandes, sem ordenação, sem índice no join</td>
                 </tr>
                 <tr>
                   <td><strong>Merge Join</strong></td>
-                  <td>Ordena ambas as tabelas e mescla linearmente</td>
-                  <td>Ambas já ordenadas (ex: por PRIMARY KEY)</td>
+                  <td>Ambas as tabelas precisam estar ordenadas pela coluna de join. O banco avança em paralelo pelas duas sequências mesclando os resultados. Custo: O(n + m) após ordenação — muito eficiente quando os dados já chegam ordenados.</td>
+                  <td>Ambas já ordenadas (ex: por PRIMARY KEY ou Index Scan)</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Slide 2: Princípio -->
         <div class="slide">
           <h3>Princípio — Quando o Planejador Erra</h3>
           <div class="concept-card" style="border-left-color:var(--color-error)">
@@ -255,7 +251,6 @@
           </div>
         </div>
 
-        <!-- Slide 3: Editor PGLite -->
         <div class="slide">
           <h3>Experimento — Hash Join na Prática</h3>
           <p class="text-muted text-sm mb-2">Observe a estratégia de join que o PGLite escolhe sem índice na coluna de join:</p>
@@ -265,13 +260,11 @@
       </div><!-- /slides-join -->
     </section>
 
-    <!-- ========== SEÇÃO 4: MONITORAMENTO (slides) ========== -->
     <section class="section">
       <div class="section-title">4 · Ferramentas de Monitoramento</div>
 
       <div id="slides-monitor" class="slides-container">
 
-        <!-- Slide 1: Aviso Docker -->
         <div class="slide">
           <h3>pg_stat_statements e pg_stat_activity</h3>
           <div class="banner banner-warning mb-3">
@@ -290,7 +283,6 @@
           </p>
         </div>
 
-        <!-- Slide 2: pg_stat_statements -->
         <div class="slide">
           <h3>pg_stat_statements — Top Queries Lentas</h3>
           <p class="text-sm text-muted mb-2">Histórico de todas as queries executadas, com tempos acumulados:</p>
@@ -307,15 +299,13 @@ ORDER BY total_exec_time DESC
 LIMIT 10;</code></pre>
           </div>
           <p class="text-sm text-muted mt-2">
-            <code>calls</code> × <code>media_ms</code> = impacto real.
-            Uma query de 200ms chamada 10.000×/dia tem mais impacto que uma de 1s chamada 10×.
+            <code>calls</code> × <code>media_ms</code> = impacto real no banco. Uma query de 200ms chamada 10.000×/dia tem mais impacto que uma de 1s chamada 10×. Use essa view para priorizar o que otimizar primeiro — foque nas queries com maior <code>total_ms</code>. Requer <code>pg_stat_statements</code> habilitado em <code>postgresql.conf</code> (<code>shared_preload_libraries = 'pg_stat_statements'</code>).
           </p>
         </div>
 
-        <!-- Slide 3: pg_stat_activity -->
         <div class="slide">
           <h3>pg_stat_activity — Queries em Execução Agora</h3>
-          <p class="text-sm text-muted mb-2">Para diagnóstico em tempo real:</p>
+          <p class="text-sm text-muted mb-2">Para diagnóstico em tempo real — use quando o banco está lento agora e você precisa saber o que está rodando:</p>
           <div class="code-block-wrapper">
             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
             <pre><code class="language-sql">-- Queries ativas no momento
@@ -330,12 +320,14 @@ ORDER BY query_start;
 -- Forçar encerramento de uma query longa (se necessário):
 -- SELECT pg_cancel_backend(pid);</code></pre>
           </div>
+          <p class="text-sm text-muted mt-2">
+            O campo <code>duracao</code> mostra há quanto tempo a query está ativa — queries rodando por minutos geralmente indicam problema (lock, índice ausente, query mal escrita). <code>pg_cancel_backend(pid)</code> cancela suavemente e permite retry; <code>pg_terminate_backend(pid)</code> encerra a conexão completamente.
+          </p>
         </div>
 
       </div><!-- /slides-monitor -->
     </section>
 
-    <!-- ========== SEÇÃO 5: EXERCÍCIO ========== -->
     <section class="section">
       <div class="section-title">5 · Exercício — Diagnosticar Query</div>
       <div class="banner banner-info mb-3">
@@ -383,7 +375,6 @@ WHERE p.status = 'ativo'
       </div>
     </section>
 
-    <!-- ========== SEÇÃO 6: QUIZ ========== -->
     <section class="section">
       <div class="section-title">6 · Avaliação Formativa</div>
       <div id="quiz-m2"></div>
