@@ -146,8 +146,8 @@ O modelo instrucional adota três tipos de avaliação em momentos distintos do 
 **Local:** abra `oa-postgresql/index.html` no navegador
 
 Em ambos os casos:
-1. Navegue pelos módulos na ordem que preferir — o progresso é salvo automaticamente no navegador
-2. A **Avaliação Final** é liberada após concluir todos os módulos
+1. Acesse os módulos na ordem que preferir, o progresso é salvo automaticamente
+2. 2. A **Avaliação Final** é liberada após concluir todos os módulos
 
 > **Exercícios com Docker:** M3C e a questão Q5 da Avaliação Final dependem do PostgreSQL completo.
 > ```bash
